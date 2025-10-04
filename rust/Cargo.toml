@@ -9,8 +9,9 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 flutter_rust_bridge = "=2.11.1"
 open = "5.3.2"
-reqwest = { version = "0.12.23", features = ["json", "blocking"] }
+reqwest = { version = "0.12.23", features = ["json"] }
 serde = "1.0.228"
+tokio = { version = "1.47.1", features = ["rt-multi-thread", "macros"] }
 url = "2.5.7"
 
 [lints.rust]

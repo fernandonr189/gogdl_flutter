@@ -1,7 +1,8 @@
-use std::sync::{Arc, Mutex};
+use std::{sync::Arc, time::Duration};
 
 use flutter_rust_bridge::frb;
 use serde::Deserialize;
+use tokio::sync::Mutex;
 
 pub const GOG_AUTH_URL: &str = "https://auth.gog.com";
 pub const GOG_CLIENT_ID: &str = "46899977096215655";
@@ -10,7 +11,8 @@ pub const GOG_CLIENT_SECRET: &str =
 pub const GOG_REDIRECT_URI: &str = "https://embed.gog.com/on_login_success?origin=client";
 pub const GOG_RESPONSE_TYPE: &str = "code";
 pub const GOG_LAYOUT: &str = "client2";
-pub const GOG_GRANT_TYPE: &str = "authorization_code";
+pub const GOG_AUTH_GRANT_TYPE: &str = "authorization_code";
+pub const GOG_REFRESH_GRANT_TYPE: &str = "refresh_token";
 
 pub struct Auth {
     pub session_code: Option<String>,
@@ -18,6 +20,7 @@ pub struct Auth {
 }
 
 #[frb(opaque)]
+#[derive(Clone)]
 pub struct Session {
     pub auth: Arc<Mutex<Auth>>,
 }
@@ -25,7 +28,12 @@ pub struct Session {
 impl Session {
     #[frb(sync)]
     pub fn open_browser(&self) -> Result<(), std::io::Error> {
-        let mut url = url::Url::parse(&format!("{}/auth", GOG_AUTH_URL)).unwrap();
+        let mut url = match url::Url::parse(&format!("{}/auth", GOG_AUTH_URL)) {
+            Ok(url) => url,
+            Err(err) => {
+                panic!("Could not parse url: {}", err);
+            }
+        };
         url.query_pairs_mut()
             .append_pair("client_id", GOG_CLIENT_ID);
         url.query_pairs_mut()
@@ -46,33 +54,100 @@ impl Session {
             })),
         }
     }
-    #[frb(sync)]
-    pub fn set_session_code(&self, session_code: String) {
-        let mut auth = self.auth.lock().unwrap();
+    #[frb]
+    pub async fn set_session_code(&self, session_code: String) {
+        let mut auth = self.auth.lock().await;
         auth.session_code = Some(session_code);
     }
-    #[frb(sync)]
-    pub fn login(&self) -> Result<(), reqwest::Error> {
-        let mut auth = self.auth.lock().unwrap();
-        let mut url = url::Url::parse(&format!("{}/token", GOG_AUTH_URL)).unwrap();
-        let code = auth.session_code.clone().unwrap();
+    #[frb]
+    pub async fn login(&self) -> Result<(), reqwest::Error> {
+        let code_opt = {
+            let auth = self.auth.lock().await;
+            auth.session_code.clone()
+        };
+        let Some(code) = code_opt else {
+            panic!("Attempted to login withtout session code")
+        };
+        let mut url = match url::Url::parse(&format!("{}/token", GOG_AUTH_URL)) {
+            Ok(url) => url,
+            Err(err) => {
+                panic!("Could not parse url: {}", err);
+            }
+        };
         url.query_pairs_mut()
             .append_pair("client_id", GOG_CLIENT_ID);
         url.query_pairs_mut()
             .append_pair("client_secret", GOG_CLIENT_SECRET);
         url.query_pairs_mut()
-            .append_pair("grant_type", GOG_GRANT_TYPE);
+            .append_pair("grant_type", GOG_AUTH_GRANT_TYPE);
         url.query_pairs_mut().append_pair("code", &code);
         url.query_pairs_mut()
             .append_pair("redirect_uri", GOG_REDIRECT_URI);
-        let resp = reqwest::blocking::get(url);
+        let resp = reqwest::get(url).await;
         let json = match resp {
-            Ok(res) => res.json::<GogTokenResponse>().unwrap(),
+            Ok(res) => match res.json::<GogTokenResponse>().await {
+                Ok(res) => res,
+                Err(err) => return Err(err),
+            },
             Err(err) => return Err(err),
         };
-        auth.gog_token = Some(json.clone());
+        {
+            let mut auth = self.auth.lock().await;
+            auth.gog_token = Some(json.clone());
+        };
         println!("Logged in successfully!: {:?}", json);
+        let this = self.clone();
+        tokio::spawn(async move {
+            this.token_refresh_task(json.expires_in - 5).await;
+        });
         Ok(())
+    }
+    async fn token_refresh_task(&self, interval: i64) {
+        loop {
+            tokio::time::sleep(Duration::from_secs(interval as u64)).await;
+
+            let refresh_token = {
+                let auth = self.auth.lock().await;
+                match auth.gog_token.clone() {
+                    Some(token) => token.refresh_token,
+                    None => {
+                        println!("Cant refresh session, refresh token not found");
+                        return;
+                    }
+                }
+            };
+            let mut url = match url::Url::parse(&format!("{}/token", GOG_AUTH_URL)) {
+                Ok(url) => url,
+                Err(err) => {
+                    panic!("Could not parse url: {}", err);
+                }
+            };
+            url.query_pairs_mut()
+                .append_pair("client_id", GOG_CLIENT_ID);
+            url.query_pairs_mut()
+                .append_pair("client_secret", GOG_CLIENT_SECRET);
+            url.query_pairs_mut()
+                .append_pair("grant_type", GOG_REFRESH_GRANT_TYPE);
+            url.query_pairs_mut()
+                .append_pair("refresh_token", &refresh_token);
+            let resp = reqwest::get(url).await;
+            match resp {
+                Ok(res) => {
+                    let gog_token = match res.json::<GogTokenResponse>().await {
+                        Ok(token) => token,
+                        Err(err) => {
+                            println!("Could not parse token: {}", err);
+                            continue;
+                        }
+                    };
+                    let mut auth = self.auth.lock().await;
+                    auth.gog_token = Some(gog_token);
+                }
+                Err(err) => {
+                    println!("Could not refresh token: {}", err);
+                }
+            }
+        }
     }
 }
 

@@ -85,13 +85,13 @@ abstract class RustLibApi extends BaseApi {
     required ArcMutexAuth auth,
   });
 
-  void crateApiAuthSessionLogin({required Session that});
+  Future<void> crateApiAuthSessionLogin({required Session that});
 
   Session crateApiAuthSessionNew();
 
   void crateApiAuthSessionOpenBrowser({required Session that});
 
-  void crateApiAuthSessionSetSessionCode({
+  Future<void> crateApiAuthSessionSetSessionCode({
     required Session that,
     required String sessionCode,
   });
@@ -190,16 +190,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiAuthSessionLogin({required Session that}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+  Future<void> crateApiAuthSessionLogin({required Session that}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 3,
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -268,20 +273,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiAuthSessionSetSessionCode({
+  Future<void> crateApiAuthSessionSetSessionCode({
     required Session that,
     required String sessionCode,
   }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
             that,
             serializer,
           );
           sse_encode_String(sessionCode, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 6,
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -756,11 +766,14 @@ class SessionImpl extends RustOpaque implements Session {
   set auth(ArcMutexAuth auth) => RustLib.instance.api
       .crateApiAuthSessionAutoAccessorSetAuth(that: this, auth: auth);
 
-  void login() => RustLib.instance.api.crateApiAuthSessionLogin(that: this);
+  Future<void> login() =>
+      RustLib.instance.api.crateApiAuthSessionLogin(that: this);
 
   void openBrowser() =>
       RustLib.instance.api.crateApiAuthSessionOpenBrowser(that: this);
 
-  void setSessionCode({required String sessionCode}) => RustLib.instance.api
+  Future<void> setSessionCode({required String sessionCode}) => RustLib
+      .instance
+      .api
       .crateApiAuthSessionSetSessionCode(that: this, sessionCode: sessionCode);
 }

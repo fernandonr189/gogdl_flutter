@@ -6,8 +6,9 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `token_refresh_task`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `GogTokenResponse`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `fmt`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < Mutex < Auth > >>>
 abstract class ArcMutexAuth implements RustOpaqueInterface {}
@@ -18,11 +19,11 @@ abstract class Session implements RustOpaqueInterface {
 
   set auth(ArcMutexAuth auth);
 
-  void login();
+  Future<void> login();
 
   factory Session() => RustLib.instance.api.crateApiAuthSessionNew();
 
   void openBrowser();
 
-  void setSessionCode({required String sessionCode});
+  Future<void> setSessionCode({required String sessionCode});
 }
