@@ -4,6 +4,8 @@ use flutter_rust_bridge::frb;
 use serde::Deserialize;
 use tokio::sync::Mutex;
 
+use crate::api::error::AuthError;
+
 pub const GOG_AUTH_URL: &str = "https://auth.gog.com";
 pub const GOG_CLIENT_ID: &str = "46899977096215655";
 pub const GOG_CLIENT_SECRET: &str =
@@ -27,12 +29,10 @@ pub struct Session {
 
 impl Session {
     #[frb(sync)]
-    pub fn open_browser(&self) -> Result<(), std::io::Error> {
+    pub fn open_browser(&self) -> Result<(), AuthError> {
         let mut url = match url::Url::parse(&format!("{}/auth", GOG_AUTH_URL)) {
             Ok(url) => url,
-            Err(err) => {
-                panic!("Could not parse url: {}", err);
-            }
+            Err(err) => return Err(AuthError::UrlError(err.to_string())),
         };
         url.query_pairs_mut()
             .append_pair("client_id", GOG_CLIENT_ID);
@@ -43,7 +43,10 @@ impl Session {
         url.query_pairs_mut()
             .append_pair("response_type", GOG_RESPONSE_TYPE);
         url.query_pairs_mut().append_pair("layout", GOG_LAYOUT);
-        open::that(url.as_str())
+        match open::that(url.as_str()) {
+            Ok(_) => Ok(()),
+            Err(err) => Err(AuthError::Io(err.to_string())),
+        }
     }
     #[frb(sync)]
     pub fn new() -> Self {
@@ -59,8 +62,8 @@ impl Session {
         let mut auth = self.auth.lock().await;
         auth.session_code = Some(session_code);
     }
-    #[frb]
-    pub async fn login(&self) -> Result<(), reqwest::Error> {
+    //#[frb]
+    pub async fn login(&self) -> Result<(), AuthError> {
         let code_opt = {
             let auth = self.auth.lock().await;
             auth.session_code.clone()
@@ -70,9 +73,7 @@ impl Session {
         };
         let mut url = match url::Url::parse(&format!("{}/token", GOG_AUTH_URL)) {
             Ok(url) => url,
-            Err(err) => {
-                panic!("Could not parse url: {}", err);
-            }
+            Err(err) => return Err(AuthError::UrlError(err.to_string())),
         };
         url.query_pairs_mut()
             .append_pair("client_id", GOG_CLIENT_ID);
@@ -85,11 +86,19 @@ impl Session {
             .append_pair("redirect_uri", GOG_REDIRECT_URI);
         let resp = reqwest::get(url).await;
         let json = match resp {
-            Ok(res) => match res.json::<GogTokenResponse>().await {
-                Ok(res) => res,
-                Err(err) => return Err(err),
-            },
-            Err(err) => return Err(err),
+            Ok(res) => {
+                if res.status().as_u16() != 200 {
+                    return Err(AuthError::Auth(format!(
+                        "Request failed with status: {}",
+                        res.status().as_str()
+                    )));
+                }
+                match res.json::<GogTokenResponse>().await {
+                    Ok(res) => res,
+                    Err(err) => return Err(AuthError::InvalidResponse(err.to_string())),
+                }
+            }
+            Err(err) => return Err(AuthError::Network(err.to_string())),
         };
         {
             let mut auth = self.auth.lock().await;
