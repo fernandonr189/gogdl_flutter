@@ -14,11 +14,18 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < Mutex < Auth > >>>
 abstract class ArcMutexAuth implements RustOpaqueInterface {}
 
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< Client>>
+abstract class Client implements RustOpaqueInterface {}
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>>
 abstract class Session implements RustOpaqueInterface {
   ArcMutexAuth get auth;
 
+  Client get client;
+
   set auth(ArcMutexAuth auth);
+
+  set client(Client client);
 
   Future<void> login();
 

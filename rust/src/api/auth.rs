@@ -25,6 +25,7 @@ pub struct Auth {
 #[derive(Clone)]
 pub struct Session {
     pub auth: Arc<Mutex<Auth>>,
+    pub client: reqwest::Client,
 }
 
 impl Session {
@@ -50,11 +51,16 @@ impl Session {
     }
     #[frb(sync)]
     pub fn new() -> Self {
+        let client = reqwest::Client::builder()
+            .user_agent("GogDownloader/1.0")
+            .build()
+            .expect("Failed to build reqwest client");
         Self {
             auth: Arc::new(Mutex::new(Auth {
                 session_code: None,
                 gog_token: None,
             })),
+            client,
         }
     }
     #[frb]
@@ -84,7 +90,7 @@ impl Session {
         url.query_pairs_mut().append_pair("code", &code);
         url.query_pairs_mut()
             .append_pair("redirect_uri", GOG_REDIRECT_URI);
-        let resp = reqwest::get(url).await;
+        let resp = self.client.get(url).send().await;
         let json = match resp {
             Ok(res) => {
                 if res.status().as_u16() != 200 {
@@ -139,7 +145,7 @@ impl Session {
                 .append_pair("grant_type", GOG_REFRESH_GRANT_TYPE);
             url.query_pairs_mut()
                 .append_pair("refresh_token", &refresh_token);
-            let resp = reqwest::get(url).await;
+            let resp = self.client.get(url).send().await;
             match resp {
                 Ok(res) => {
                     let gog_token = match res.json::<GogTokenResponse>().await {

@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 910671629;
+  int get rustContentHash => -162940887;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -81,9 +81,16 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 abstract class RustLibApi extends BaseApi {
   ArcMutexAuth crateApiAuthSessionAutoAccessorGetAuth({required Session that});
 
+  Client crateApiAuthSessionAutoAccessorGetClient({required Session that});
+
   void crateApiAuthSessionAutoAccessorSetAuth({
     required Session that,
     required ArcMutexAuth auth,
+  });
+
+  void crateApiAuthSessionAutoAccessorSetClient({
+    required Session that,
+    required Client client,
   });
 
   Future<void> crateApiAuthSessionLogin({required Session that});
@@ -108,6 +115,12 @@ abstract class RustLibApi extends BaseApi {
   get rust_arc_decrement_strong_count_ArcMutexAuth;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcMutexAuthPtr;
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Client;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Client;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ClientPtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Session;
 
@@ -155,6 +168,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Client crateApiAuthSessionAutoAccessorGetClient({required Session that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiAuthSessionAutoAccessorGetClientConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAuthSessionAutoAccessorGetClientConstMeta =>
+      const TaskConstMeta(
+        debugName: "Session_auto_accessor_get_client",
+        argNames: ["that"],
+      );
+
+  @override
   void crateApiAuthSessionAutoAccessorSetAuth({
     required Session that,
     required ArcMutexAuth auth,
@@ -171,7 +214,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             auth,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -191,6 +234,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  void crateApiAuthSessionAutoAccessorSetClient({
+    required Session that,
+    required Client client,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            that,
+            serializer,
+          );
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+            client,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiAuthSessionAutoAccessorSetClientConstMeta,
+        argValues: [that, client],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiAuthSessionAutoAccessorSetClientConstMeta =>
+      const TaskConstMeta(
+        debugName: "Session_auto_accessor_set_client",
+        argNames: ["that", "client"],
+      );
+
+  @override
   Future<void> crateApiAuthSessionLogin({required Session that}) {
     return handler.executeNormal(
       NormalTask(
@@ -203,7 +282,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 3,
+            funcId: 5,
             port: port_,
           );
         },
@@ -227,7 +306,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -254,7 +333,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -290,7 +369,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 6,
+            funcId: 8,
             port: port_,
           );
         },
@@ -318,7 +397,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -343,7 +422,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 10,
             port: port_,
           );
         },
@@ -370,6 +449,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexAuth;
 
   RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_Client => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_Client => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient;
+
+  RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_Session => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession;
 
@@ -384,6 +471,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ArcMutexAuthImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Client
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -420,6 +516,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ArcMutexAuthImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  Client
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -493,6 +598,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  Client
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ClientImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   Session
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     SseDeserializer deserializer,
@@ -535,6 +652,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return ArcMutexAuthImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  Client
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ClientImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -636,6 +765,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+    Client self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as ClientImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     Session self,
     SseSerializer serializer,
@@ -682,6 +824,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ArcMutexAuthImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
+    Client self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as ClientImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -788,6 +943,26 @@ class ArcMutexAuthImpl extends RustOpaque implements ArcMutexAuth {
 }
 
 @sealed
+class ClientImpl extends RustOpaque implements Client {
+  // Not to be used by end users
+  ClientImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ClientImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_Client,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_Client,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ClientPtr,
+  );
+}
+
+@sealed
 class SessionImpl extends RustOpaque implements Session {
   // Not to be used by end users
   SessionImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -809,8 +984,14 @@ class SessionImpl extends RustOpaque implements Session {
   ArcMutexAuth get auth =>
       RustLib.instance.api.crateApiAuthSessionAutoAccessorGetAuth(that: this);
 
+  Client get client =>
+      RustLib.instance.api.crateApiAuthSessionAutoAccessorGetClient(that: this);
+
   set auth(ArcMutexAuth auth) => RustLib.instance.api
       .crateApiAuthSessionAutoAccessorSetAuth(that: this, auth: auth);
+
+  set client(Client client) => RustLib.instance.api
+      .crateApiAuthSessionAutoAccessorSetClient(that: this, client: client);
 
   Future<void> login() =>
       RustLib.instance.api.crateApiAuthSessionLogin(that: this);
