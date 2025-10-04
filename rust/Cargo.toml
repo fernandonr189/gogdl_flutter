@@ -8,6 +8,10 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.11.1"
+open = "5.3.2"
+reqwest = { version = "0.12.23", features = ["json", "blocking"] }
+serde = "1.0.228"
+url = "2.5.7"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
