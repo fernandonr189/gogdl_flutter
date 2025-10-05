@@ -1,5 +1,6 @@
-use std::{sync::Arc, time::Duration};
+use std::{io::Read, sync::Arc, time::Duration};
 
+use flate2::read::ZlibDecoder;
 use flutter_rust_bridge::frb;
 use serde::Deserialize;
 use tokio::sync::Mutex;
@@ -114,6 +115,44 @@ impl Session {
                         Ok(t) => Ok(t),
                         Err(err) => Err(AuthError::InvalidResponse(err.to_string())),
                     }
+                }
+            }
+            Err(err) => Err(AuthError::Network(err.to_string())),
+        }
+    }
+
+    pub async fn get_request_compressed<T>(&self, query: String) -> Result<T, AuthError>
+    where
+        T: serde::de::DeserializeOwned,
+    {
+        let token = {
+            let auth = self.auth.lock().await.gog_token.clone();
+            if let Some(token) = auth {
+                token.access_token
+            } else {
+                return Err(AuthError::Auth("No auth token".to_owned()));
+            }
+        };
+        let result = self
+            .client
+            .get(query)
+            .header("Authorization", format!("Bearer {}", token))
+            .send()
+            .await;
+        match result {
+            Ok(res) => {
+                let bytes = if let Ok(bytes) = res.bytes().await {
+                    bytes
+                } else {
+                    return Err(AuthError::Network("Failed to read response".to_owned()));
+                };
+                let mut d = ZlibDecoder::new(&bytes[..]);
+                let mut s = String::new();
+                d.read_to_string(&mut s).unwrap();
+                println!("Decompressed data: {}", s);
+                match serde_json::from_str::<T>(&s) {
+                    Ok(data) => Ok(data),
+                    Err(err) => Err(AuthError::Network(err.to_string())),
                 }
             }
             Err(err) => Err(AuthError::Network(err.to_string())),

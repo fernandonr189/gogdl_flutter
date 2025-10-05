@@ -8,7 +8,7 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'error.freezed.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `fmt`, `fmt`, `fmt`, `fmt`
 
 @freezed
 sealed class AuthError with _$AuthError implements FrbException {
@@ -20,4 +20,16 @@ sealed class AuthError with _$AuthError implements FrbException {
   const factory AuthError.invalidResponse(String field0) =
       AuthError_InvalidResponse;
   const factory AuthError.auth(String field0) = AuthError_Auth;
+}
+
+@freezed
+sealed class DownloaderError with _$DownloaderError implements FrbException {
+  const DownloaderError._();
+
+  const factory DownloaderError.getLatestBuildError(String field0) =
+      DownloaderError_GetLatestBuildError;
+  const factory DownloaderError.missingManifestUrl() =
+      DownloaderError_MissingManifestUrl;
+  const factory DownloaderError.requestError(String field0) =
+      DownloaderError_RequestError;
 }

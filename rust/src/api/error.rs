@@ -25,3 +25,21 @@ impl Display for AuthError {
 }
 
 impl Error for AuthError {}
+
+#[derive(Debug)]
+pub enum DownloaderError {
+    GetLatestBuildError(String),
+    MissingManifestUrl,
+    RequestError(String),
+}
+
+impl Display for DownloaderError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> fmt::Result {
+        match self {
+            DownloaderError::GetLatestBuildError(str) => write!(f, "{}", str),
+            DownloaderError::MissingManifestUrl => write!(f, "Missing manifest URL"),
+        }
+    }
+}
+
+impl Error for DownloaderError {}

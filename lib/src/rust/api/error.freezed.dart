@@ -550,4 +550,334 @@ as String,
 
 }
 
+/// @nodoc
+mixin _$DownloaderError {
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloaderError);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DownloaderError()';
+}
+
+
+}
+
+/// @nodoc
+class $DownloaderErrorCopyWith<$Res>  {
+$DownloaderErrorCopyWith(DownloaderError _, $Res Function(DownloaderError) __);
+}
+
+
+/// Adds pattern-matching-related methods to [DownloaderError].
+extension DownloaderErrorPatterns on DownloaderError {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( DownloaderError_GetLatestBuildError value)?  getLatestBuildError,TResult Function( DownloaderError_MissingManifestUrl value)?  missingManifestUrl,TResult Function( DownloaderError_RequestError value)?  requestError,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case DownloaderError_GetLatestBuildError() when getLatestBuildError != null:
+return getLatestBuildError(_that);case DownloaderError_MissingManifestUrl() when missingManifestUrl != null:
+return missingManifestUrl(_that);case DownloaderError_RequestError() when requestError != null:
+return requestError(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( DownloaderError_GetLatestBuildError value)  getLatestBuildError,required TResult Function( DownloaderError_MissingManifestUrl value)  missingManifestUrl,required TResult Function( DownloaderError_RequestError value)  requestError,}){
+final _that = this;
+switch (_that) {
+case DownloaderError_GetLatestBuildError():
+return getLatestBuildError(_that);case DownloaderError_MissingManifestUrl():
+return missingManifestUrl(_that);case DownloaderError_RequestError():
+return requestError(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( DownloaderError_GetLatestBuildError value)?  getLatestBuildError,TResult? Function( DownloaderError_MissingManifestUrl value)?  missingManifestUrl,TResult? Function( DownloaderError_RequestError value)?  requestError,}){
+final _that = this;
+switch (_that) {
+case DownloaderError_GetLatestBuildError() when getLatestBuildError != null:
+return getLatestBuildError(_that);case DownloaderError_MissingManifestUrl() when missingManifestUrl != null:
+return missingManifestUrl(_that);case DownloaderError_RequestError() when requestError != null:
+return requestError(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0)?  getLatestBuildError,TResult Function()?  missingManifestUrl,TResult Function( String field0)?  requestError,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case DownloaderError_GetLatestBuildError() when getLatestBuildError != null:
+return getLatestBuildError(_that.field0);case DownloaderError_MissingManifestUrl() when missingManifestUrl != null:
+return missingManifestUrl();case DownloaderError_RequestError() when requestError != null:
+return requestError(_that.field0);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0)  getLatestBuildError,required TResult Function()  missingManifestUrl,required TResult Function( String field0)  requestError,}) {final _that = this;
+switch (_that) {
+case DownloaderError_GetLatestBuildError():
+return getLatestBuildError(_that.field0);case DownloaderError_MissingManifestUrl():
+return missingManifestUrl();case DownloaderError_RequestError():
+return requestError(_that.field0);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0)?  getLatestBuildError,TResult? Function()?  missingManifestUrl,TResult? Function( String field0)?  requestError,}) {final _that = this;
+switch (_that) {
+case DownloaderError_GetLatestBuildError() when getLatestBuildError != null:
+return getLatestBuildError(_that.field0);case DownloaderError_MissingManifestUrl() when missingManifestUrl != null:
+return missingManifestUrl();case DownloaderError_RequestError() when requestError != null:
+return requestError(_that.field0);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class DownloaderError_GetLatestBuildError extends DownloaderError {
+  const DownloaderError_GetLatestBuildError(this.field0): super._();
+  
+
+ final  String field0;
+
+/// Create a copy of DownloaderError
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DownloaderError_GetLatestBuildErrorCopyWith<DownloaderError_GetLatestBuildError> get copyWith => _$DownloaderError_GetLatestBuildErrorCopyWithImpl<DownloaderError_GetLatestBuildError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloaderError_GetLatestBuildError&&(identical(other.field0, field0) || other.field0 == field0));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,field0);
+
+@override
+String toString() {
+  return 'DownloaderError.getLatestBuildError(field0: $field0)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DownloaderError_GetLatestBuildErrorCopyWith<$Res> implements $DownloaderErrorCopyWith<$Res> {
+  factory $DownloaderError_GetLatestBuildErrorCopyWith(DownloaderError_GetLatestBuildError value, $Res Function(DownloaderError_GetLatestBuildError) _then) = _$DownloaderError_GetLatestBuildErrorCopyWithImpl;
+@useResult
+$Res call({
+ String field0
+});
+
+
+
+
+}
+/// @nodoc
+class _$DownloaderError_GetLatestBuildErrorCopyWithImpl<$Res>
+    implements $DownloaderError_GetLatestBuildErrorCopyWith<$Res> {
+  _$DownloaderError_GetLatestBuildErrorCopyWithImpl(this._self, this._then);
+
+  final DownloaderError_GetLatestBuildError _self;
+  final $Res Function(DownloaderError_GetLatestBuildError) _then;
+
+/// Create a copy of DownloaderError
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+  return _then(DownloaderError_GetLatestBuildError(
+null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DownloaderError_MissingManifestUrl extends DownloaderError {
+  const DownloaderError_MissingManifestUrl(): super._();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloaderError_MissingManifestUrl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'DownloaderError.missingManifestUrl()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class DownloaderError_RequestError extends DownloaderError {
+  const DownloaderError_RequestError(this.field0): super._();
+  
+
+ final  String field0;
+
+/// Create a copy of DownloaderError
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DownloaderError_RequestErrorCopyWith<DownloaderError_RequestError> get copyWith => _$DownloaderError_RequestErrorCopyWithImpl<DownloaderError_RequestError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DownloaderError_RequestError&&(identical(other.field0, field0) || other.field0 == field0));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,field0);
+
+@override
+String toString() {
+  return 'DownloaderError.requestError(field0: $field0)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DownloaderError_RequestErrorCopyWith<$Res> implements $DownloaderErrorCopyWith<$Res> {
+  factory $DownloaderError_RequestErrorCopyWith(DownloaderError_RequestError value, $Res Function(DownloaderError_RequestError) _then) = _$DownloaderError_RequestErrorCopyWithImpl;
+@useResult
+$Res call({
+ String field0
+});
+
+
+
+
+}
+/// @nodoc
+class _$DownloaderError_RequestErrorCopyWithImpl<$Res>
+    implements $DownloaderError_RequestErrorCopyWith<$Res> {
+  _$DownloaderError_RequestErrorCopyWithImpl(this._self, this._then);
+
+  final DownloaderError_RequestError _self;
+  final $Res Function(DownloaderError_RequestError) _then;
+
+/// Create a copy of DownloaderError
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+  return _then(DownloaderError_RequestError(
+null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
 // dart format on

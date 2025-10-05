@@ -70,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -1956382383;
+  int get rustContentHash => 1021297362;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -88,6 +88,11 @@ abstract class RustLibApi extends BaseApi {
   void crateApiGamesDownloaderGamesDownloaderAutoAccessorSetSession({
     required GamesDownloader that,
     required ArcSession session,
+  });
+
+  Future<void> crateApiGamesDownloaderGamesDownloaderDownloadGame({
+    required GamesDownloader that,
+    required GogDbGameDetails gameDetails,
   });
 
   Future<GogDbGameDetails>
@@ -125,6 +130,10 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiAuthSessionSetSessionCode({
     required Session that,
     required String sessionCode,
+  });
+
+  Future<GogDbGameBuild> crateApiGamesDownloaderGogDbGameDetailsGetLatestBuild({
+    required GogDbGameDetails that,
   });
 
   String crateApiSimpleGreet({required String name});
@@ -250,6 +259,45 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<void> crateApiGamesDownloaderGamesDownloaderDownloadGame({
+    required GamesDownloader that,
+    required GogDbGameDetails gameDetails,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+            that,
+            serializer,
+          );
+          sse_encode_box_autoadd_gog_db_game_details(gameDetails, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 3,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_downloader_error,
+        ),
+        constMeta: kCrateApiGamesDownloaderGamesDownloaderDownloadGameConstMeta,
+        argValues: [that, gameDetails],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGamesDownloaderDownloadGameConstMeta =>
+      const TaskConstMeta(
+        debugName: "GamesDownloader_download_game",
+        argNames: ["that", "gameDetails"],
+      );
+
+  @override
   Future<GogDbGameDetails>
   crateApiGamesDownloaderGamesDownloaderFetchGameDetails({
     required GamesDownloader that,
@@ -267,7 +315,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 3,
+            funcId: 4,
             port: port_,
           );
         },
@@ -305,7 +353,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 4,
+            funcId: 5,
             port: port_,
           );
         },
@@ -340,7 +388,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             session,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -370,7 +418,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -400,7 +448,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -437,7 +485,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             auth,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -473,7 +521,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             client,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -505,7 +553,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 10,
+            funcId: 11,
             port: port_,
           );
         },
@@ -529,7 +577,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -563,7 +611,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 12,
+            funcId: 13,
             port: port_,
           );
         },
@@ -585,13 +633,48 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<GogDbGameBuild> crateApiGamesDownloaderGogDbGameDetailsGetLatestBuild({
+    required GogDbGameDetails that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_gog_db_game_details(that, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 14,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_gog_db_game_build,
+          decodeErrorData: sse_decode_downloader_error,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderGogDbGameDetailsGetLatestBuildConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGogDbGameDetailsGetLatestBuildConstMeta =>
+      const TaskConstMeta(
+        debugName: "gog_db_game_details_get_latest_build",
+        argNames: ["that"],
+      );
+
+  @override
   String crateApiSimpleGreet({required String name}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -616,7 +699,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 14,
+            funcId: 16,
             port: port_,
           );
         },
@@ -826,21 +909,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int dco_decode_box_autoadd_i_32(dynamic raw) {
+  GogDbGameDetails dco_decode_box_autoadd_gog_db_game_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw as int;
+    return dco_decode_gog_db_game_details(raw);
+  }
+
+  @protected
+  DownloaderError dco_decode_downloader_error(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return DownloaderError_GetLatestBuildError(dco_decode_String(raw[1]));
+      case 1:
+        return DownloaderError_MissingManifestUrl();
+      case 2:
+        return DownloaderError_RequestError(dco_decode_String(raw[1]));
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
   GogDbGameBuild dco_decode_gog_db_game_build(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return GogDbGameBuild(
       datePublished: dco_decode_opt_String(arr[0]),
-      generation: dco_decode_opt_box_autoadd_i_32(arr[1]),
-      link: dco_decode_opt_String(arr[2]),
+      link: dco_decode_opt_String(arr[1]),
     );
   }
 
@@ -856,12 +953,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       productType: dco_decode_opt_String(arr[2]),
       builds: dco_decode_list_gog_db_game_build(arr[3]),
     );
-  }
-
-  @protected
-  int dco_decode_i_32(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw as int;
   }
 
   @protected
@@ -886,12 +977,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
-  }
-
-  @protected
-  int? dco_decode_opt_box_autoadd_i_32(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null ? null : dco_decode_box_autoadd_i_32(raw);
   }
 
   @protected
@@ -1120,22 +1205,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int sse_decode_box_autoadd_i_32(SseDeserializer deserializer) {
+  GogDbGameDetails sse_decode_box_autoadd_gog_db_game_details(
+    SseDeserializer deserializer,
+  ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return (sse_decode_i_32(deserializer));
+    return (sse_decode_gog_db_game_details(deserializer));
+  }
+
+  @protected
+  DownloaderError sse_decode_downloader_error(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_String(deserializer);
+        return DownloaderError_GetLatestBuildError(var_field0);
+      case 1:
+        return DownloaderError_MissingManifestUrl();
+      case 2:
+        var var_field0 = sse_decode_String(deserializer);
+        return DownloaderError_RequestError(var_field0);
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
   GogDbGameBuild sse_decode_gog_db_game_build(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_datePublished = sse_decode_opt_String(deserializer);
-    var var_generation = sse_decode_opt_box_autoadd_i_32(deserializer);
     var var_link = sse_decode_opt_String(deserializer);
-    return GogDbGameBuild(
-      datePublished: var_datePublished,
-      generation: var_generation,
-      link: var_link,
-    );
+    return GogDbGameBuild(datePublished: var_datePublished, link: var_link);
   }
 
   @protected
@@ -1153,12 +1254,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       productType: var_productType,
       builds: var_builds,
     );
-  }
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getInt32();
   }
 
   @protected
@@ -1201,17 +1296,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    if (sse_decode_bool(deserializer)) {
-      return (sse_decode_box_autoadd_i_32(deserializer));
-    } else {
-      return null;
-    }
-  }
-
-  @protected
   BigInt sse_decode_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getBigUint64();
@@ -1232,6 +1316,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   BigInt sse_decode_usize(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getBigUint64();
+  }
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getInt32();
   }
 
   @protected
@@ -1451,9 +1541,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer) {
+  void sse_encode_box_autoadd_gog_db_game_details(
+    GogDbGameDetails self,
+    SseSerializer serializer,
+  ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self, serializer);
+    sse_encode_gog_db_game_details(self, serializer);
+  }
+
+  @protected
+  void sse_encode_downloader_error(
+    DownloaderError self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case DownloaderError_GetLatestBuildError(field0: final field0):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(field0, serializer);
+      case DownloaderError_MissingManifestUrl():
+        sse_encode_i_32(1, serializer);
+      case DownloaderError_RequestError(field0: final field0):
+        sse_encode_i_32(2, serializer);
+        sse_encode_String(field0, serializer);
+    }
   }
 
   @protected
@@ -1463,7 +1574,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_String(self.datePublished, serializer);
-    sse_encode_opt_box_autoadd_i_32(self.generation, serializer);
     sse_encode_opt_String(self.link, serializer);
   }
 
@@ -1477,12 +1587,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_opt_String(self.imageBoxart, serializer);
     sse_encode_opt_String(self.productType, serializer);
     sse_encode_list_gog_db_game_build(self.builds, serializer);
-  }
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putInt32(self);
   }
 
   @protected
@@ -1528,16 +1632,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    sse_encode_bool(self != null, serializer);
-    if (self != null) {
-      sse_encode_box_autoadd_i_32(self, serializer);
-    }
-  }
-
-  @protected
   void sse_encode_u_64(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
@@ -1558,6 +1652,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_usize(BigInt self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putBigUint64(self);
+  }
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putInt32(self);
   }
 
   @protected
@@ -1653,6 +1753,12 @@ class GamesDownloaderImpl extends RustOpaque implements GamesDownloader {
       .crateApiGamesDownloaderGamesDownloaderAutoAccessorSetSession(
         that: this,
         session: session,
+      );
+
+  Future<void> downloadGame({required GogDbGameDetails gameDetails}) =>
+      RustLib.instance.api.crateApiGamesDownloaderGamesDownloaderDownloadGame(
+        that: this,
+        gameDetails: gameDetails,
       );
 
   Future<GogDbGameDetails> fetchGameDetails({required String gameId}) => RustLib

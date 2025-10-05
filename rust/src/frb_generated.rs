@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1956382383;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1021297362;
 
 // Section: executor
 
@@ -142,6 +142,68 @@ fn wire__crate__api__games_downloader__GamesDownloader_auto_accessor_set_session
                 })?;
                 Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__api__games_downloader__GamesDownloader_download_game_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "GamesDownloader_download_game",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>,
+            >>::sse_decode(&mut deserializer);
+            let api_game_details =
+                <crate::api::games_downloader::GogDbGameDetails>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| async move {
+                transform_result_sse::<_, crate::api::error::DownloaderError>(
+                    (move || async move {
+                        let mut api_that_guard = None;
+                        let decode_indices_ =
+                            flutter_rust_bridge::for_generated::lockable_compute_decode_order(
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_that, 0, false,
+                                )],
+                            );
+                        for i in decode_indices_ {
+                            match i {
+                                0 => {
+                                    api_that_guard =
+                                        Some(api_that.lockable_decode_async_ref().await)
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+                        let api_that_guard = api_that_guard.unwrap();
+                        let output_ok =
+                            crate::api::games_downloader::GamesDownloader::download_game(
+                                &*api_that_guard,
+                                api_game_details,
+                            )
+                            .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -637,6 +699,43 @@ fn wire__crate__api__auth__Session_set_session_code_impl(
         },
     )
 }
+fn wire__crate__api__games_downloader__gog_db_game_details_get_latest_build_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "gog_db_game_details_get_latest_build",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that =
+                <crate::api::games_downloader::GogDbGameDetails>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, crate::api::error::DownloaderError>((move || {
+                    let output_ok =
+                        crate::api::games_downloader::GogDbGameDetails::get_latest_build(
+                            &api_that,
+                        )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__crate__api__simple__greet_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -858,15 +957,36 @@ impl SseDecode for crate::api::error::AuthError {
     }
 }
 
+impl SseDecode for crate::api::error::DownloaderError {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return crate::api::error::DownloaderError::GetLatestBuildError(var_field0);
+            }
+            1 => {
+                return crate::api::error::DownloaderError::MissingManifestUrl;
+            }
+            2 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return crate::api::error::DownloaderError::RequestError(var_field0);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseDecode for crate::api::games_downloader::GogDbGameBuild {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_datePublished = <Option<String>>::sse_decode(deserializer);
-        let mut var_generation = <Option<i32>>::sse_decode(deserializer);
         let mut var_link = <Option<String>>::sse_decode(deserializer);
         return crate::api::games_downloader::GogDbGameBuild {
             date_published: var_datePublished,
-            generation: var_generation,
             link: var_link,
         };
     }
@@ -886,13 +1006,6 @@ impl SseDecode for crate::api::games_downloader::GogDbGameDetails {
             product_type: var_productType,
             builds: var_builds,
         };
-    }
-}
-
-impl SseDecode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
     }
 }
 
@@ -945,17 +1058,6 @@ impl SseDecode for Option<String> {
     }
 }
 
-impl SseDecode for Option<i32> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<i32>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for u64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -982,6 +1084,13 @@ impl SseDecode for usize {
     }
 }
 
+impl SseDecode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -998,23 +1107,35 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        3 => wire__crate__api__games_downloader__GamesDownloader_fetch_game_details_impl(
+        3 => wire__crate__api__games_downloader__GamesDownloader_download_game_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        4 => wire__crate__api__games_downloader__GamesDownloader_fetch_owned_game_ids_impl(
+        4 => wire__crate__api__games_downloader__GamesDownloader_fetch_game_details_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        10 => wire__crate__api__auth__Session_login_impl(port, ptr, rust_vec_len, data_len),
-        12 => {
+        5 => wire__crate__api__games_downloader__GamesDownloader_fetch_owned_game_ids_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        11 => wire__crate__api__auth__Session_login_impl(port, ptr, rust_vec_len, data_len),
+        13 => {
             wire__crate__api__auth__Session_set_session_code_impl(port, ptr, rust_vec_len, data_len)
         }
-        14 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
+        14 => wire__crate__api__games_downloader__gog_db_game_details_get_latest_build_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        16 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1037,29 +1158,29 @@ fn pde_ffi_dispatcher_sync_impl(
             rust_vec_len,
             data_len,
         ),
-        5 => wire__crate__api__games_downloader__GamesDownloader_new_impl(
+        6 => wire__crate__api__games_downloader__GamesDownloader_new_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        6 => {
+        7 => {
             wire__crate__api__auth__Session_auto_accessor_get_auth_impl(ptr, rust_vec_len, data_len)
         }
-        7 => wire__crate__api__auth__Session_auto_accessor_get_client_impl(
+        8 => wire__crate__api__auth__Session_auto_accessor_get_client_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        8 => {
+        9 => {
             wire__crate__api__auth__Session_auto_accessor_set_auth_impl(ptr, rust_vec_len, data_len)
         }
-        9 => wire__crate__api__auth__Session_auto_accessor_set_client_impl(
+        10 => wire__crate__api__auth__Session_auto_accessor_set_client_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        11 => wire__crate__api__auth__Session_new_impl(ptr, rust_vec_len, data_len),
-        13 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
+        12 => wire__crate__api__auth__Session_new_impl(ptr, rust_vec_len, data_len),
+        15 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1175,11 +1296,38 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::AuthError>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::error::DownloaderError {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::error::DownloaderError::GetLatestBuildError(field0) => {
+                [0.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::error::DownloaderError::MissingManifestUrl => [1.into_dart()].into_dart(),
+            crate::api::error::DownloaderError::RequestError(field0) => {
+                [2.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::error::DownloaderError
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::error::DownloaderError>
+    for crate::api::error::DownloaderError
+{
+    fn into_into_dart(self) -> crate::api::error::DownloaderError {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::GogDbGameBuild {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.date_published.into_into_dart().into_dart(),
-            self.generation.into_into_dart().into_dart(),
             self.link.into_into_dart().into_dart(),
         ]
         .into_dart()
@@ -1344,11 +1492,32 @@ impl SseEncode for crate::api::error::AuthError {
     }
 }
 
+impl SseEncode for crate::api::error::DownloaderError {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::error::DownloaderError::GetLatestBuildError(field0) => {
+                <i32>::sse_encode(0, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            crate::api::error::DownloaderError::MissingManifestUrl => {
+                <i32>::sse_encode(1, serializer);
+            }
+            crate::api::error::DownloaderError::RequestError(field0) => {
+                <i32>::sse_encode(2, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
 impl SseEncode for crate::api::games_downloader::GogDbGameBuild {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Option<String>>::sse_encode(self.date_published, serializer);
-        <Option<i32>>::sse_encode(self.generation, serializer);
         <Option<String>>::sse_encode(self.link, serializer);
     }
 }
@@ -1360,13 +1529,6 @@ impl SseEncode for crate::api::games_downloader::GogDbGameDetails {
         <Option<String>>::sse_encode(self.image_boxart, serializer);
         <Option<String>>::sse_encode(self.product_type, serializer);
         <Vec<crate::api::games_downloader::GogDbGameBuild>>::sse_encode(self.builds, serializer);
-    }
-}
-
-impl SseEncode for i32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -1410,16 +1572,6 @@ impl SseEncode for Option<String> {
     }
 }
 
-impl SseEncode for Option<i32> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <i32>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for u64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1446,6 +1598,13 @@ impl SseEncode for usize {
             .cursor
             .write_u64::<NativeEndian>(self as _)
             .unwrap();
+    }
+}
+
+impl SseEncode for i32 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
     }
 }
 

@@ -135,16 +135,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   AuthError dco_decode_auth_error(dynamic raw);
 
   @protected
-  int dco_decode_box_autoadd_i_32(dynamic raw);
+  GogDbGameDetails dco_decode_box_autoadd_gog_db_game_details(dynamic raw);
+
+  @protected
+  DownloaderError dco_decode_downloader_error(dynamic raw);
 
   @protected
   GogDbGameBuild dco_decode_gog_db_game_build(dynamic raw);
 
   @protected
   GogDbGameDetails dco_decode_gog_db_game_details(dynamic raw);
-
-  @protected
-  int dco_decode_i_32(dynamic raw);
 
   @protected
   List<GogDbGameBuild> dco_decode_list_gog_db_game_build(dynamic raw);
@@ -157,9 +157,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String? dco_decode_opt_String(dynamic raw);
-
-  @protected
-  int? dco_decode_opt_box_autoadd_i_32(dynamic raw);
 
   @protected
   BigInt dco_decode_u_64(dynamic raw);
@@ -264,16 +261,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   AuthError sse_decode_auth_error(SseDeserializer deserializer);
 
   @protected
-  int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
+  GogDbGameDetails sse_decode_box_autoadd_gog_db_game_details(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  DownloaderError sse_decode_downloader_error(SseDeserializer deserializer);
 
   @protected
   GogDbGameBuild sse_decode_gog_db_game_build(SseDeserializer deserializer);
 
   @protected
   GogDbGameDetails sse_decode_gog_db_game_details(SseDeserializer deserializer);
-
-  @protected
-  int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   List<GogDbGameBuild> sse_decode_list_gog_db_game_build(
@@ -290,9 +289,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
-  int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer);
-
-  @protected
   BigInt sse_decode_u_64(SseDeserializer deserializer);
 
   @protected
@@ -303,6 +299,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt sse_decode_usize(SseDeserializer deserializer);
+
+  @protected
+  int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
@@ -412,7 +411,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_auth_error(AuthError self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
+  void sse_encode_box_autoadd_gog_db_game_details(
+    GogDbGameDetails self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_downloader_error(
+    DownloaderError self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_gog_db_game_build(
@@ -425,9 +433,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     GogDbGameDetails self,
     SseSerializer serializer,
   );
-
-  @protected
-  void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_gog_db_game_build(
@@ -451,9 +456,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer);
-
-  @protected
   void sse_encode_u_64(BigInt self, SseSerializer serializer);
 
   @protected
@@ -464,6 +466,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_usize(BigInt self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);

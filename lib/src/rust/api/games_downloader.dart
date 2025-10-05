@@ -9,14 +9,17 @@ import 'auth.dart';
 import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `OwnedGamesResponse`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`, `fmt`, `fmt`
+// These functions are ignored because they are not marked as `pub`: `get_build_manifest`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Depot`, `GogDbBuildManifest`, `OwnedGamesResponse`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>>
 abstract class GamesDownloader implements RustOpaqueInterface {
   ArcSession get session;
 
   set session(ArcSession session);
+
+  Future<void> downloadGame({required GogDbGameDetails gameDetails});
 
   Future<GogDbGameDetails> fetchGameDetails({required String gameId});
 
@@ -28,14 +31,12 @@ abstract class GamesDownloader implements RustOpaqueInterface {
 
 class GogDbGameBuild {
   final String? datePublished;
-  final int? generation;
   final String? link;
 
-  const GogDbGameBuild({this.datePublished, this.generation, this.link});
+  const GogDbGameBuild({this.datePublished, this.link});
 
   @override
-  int get hashCode =>
-      datePublished.hashCode ^ generation.hashCode ^ link.hashCode;
+  int get hashCode => datePublished.hashCode ^ link.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -43,7 +44,6 @@ class GogDbGameBuild {
       other is GogDbGameBuild &&
           runtimeType == other.runtimeType &&
           datePublished == other.datePublished &&
-          generation == other.generation &&
           link == other.link;
 }
 
@@ -59,6 +59,9 @@ class GogDbGameDetails {
     this.productType,
     required this.builds,
   });
+
+  Future<GogDbGameBuild> getLatestBuild() => RustLib.instance.api
+      .crateApiGamesDownloaderGogDbGameDetailsGetLatestBuild(that: this);
 
   @override
   int get hashCode =>
