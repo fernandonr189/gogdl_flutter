@@ -117,6 +117,41 @@ impl Session {
         });
         Ok(())
     }
+    pub async fn get_request<T>(&self, query: String) -> Result<T, AuthError>
+    where
+        T: serde::de::DeserializeOwned,
+    {
+        let token = {
+            let auth = self.auth.lock().await.gog_token.clone();
+            if let Some(token) = auth {
+                token.access_token
+            } else {
+                return Err(AuthError::Auth("No auth token".to_owned()));
+            }
+        };
+        let result = self
+            .client
+            .get(query)
+            .header("Authorization", format!("Bearer {}", token))
+            .send()
+            .await;
+        match result {
+            Ok(res) => {
+                if res.status().as_u16() != 200 {
+                    Err(AuthError::Network(format!(
+                        "Request failed with status {}",
+                        res.status().as_str()
+                    )))
+                } else {
+                    match res.json::<T>().await {
+                        Ok(t) => Ok(t),
+                        Err(err) => Err(AuthError::InvalidResponse(err.to_string())),
+                    }
+                }
+            }
+            Err(err) => Err(AuthError::Network(err.to_string())),
+        }
+    }
     async fn token_refresh_task(&self, interval: i64) {
         loop {
             tokio::time::sleep(Duration::from_secs(interval as u64)).await;

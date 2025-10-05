@@ -5,12 +5,14 @@
 
 import 'api/auth.dart';
 import 'api/error.dart';
+import 'api/games_downloader.dart';
 import 'api/simple.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
 import 'frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
+import 'lib.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 /// Main entrypoint of the Rust API
@@ -68,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -162940887;
+  int get rustContentHash => -933910409;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -79,6 +81,29 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  ArcSession crateApiGamesDownloaderGamesDownloaderAutoAccessorGetSession({
+    required GamesDownloader that,
+  });
+
+  void crateApiGamesDownloaderGamesDownloaderAutoAccessorSetSession({
+    required GamesDownloader that,
+    required ArcSession session,
+  });
+
+  Future<GameDetailsResponse>
+  crateApiGamesDownloaderGamesDownloaderFetchGameDetails({
+    required GamesDownloader that,
+    required String gameId,
+  });
+
+  Future<Uint64List> crateApiGamesDownloaderGamesDownloaderFetchOwnedGameIds({
+    required GamesDownloader that,
+  });
+
+  GamesDownloader crateApiGamesDownloaderGamesDownloaderNew({
+    required Session session,
+  });
+
   ArcMutexAuth crateApiAuthSessionAutoAccessorGetAuth({required Session that});
 
   Client crateApiAuthSessionAutoAccessorGetClient({required Session that});
@@ -104,9 +129,26 @@ abstract class RustLibApi extends BaseApi {
     required String sessionCode,
   });
 
+  Future<Dlc> crateApiGamesDownloaderDlcDefault();
+
+  Future<DownloadFile> crateApiGamesDownloaderDownloadFileDefault();
+
+  Future<DownloadPlatform> crateApiGamesDownloaderDownloadPlatformDefault();
+
+  Future<DownloadsByLanguage>
+  crateApiGamesDownloaderDownloadsByLanguageDefault();
+
+  Future<ExtraFile> crateApiGamesDownloaderExtraFileDefault();
+
+  Future<GameDetailsResponse>
+  crateApiGamesDownloaderGameDetailsResponseDefault();
+
   String crateApiSimpleGreet({required String name});
 
   Future<void> crateApiSimpleInitApp();
+
+  Future<SimpleGalaxyInstaller>
+  crateApiGamesDownloaderSimpleGalaxyInstallerDefault();
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArcMutexAuth;
@@ -116,11 +158,28 @@ abstract class RustLibApi extends BaseApi {
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcMutexAuthPtr;
 
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_ArcSession;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_ArcSession;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcSessionPtr;
+
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Client;
 
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Client;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ClientPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_GamesDownloader;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_GamesDownloader;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_GamesDownloaderPtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Session;
 
@@ -138,6 +197,189 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
+  ArcSession crateApiGamesDownloaderGamesDownloaderAutoAccessorGetSession({
+    required GamesDownloader that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderGamesDownloaderAutoAccessorGetSessionConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGamesDownloaderAutoAccessorGetSessionConstMeta =>
+      const TaskConstMeta(
+        debugName: "GamesDownloader_auto_accessor_get_session",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateApiGamesDownloaderGamesDownloaderAutoAccessorSetSession({
+    required GamesDownloader that,
+    required ArcSession session,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+            that,
+            serializer,
+          );
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+            session,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderGamesDownloaderAutoAccessorSetSessionConstMeta,
+        argValues: [that, session],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGamesDownloaderAutoAccessorSetSessionConstMeta =>
+      const TaskConstMeta(
+        debugName: "GamesDownloader_auto_accessor_set_session",
+        argNames: ["that", "session"],
+      );
+
+  @override
+  Future<GameDetailsResponse>
+  crateApiGamesDownloaderGamesDownloaderFetchGameDetails({
+    required GamesDownloader that,
+    required String gameId,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+            that,
+            serializer,
+          );
+          sse_encode_String(gameId, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 3,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_game_details_response,
+          decodeErrorData: sse_decode_auth_error,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderGamesDownloaderFetchGameDetailsConstMeta,
+        argValues: [that, gameId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGamesDownloaderFetchGameDetailsConstMeta =>
+      const TaskConstMeta(
+        debugName: "GamesDownloader_fetch_game_details",
+        argNames: ["that", "gameId"],
+      );
+
+  @override
+  Future<Uint64List> crateApiGamesDownloaderGamesDownloaderFetchOwnedGameIds({
+    required GamesDownloader that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+            that,
+            serializer,
+          );
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 4,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_prim_u_64_strict,
+          decodeErrorData: sse_decode_auth_error,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderGamesDownloaderFetchOwnedGameIdsConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGamesDownloaderFetchOwnedGameIdsConstMeta =>
+      const TaskConstMeta(
+        debugName: "GamesDownloader_fetch_owned_game_ids",
+        argNames: ["that"],
+      );
+
+  @override
+  GamesDownloader crateApiGamesDownloaderGamesDownloaderNew({
+    required Session session,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+            session,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderGamesDownloaderNewConstMeta,
+        argValues: [session],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderGamesDownloaderNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "GamesDownloader_new",
+        argNames: ["session"],
+      );
+
+  @override
   ArcMutexAuth crateApiAuthSessionAutoAccessorGetAuth({required Session that}) {
     return handler.executeSync(
       SyncTask(
@@ -147,7 +389,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -177,7 +419,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -214,7 +456,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             auth,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -250,7 +492,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             client,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -282,7 +524,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 5,
+            funcId: 10,
             port: port_,
           );
         },
@@ -306,7 +548,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -333,7 +575,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -369,7 +611,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 13,
             port: port_,
           );
         },
@@ -391,13 +633,185 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<Dlc> crateApiGamesDownloaderDlcDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 14,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_dlc,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDlcDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderDlcDefaultConstMeta =>
+      const TaskConstMeta(debugName: "dlc_default", argNames: []);
+
+  @override
+  Future<DownloadFile> crateApiGamesDownloaderDownloadFileDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 15,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_download_file,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDownloadFileDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderDownloadFileDefaultConstMeta =>
+      const TaskConstMeta(debugName: "download_file_default", argNames: []);
+
+  @override
+  Future<DownloadPlatform> crateApiGamesDownloaderDownloadPlatformDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 16,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_download_platform,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDownloadPlatformDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderDownloadPlatformDefaultConstMeta =>
+      const TaskConstMeta(debugName: "download_platform_default", argNames: []);
+
+  @override
+  Future<DownloadsByLanguage>
+  crateApiGamesDownloaderDownloadsByLanguageDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 17,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_downloads_by_language,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDownloadsByLanguageDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDownloadsByLanguageDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "downloads_by_language_default",
+        argNames: [],
+      );
+
+  @override
+  Future<ExtraFile> crateApiGamesDownloaderExtraFileDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 18,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_extra_file,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderExtraFileDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderExtraFileDefaultConstMeta =>
+      const TaskConstMeta(debugName: "extra_file_default", argNames: []);
+
+  @override
+  Future<GameDetailsResponse>
+  crateApiGamesDownloaderGameDetailsResponseDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 19,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_game_details_response,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderGameDetailsResponseDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderGameDetailsResponseDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "game_details_response_default",
+        argNames: [],
+      );
+
+  @override
   String crateApiSimpleGreet({required String name}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -422,7 +836,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 10,
+            funcId: 21,
             port: port_,
           );
         },
@@ -440,6 +854,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiSimpleInitAppConstMeta =>
       const TaskConstMeta(debugName: "init_app", argNames: []);
 
+  @override
+  Future<SimpleGalaxyInstaller>
+  crateApiGamesDownloaderSimpleGalaxyInstallerDefault() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 22,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_simple_galaxy_installer,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderSimpleGalaxyInstallerDefaultConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderSimpleGalaxyInstallerDefaultConstMeta =>
+      const TaskConstMeta(
+        debugName: "simple_galaxy_installer_default",
+        argNames: [],
+      );
+
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArcMutexAuth => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexAuth;
@@ -449,12 +896,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexAuth;
 
   RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_ArcSession => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_ArcSession => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession;
+
+  RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_Client => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient;
 
   RustArcDecrementStrongCountFnType
   get rust_arc_decrement_strong_count_Client => wire
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_GamesDownloader => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_GamesDownloader => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_Session => wire
@@ -474,12 +937,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ArcSession
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ArcSessionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   Client
   dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  GamesDownloader
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -492,12 +973,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GamesDownloader
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   Session
   dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return SessionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  GamesDownloader
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -519,12 +1018,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ArcSession
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ArcSessionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   Client
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ClientImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  GamesDownloader
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -562,9 +1079,272 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool dco_decode_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
+  bool dco_decode_box_autoadd_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
+  PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_i_64(raw);
+  }
+
+  @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  BigInt dco_decode_box_autoadd_u_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_u_64(raw);
+  }
+
+  @protected
+  Dlc dco_decode_dlc(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return Dlc(
+      id: dco_decode_opt_box_autoadd_u_64(arr[0]),
+      title: dco_decode_opt_String(arr[1]),
+    );
+  }
+
+  @protected
+  DownloadFile dco_decode_download_file(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return DownloadFile(
+      manualUrl: dco_decode_opt_String(arr[0]),
+      downloaderUrl: dco_decode_opt_String(arr[1]),
+      name: dco_decode_opt_String(arr[2]),
+      version: dco_decode_opt_String(arr[3]),
+      date: dco_decode_opt_String(arr[4]),
+      size: dco_decode_opt_String(arr[5]),
+      os: dco_decode_opt_String(arr[6]),
+    );
+  }
+
+  @protected
+  DownloadPlatform dco_decode_download_platform(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return DownloadPlatform(
+      manualUrl: dco_decode_opt_String(arr[0]),
+      downloaderUrl: dco_decode_opt_String(arr[1]),
+      name: dco_decode_opt_String(arr[2]),
+      version: dco_decode_opt_String(arr[3]),
+      date: dco_decode_opt_String(arr[4]),
+      size: dco_decode_opt_String(arr[5]),
+      os: dco_decode_opt_String(arr[6]),
+    );
+  }
+
+  @protected
+  DownloadsByLanguage dco_decode_downloads_by_language(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return DownloadsByLanguage(
+      windows: dco_decode_list_download_file(arr[0]),
+      mac: dco_decode_list_download_file(arr[1]),
+      linux: dco_decode_list_download_file(arr[2]),
+    );
+  }
+
+  @protected
+  ExtraFile dco_decode_extra_file(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return ExtraFile(
+      manualUrl: dco_decode_opt_String(arr[0]),
+      downloaderUrl: dco_decode_opt_String(arr[1]),
+      name: dco_decode_opt_String(arr[2]),
+      fileType: dco_decode_opt_String(arr[3]),
+      info: dco_decode_opt_box_autoadd_u_32(arr[4]),
+      size: dco_decode_opt_String(arr[5]),
+    );
+  }
+
+  @protected
+  GameDetailsResponse dco_decode_game_details_response(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 18)
+      throw Exception('unexpected arr length: expect 18 but see ${arr.length}');
+    return GameDetailsResponse(
+      title: dco_decode_opt_String(arr[0]),
+      backgroundImage: dco_decode_opt_String(arr[1]),
+      cdKey: dco_decode_opt_String(arr[2]),
+      textInformation: dco_decode_opt_String(arr[3]),
+      downloads: dco_decode_list_record_string_downloads_by_language(arr[4]),
+      galaxyDownloads: dco_decode_list_download_platform(arr[5]),
+      extras: dco_decode_list_extra_file(arr[6]),
+      dlcs: dco_decode_list_dlc(arr[7]),
+      tags: dco_decode_list_String(arr[8]),
+      isPreorder: dco_decode_opt_box_autoadd_bool(arr[9]),
+      releaseTimestamp: dco_decode_opt_box_autoadd_i_64(arr[10]),
+      messages: dco_decode_list_String(arr[11]),
+      changelog: dco_decode_opt_String(arr[12]),
+      forumLink: dco_decode_opt_String(arr[13]),
+      isBaseProductMissing: dco_decode_opt_box_autoadd_bool(arr[14]),
+      missingBaseProduct: dco_decode_opt_String(arr[15]),
+      features: dco_decode_list_String(arr[16]),
+      simpleGalaxyInstallers: dco_decode_list_simple_galaxy_installer(arr[17]),
+    );
+  }
+
+  @protected
+  PlatformInt64 dco_decode_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64(raw);
+  }
+
+  @protected
+  List<String> dco_decode_list_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_String).toList();
+  }
+
+  @protected
+  List<Dlc> dco_decode_list_dlc(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_dlc).toList();
+  }
+
+  @protected
+  List<DownloadFile> dco_decode_list_download_file(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_download_file).toList();
+  }
+
+  @protected
+  List<DownloadPlatform> dco_decode_list_download_platform(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_download_platform).toList();
+  }
+
+  @protected
+  List<ExtraFile> dco_decode_list_extra_file(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_extra_file).toList();
+  }
+
+  @protected
+  Uint64List dco_decode_list_prim_u_64_strict(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeUint64List(raw);
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
+  }
+
+  @protected
+  List<(String, DownloadsByLanguage)>
+  dco_decode_list_record_string_downloads_by_language(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(dco_decode_record_string_downloads_by_language)
+        .toList();
+  }
+
+  @protected
+  List<SimpleGalaxyInstaller> dco_decode_list_simple_galaxy_installer(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(dco_decode_simple_galaxy_installer)
+        .toList();
+  }
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_String(raw);
+  }
+
+  @protected
+  bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_bool(raw);
+  }
+
+  @protected
+  PlatformInt64? dco_decode_opt_box_autoadd_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_i_64(raw);
+  }
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
+  }
+
+  @protected
+  BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
+  }
+
+  @protected
+  (String, DownloadsByLanguage) dco_decode_record_string_downloads_by_language(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_String(arr[0]),
+      dco_decode_downloads_by_language(arr[1]),
+    );
+  }
+
+  @protected
+  SimpleGalaxyInstaller dco_decode_simple_galaxy_installer(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return SimpleGalaxyInstaller(
+      path: dco_decode_opt_String(arr[0]),
+      os: dco_decode_opt_String(arr[1]),
+    );
+  }
+
+  @protected
+  int dco_decode_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
+  }
+
+  @protected
+  BigInt dco_decode_u_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
   }
 
   @protected
@@ -598,12 +1378,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ArcSession
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ArcSessionImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   Client
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return ClientImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  GamesDownloader
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -622,12 +1426,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GamesDownloader
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   Session
   sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return SessionImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  GamesDownloader
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -658,12 +1486,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ArcSession
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return ArcSessionImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   Client
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return ClientImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  GamesDownloader
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return GamesDownloaderImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -715,10 +1567,368 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool sse_decode_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  bool sse_decode_box_autoadd_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_bool(deserializer));
+  }
+
+  @protected
+  PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_i_64(deserializer));
+  }
+
+  @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_32(deserializer));
+  }
+
+  @protected
+  BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_64(deserializer));
+  }
+
+  @protected
+  Dlc sse_decode_dlc(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_id = sse_decode_opt_box_autoadd_u_64(deserializer);
+    var var_title = sse_decode_opt_String(deserializer);
+    return Dlc(id: var_id, title: var_title);
+  }
+
+  @protected
+  DownloadFile sse_decode_download_file(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_manualUrl = sse_decode_opt_String(deserializer);
+    var var_downloaderUrl = sse_decode_opt_String(deserializer);
+    var var_name = sse_decode_opt_String(deserializer);
+    var var_version = sse_decode_opt_String(deserializer);
+    var var_date = sse_decode_opt_String(deserializer);
+    var var_size = sse_decode_opt_String(deserializer);
+    var var_os = sse_decode_opt_String(deserializer);
+    return DownloadFile(
+      manualUrl: var_manualUrl,
+      downloaderUrl: var_downloaderUrl,
+      name: var_name,
+      version: var_version,
+      date: var_date,
+      size: var_size,
+      os: var_os,
+    );
+  }
+
+  @protected
+  DownloadPlatform sse_decode_download_platform(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_manualUrl = sse_decode_opt_String(deserializer);
+    var var_downloaderUrl = sse_decode_opt_String(deserializer);
+    var var_name = sse_decode_opt_String(deserializer);
+    var var_version = sse_decode_opt_String(deserializer);
+    var var_date = sse_decode_opt_String(deserializer);
+    var var_size = sse_decode_opt_String(deserializer);
+    var var_os = sse_decode_opt_String(deserializer);
+    return DownloadPlatform(
+      manualUrl: var_manualUrl,
+      downloaderUrl: var_downloaderUrl,
+      name: var_name,
+      version: var_version,
+      date: var_date,
+      size: var_size,
+      os: var_os,
+    );
+  }
+
+  @protected
+  DownloadsByLanguage sse_decode_downloads_by_language(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_windows = sse_decode_list_download_file(deserializer);
+    var var_mac = sse_decode_list_download_file(deserializer);
+    var var_linux = sse_decode_list_download_file(deserializer);
+    return DownloadsByLanguage(
+      windows: var_windows,
+      mac: var_mac,
+      linux: var_linux,
+    );
+  }
+
+  @protected
+  ExtraFile sse_decode_extra_file(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_manualUrl = sse_decode_opt_String(deserializer);
+    var var_downloaderUrl = sse_decode_opt_String(deserializer);
+    var var_name = sse_decode_opt_String(deserializer);
+    var var_fileType = sse_decode_opt_String(deserializer);
+    var var_info = sse_decode_opt_box_autoadd_u_32(deserializer);
+    var var_size = sse_decode_opt_String(deserializer);
+    return ExtraFile(
+      manualUrl: var_manualUrl,
+      downloaderUrl: var_downloaderUrl,
+      name: var_name,
+      fileType: var_fileType,
+      info: var_info,
+      size: var_size,
+    );
+  }
+
+  @protected
+  GameDetailsResponse sse_decode_game_details_response(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_title = sse_decode_opt_String(deserializer);
+    var var_backgroundImage = sse_decode_opt_String(deserializer);
+    var var_cdKey = sse_decode_opt_String(deserializer);
+    var var_textInformation = sse_decode_opt_String(deserializer);
+    var var_downloads = sse_decode_list_record_string_downloads_by_language(
+      deserializer,
+    );
+    var var_galaxyDownloads = sse_decode_list_download_platform(deserializer);
+    var var_extras = sse_decode_list_extra_file(deserializer);
+    var var_dlcs = sse_decode_list_dlc(deserializer);
+    var var_tags = sse_decode_list_String(deserializer);
+    var var_isPreorder = sse_decode_opt_box_autoadd_bool(deserializer);
+    var var_releaseTimestamp = sse_decode_opt_box_autoadd_i_64(deserializer);
+    var var_messages = sse_decode_list_String(deserializer);
+    var var_changelog = sse_decode_opt_String(deserializer);
+    var var_forumLink = sse_decode_opt_String(deserializer);
+    var var_isBaseProductMissing = sse_decode_opt_box_autoadd_bool(
+      deserializer,
+    );
+    var var_missingBaseProduct = sse_decode_opt_String(deserializer);
+    var var_features = sse_decode_list_String(deserializer);
+    var var_simpleGalaxyInstallers = sse_decode_list_simple_galaxy_installer(
+      deserializer,
+    );
+    return GameDetailsResponse(
+      title: var_title,
+      backgroundImage: var_backgroundImage,
+      cdKey: var_cdKey,
+      textInformation: var_textInformation,
+      downloads: var_downloads,
+      galaxyDownloads: var_galaxyDownloads,
+      extras: var_extras,
+      dlcs: var_dlcs,
+      tags: var_tags,
+      isPreorder: var_isPreorder,
+      releaseTimestamp: var_releaseTimestamp,
+      messages: var_messages,
+      changelog: var_changelog,
+      forumLink: var_forumLink,
+      isBaseProductMissing: var_isBaseProductMissing,
+      missingBaseProduct: var_missingBaseProduct,
+      features: var_features,
+      simpleGalaxyInstallers: var_simpleGalaxyInstallers,
+    );
+  }
+
+  @protected
+  PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <String>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_String(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<Dlc> sse_decode_list_dlc(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <Dlc>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_dlc(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DownloadFile> sse_decode_list_download_file(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DownloadFile>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_download_file(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<DownloadPlatform> sse_decode_list_download_platform(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DownloadPlatform>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_download_platform(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<ExtraFile> sse_decode_list_extra_file(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <ExtraFile>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_extra_file(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  Uint64List sse_decode_list_prim_u_64_strict(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var len_ = sse_decode_i_32(deserializer);
+    return deserializer.buffer.getUint64List(len_);
+  }
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
     return deserializer.buffer.getUint8List(len_);
+  }
+
+  @protected
+  List<(String, DownloadsByLanguage)>
+  sse_decode_list_record_string_downloads_by_language(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <(String, DownloadsByLanguage)>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_record_string_downloads_by_language(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<SimpleGalaxyInstaller> sse_decode_list_simple_galaxy_installer(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <SimpleGalaxyInstaller>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_simple_galaxy_installer(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_String(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  bool? sse_decode_opt_box_autoadd_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_bool(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  PlatformInt64? sse_decode_opt_box_autoadd_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_i_64(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_64(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  (String, DownloadsByLanguage) sse_decode_record_string_downloads_by_language(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_String(deserializer);
+    var var_field1 = sse_decode_downloads_by_language(deserializer);
+    return (var_field0, var_field1);
+  }
+
+  @protected
+  SimpleGalaxyInstaller sse_decode_simple_galaxy_installer(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_path = sse_decode_opt_String(deserializer);
+    var var_os = sse_decode_opt_String(deserializer);
+    return SimpleGalaxyInstaller(path: var_path, os: var_os);
+  }
+
+  @protected
+  int sse_decode_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint32();
+  }
+
+  @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
   }
 
   @protected
@@ -745,12 +1955,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool sse_decode_bool(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint8() != 0;
-  }
-
-  @protected
   void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexAuth(
     ArcMutexAuth self,
@@ -759,6 +1963,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ArcMutexAuthImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+    ArcSession self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as ArcSessionImpl).frbInternalSseEncode(move: true),
       serializer,
     );
   }
@@ -778,6 +1995,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    GamesDownloader self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as GamesDownloaderImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     Session self,
     SseSerializer serializer,
@@ -791,6 +2021,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    GamesDownloader self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as GamesDownloaderImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     Session self,
     SseSerializer serializer,
@@ -798,6 +2041,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as SessionImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    GamesDownloader self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as GamesDownloaderImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -830,6 +2086,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcSession(
+    ArcSession self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as ArcSessionImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient(
     Client self,
     SseSerializer serializer,
@@ -837,6 +2106,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ClientImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+    GamesDownloader self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as GamesDownloaderImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -883,6 +2165,197 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self ? 1 : 0);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_i_64(
+    PlatformInt64 self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_64(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_64(self, serializer);
+  }
+
+  @protected
+  void sse_encode_dlc(Dlc self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_box_autoadd_u_64(self.id, serializer);
+    sse_encode_opt_String(self.title, serializer);
+  }
+
+  @protected
+  void sse_encode_download_file(DownloadFile self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.manualUrl, serializer);
+    sse_encode_opt_String(self.downloaderUrl, serializer);
+    sse_encode_opt_String(self.name, serializer);
+    sse_encode_opt_String(self.version, serializer);
+    sse_encode_opt_String(self.date, serializer);
+    sse_encode_opt_String(self.size, serializer);
+    sse_encode_opt_String(self.os, serializer);
+  }
+
+  @protected
+  void sse_encode_download_platform(
+    DownloadPlatform self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.manualUrl, serializer);
+    sse_encode_opt_String(self.downloaderUrl, serializer);
+    sse_encode_opt_String(self.name, serializer);
+    sse_encode_opt_String(self.version, serializer);
+    sse_encode_opt_String(self.date, serializer);
+    sse_encode_opt_String(self.size, serializer);
+    sse_encode_opt_String(self.os, serializer);
+  }
+
+  @protected
+  void sse_encode_downloads_by_language(
+    DownloadsByLanguage self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_download_file(self.windows, serializer);
+    sse_encode_list_download_file(self.mac, serializer);
+    sse_encode_list_download_file(self.linux, serializer);
+  }
+
+  @protected
+  void sse_encode_extra_file(ExtraFile self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.manualUrl, serializer);
+    sse_encode_opt_String(self.downloaderUrl, serializer);
+    sse_encode_opt_String(self.name, serializer);
+    sse_encode_opt_String(self.fileType, serializer);
+    sse_encode_opt_box_autoadd_u_32(self.info, serializer);
+    sse_encode_opt_String(self.size, serializer);
+  }
+
+  @protected
+  void sse_encode_game_details_response(
+    GameDetailsResponse self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.title, serializer);
+    sse_encode_opt_String(self.backgroundImage, serializer);
+    sse_encode_opt_String(self.cdKey, serializer);
+    sse_encode_opt_String(self.textInformation, serializer);
+    sse_encode_list_record_string_downloads_by_language(
+      self.downloads,
+      serializer,
+    );
+    sse_encode_list_download_platform(self.galaxyDownloads, serializer);
+    sse_encode_list_extra_file(self.extras, serializer);
+    sse_encode_list_dlc(self.dlcs, serializer);
+    sse_encode_list_String(self.tags, serializer);
+    sse_encode_opt_box_autoadd_bool(self.isPreorder, serializer);
+    sse_encode_opt_box_autoadd_i_64(self.releaseTimestamp, serializer);
+    sse_encode_list_String(self.messages, serializer);
+    sse_encode_opt_String(self.changelog, serializer);
+    sse_encode_opt_String(self.forumLink, serializer);
+    sse_encode_opt_box_autoadd_bool(self.isBaseProductMissing, serializer);
+    sse_encode_opt_String(self.missingBaseProduct, serializer);
+    sse_encode_list_String(self.features, serializer);
+    sse_encode_list_simple_galaxy_installer(
+      self.simpleGalaxyInstallers,
+      serializer,
+    );
+  }
+
+  @protected
+  void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putPlatformInt64(self);
+  }
+
+  @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_String(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_dlc(List<Dlc> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_dlc(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_download_file(
+    List<DownloadFile> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_download_file(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_download_platform(
+    List<DownloadPlatform> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_download_platform(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_extra_file(
+    List<ExtraFile> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_extra_file(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_prim_u_64_strict(
+    Uint64List self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    serializer.buffer.putUint64List(self);
+  }
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
     Uint8List self,
     SseSerializer serializer,
@@ -890,6 +2363,115 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
     serializer.buffer.putUint8List(self);
+  }
+
+  @protected
+  void sse_encode_list_record_string_downloads_by_language(
+    List<(String, DownloadsByLanguage)> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_record_string_downloads_by_language(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_simple_galaxy_installer(
+    List<SimpleGalaxyInstaller> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_simple_galaxy_installer(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_String(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_bool(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_i_64(
+    PlatformInt64? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_i_64(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_32(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_64(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_record_string_downloads_by_language(
+    (String, DownloadsByLanguage) self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.$1, serializer);
+    sse_encode_downloads_by_language(self.$2, serializer);
+  }
+
+  @protected
+  void sse_encode_simple_galaxy_installer(
+    SimpleGalaxyInstaller self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.path, serializer);
+    sse_encode_opt_String(self.os, serializer);
+  }
+
+  @protected
+  void sse_encode_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint32(self);
+  }
+
+  @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
   }
 
   @protected
@@ -914,12 +2496,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
   }
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint8(self ? 1 : 0);
-  }
 }
 
 @sealed
@@ -943,6 +2519,26 @@ class ArcMutexAuthImpl extends RustOpaque implements ArcMutexAuth {
 }
 
 @sealed
+class ArcSessionImpl extends RustOpaque implements ArcSession {
+  // Not to be used by end users
+  ArcSessionImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ArcSessionImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_ArcSession,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ArcSession,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_ArcSessionPtr,
+  );
+}
+
+@sealed
 class ClientImpl extends RustOpaque implements Client {
   // Not to be used by end users
   ClientImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -960,6 +2556,45 @@ class ClientImpl extends RustOpaque implements Client {
     rustArcDecrementStrongCountPtr:
         RustLib.instance.api.rust_arc_decrement_strong_count_ClientPtr,
   );
+}
+
+@sealed
+class GamesDownloaderImpl extends RustOpaque implements GamesDownloader {
+  // Not to be used by end users
+  GamesDownloaderImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  GamesDownloaderImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_GamesDownloader,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_GamesDownloader,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_GamesDownloaderPtr,
+  );
+
+  ArcSession get session => RustLib.instance.api
+      .crateApiGamesDownloaderGamesDownloaderAutoAccessorGetSession(that: this);
+
+  set session(ArcSession session) => RustLib.instance.api
+      .crateApiGamesDownloaderGamesDownloaderAutoAccessorSetSession(
+        that: this,
+        session: session,
+      );
+
+  Future<GameDetailsResponse> fetchGameDetails({required String gameId}) =>
+      RustLib.instance.api
+          .crateApiGamesDownloaderGamesDownloaderFetchGameDetails(
+            that: this,
+            gameId: gameId,
+          );
+
+  Future<Uint64List> fetchOwnedGameIds() => RustLib.instance.api
+      .crateApiGamesDownloaderGamesDownloaderFetchOwnedGameIds(that: this);
 }
 
 @sealed
