@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1479795822;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1956382383;
 
 // Section: executor
 
@@ -637,207 +637,6 @@ fn wire__crate__api__auth__Session_set_session_code_impl(
         },
     )
 }
-fn wire__crate__api__games_downloader__dlc_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "dlc_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(crate::api::games_downloader::Dlc::default())?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__games_downloader__download_file_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "download_file_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(crate::api::games_downloader::DownloadFile::default())?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__games_downloader__download_platform_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "download_platform_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::games_downloader::DownloadPlatform::default(),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__games_downloader__downloads_by_language_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "downloads_by_language_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::games_downloader::DownloadsByLanguage::default(),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__games_downloader__extra_file_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "extra_file_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok =
-                        Result::<_, ()>::Ok(crate::api::games_downloader::ExtraFile::default())?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__games_downloader__game_details_response_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "game_details_response_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::games_downloader::GameDetailsResponse::default(),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
 fn wire__crate__api__simple__greet_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -896,40 +695,6 @@ fn wire__crate__api__simple__init_app_impl(
                     let output_ok = Result::<_, ()>::Ok({
                         crate::api::simple::init_app();
                     })?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__games_downloader__simple_galaxy_installer_default_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "simple_galaxy_installer_default",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::games_downloader::SimpleGalaxyInstaller::default(),
-                    )?;
                     Ok(output_ok)
                 })())
             }
@@ -1093,152 +858,16 @@ impl SseDecode for crate::api::error::AuthError {
     }
 }
 
-impl SseDecode for bool {
+impl SseDecode for crate::api::games_downloader::GogDbGameBuild {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u8().unwrap() != 0
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::Dlc {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_id = <Option<u64>>::sse_decode(deserializer);
-        let mut var_title = <Option<String>>::sse_decode(deserializer);
-        return crate::api::games_downloader::Dlc {
-            id: var_id,
-            title: var_title,
-        };
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::DownloadFile {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_manualUrl = <Option<String>>::sse_decode(deserializer);
-        let mut var_downloaderUrl = <Option<String>>::sse_decode(deserializer);
-        let mut var_name = <Option<String>>::sse_decode(deserializer);
-        let mut var_version = <Option<String>>::sse_decode(deserializer);
-        let mut var_date = <Option<String>>::sse_decode(deserializer);
-        let mut var_size = <Option<String>>::sse_decode(deserializer);
-        let mut var_os = <Option<String>>::sse_decode(deserializer);
-        return crate::api::games_downloader::DownloadFile {
-            manual_url: var_manualUrl,
-            downloader_url: var_downloaderUrl,
-            name: var_name,
-            version: var_version,
-            date: var_date,
-            size: var_size,
-            os: var_os,
-        };
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::DownloadPlatform {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_manualUrl = <Option<String>>::sse_decode(deserializer);
-        let mut var_downloaderUrl = <Option<String>>::sse_decode(deserializer);
-        let mut var_name = <Option<String>>::sse_decode(deserializer);
-        let mut var_version = <Option<String>>::sse_decode(deserializer);
-        let mut var_date = <Option<String>>::sse_decode(deserializer);
-        let mut var_size = <Option<String>>::sse_decode(deserializer);
-        let mut var_os = <Option<String>>::sse_decode(deserializer);
-        return crate::api::games_downloader::DownloadPlatform {
-            manual_url: var_manualUrl,
-            downloader_url: var_downloaderUrl,
-            name: var_name,
-            version: var_version,
-            date: var_date,
-            size: var_size,
-            os: var_os,
-        };
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::DownloadsByLanguage {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_windows =
-            <Vec<crate::api::games_downloader::DownloadFile>>::sse_decode(deserializer);
-        let mut var_mac =
-            <Vec<crate::api::games_downloader::DownloadFile>>::sse_decode(deserializer);
-        let mut var_linux =
-            <Vec<crate::api::games_downloader::DownloadFile>>::sse_decode(deserializer);
-        return crate::api::games_downloader::DownloadsByLanguage {
-            windows: var_windows,
-            mac: var_mac,
-            linux: var_linux,
-        };
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::ExtraFile {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_manualUrl = <Option<String>>::sse_decode(deserializer);
-        let mut var_downloaderUrl = <Option<String>>::sse_decode(deserializer);
-        let mut var_name = <Option<String>>::sse_decode(deserializer);
-        let mut var_fileType = <Option<String>>::sse_decode(deserializer);
-        let mut var_info = <Option<u32>>::sse_decode(deserializer);
-        let mut var_size = <Option<String>>::sse_decode(deserializer);
-        return crate::api::games_downloader::ExtraFile {
-            manual_url: var_manualUrl,
-            downloader_url: var_downloaderUrl,
-            name: var_name,
-            file_type: var_fileType,
-            info: var_info,
-            size: var_size,
-        };
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::GameDetailsResponse {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_title = <Option<String>>::sse_decode(deserializer);
-        let mut var_backgroundImage = <Option<String>>::sse_decode(deserializer);
-        let mut var_cdKey = <Option<String>>::sse_decode(deserializer);
-        let mut var_textInformation = <Option<String>>::sse_decode(deserializer);
-        let mut var_downloads =
-            <Vec<(String, crate::api::games_downloader::DownloadsByLanguage)>>::sse_decode(
-                deserializer,
-            );
-        let mut var_galaxyDownloads =
-            <Vec<crate::api::games_downloader::DownloadPlatform>>::sse_decode(deserializer);
-        let mut var_extras =
-            <Vec<crate::api::games_downloader::ExtraFile>>::sse_decode(deserializer);
-        let mut var_dlcs = <Vec<crate::api::games_downloader::Dlc>>::sse_decode(deserializer);
-        let mut var_tags = <Vec<String>>::sse_decode(deserializer);
-        let mut var_isPreorder = <Option<bool>>::sse_decode(deserializer);
-        let mut var_releaseTimestamp = <Option<i64>>::sse_decode(deserializer);
-        let mut var_messages = <Vec<String>>::sse_decode(deserializer);
-        let mut var_changelog = <Option<String>>::sse_decode(deserializer);
-        let mut var_forumLink = <Option<String>>::sse_decode(deserializer);
-        let mut var_isBaseProductMissing = <Option<bool>>::sse_decode(deserializer);
-        let mut var_missingBaseProduct = <Option<String>>::sse_decode(deserializer);
-        let mut var_features = <Vec<String>>::sse_decode(deserializer);
-        let mut var_simpleGalaxyInstallers =
-            <Vec<crate::api::games_downloader::SimpleGalaxyInstaller>>::sse_decode(deserializer);
-        return crate::api::games_downloader::GameDetailsResponse {
-            title: var_title,
-            background_image: var_backgroundImage,
-            cd_key: var_cdKey,
-            text_information: var_textInformation,
-            downloads: var_downloads,
-            galaxy_downloads: var_galaxyDownloads,
-            extras: var_extras,
-            dlcs: var_dlcs,
-            tags: var_tags,
-            is_preorder: var_isPreorder,
-            release_timestamp: var_releaseTimestamp,
-            messages: var_messages,
-            changelog: var_changelog,
-            forum_link: var_forumLink,
-            is_base_product_missing: var_isBaseProductMissing,
-            missing_base_product: var_missingBaseProduct,
-            features: var_features,
-            simple_galaxy_installers: var_simpleGalaxyInstallers,
+        let mut var_datePublished = <Option<String>>::sse_decode(deserializer);
+        let mut var_generation = <Option<i32>>::sse_decode(deserializer);
+        let mut var_link = <Option<String>>::sse_decode(deserializer);
+        return crate::api::games_downloader::GogDbGameBuild {
+            date_published: var_datePublished,
+            generation: var_generation,
+            link: var_link,
         };
     }
 }
@@ -1249,80 +878,31 @@ impl SseDecode for crate::api::games_downloader::GogDbGameDetails {
         let mut var_title = <Option<String>>::sse_decode(deserializer);
         let mut var_imageBoxart = <Option<String>>::sse_decode(deserializer);
         let mut var_productType = <Option<String>>::sse_decode(deserializer);
+        let mut var_builds =
+            <Vec<crate::api::games_downloader::GogDbGameBuild>>::sse_decode(deserializer);
         return crate::api::games_downloader::GogDbGameDetails {
             title: var_title,
             image_boxart: var_imageBoxart,
             product_type: var_productType,
+            builds: var_builds,
         };
     }
 }
 
-impl SseDecode for i64 {
+impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i64::<NativeEndian>().unwrap()
+        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
     }
 }
 
-impl SseDecode for Vec<String> {
+impl SseDecode for Vec<crate::api::games_downloader::GogDbGameBuild> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut len_ = <i32>::sse_decode(deserializer);
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
-            ans_.push(<String>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<crate::api::games_downloader::Dlc> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<crate::api::games_downloader::Dlc>::sse_decode(
-                deserializer,
-            ));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<crate::api::games_downloader::DownloadFile> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<crate::api::games_downloader::DownloadFile>::sse_decode(
-                deserializer,
-            ));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<crate::api::games_downloader::DownloadPlatform> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<crate::api::games_downloader::DownloadPlatform>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<crate::api::games_downloader::ExtraFile> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<crate::api::games_downloader::ExtraFile>::sse_decode(
+            ans_.push(<crate::api::games_downloader::GogDbGameBuild>::sse_decode(
                 deserializer,
             ));
         }
@@ -1354,36 +934,6 @@ impl SseDecode for Vec<u8> {
     }
 }
 
-impl SseDecode for Vec<(String, crate::api::games_downloader::DownloadsByLanguage)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(
-                <(String, crate::api::games_downloader::DownloadsByLanguage)>::sse_decode(
-                    deserializer,
-                ),
-            );
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<crate::api::games_downloader::SimpleGalaxyInstaller> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(
-                <crate::api::games_downloader::SimpleGalaxyInstaller>::sse_decode(deserializer),
-            );
-        }
-        return ans_;
-    }
-}
-
 impl SseDecode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1395,76 +945,14 @@ impl SseDecode for Option<String> {
     }
 }
 
-impl SseDecode for Option<bool> {
+impl SseDecode for Option<i32> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
-            return Some(<bool>::sse_decode(deserializer));
+            return Some(<i32>::sse_decode(deserializer));
         } else {
             return None;
         }
-    }
-}
-
-impl SseDecode for Option<i64> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<i64>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<u32> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<u32>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for Option<u64> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<u64>::sse_decode(deserializer));
-        } else {
-            return None;
-        }
-    }
-}
-
-impl SseDecode for (String, crate::api::games_downloader::DownloadsByLanguage) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_field0 = <String>::sse_decode(deserializer);
-        let mut var_field1 =
-            <crate::api::games_downloader::DownloadsByLanguage>::sse_decode(deserializer);
-        return (var_field0, var_field1);
-    }
-}
-
-impl SseDecode for crate::api::games_downloader::SimpleGalaxyInstaller {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_path = <Option<String>>::sse_decode(deserializer);
-        let mut var_os = <Option<String>>::sse_decode(deserializer);
-        return crate::api::games_downloader::SimpleGalaxyInstaller {
-            path: var_path,
-            os: var_os,
-        };
-    }
-}
-
-impl SseDecode for u32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_u32::<NativeEndian>().unwrap()
     }
 }
 
@@ -1494,10 +982,10 @@ impl SseDecode for usize {
     }
 }
 
-impl SseDecode for i32 {
+impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        deserializer.cursor.read_i32::<NativeEndian>().unwrap()
+        deserializer.cursor.read_u8().unwrap() != 0
     }
 }
 
@@ -1526,46 +1014,7 @@ fn pde_ffi_dispatcher_primary_impl(
         12 => {
             wire__crate__api__auth__Session_set_session_code_impl(port, ptr, rust_vec_len, data_len)
         }
-        13 => {
-            wire__crate__api__games_downloader__dlc_default_impl(port, ptr, rust_vec_len, data_len)
-        }
-        14 => wire__crate__api__games_downloader__download_file_default_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        15 => wire__crate__api__games_downloader__download_platform_default_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        16 => wire__crate__api__games_downloader__downloads_by_language_default_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        17 => wire__crate__api__games_downloader__extra_file_default_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        18 => wire__crate__api__games_downloader__game_details_response_default_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        20 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
-        21 => wire__crate__api__games_downloader__simple_galaxy_installer_default_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
+        14 => wire__crate__api__simple__init_app_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1610,7 +1059,7 @@ fn pde_ffi_dispatcher_sync_impl(
             data_len,
         ),
         11 => wire__crate__api__auth__Session_new_impl(ptr, rust_vec_len, data_len),
-        19 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
+        13 => wire__crate__api__simple__greet_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -1726,159 +1175,24 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::AuthError>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::Dlc {
+impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::GogDbGameBuild {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
-            self.id.into_into_dart().into_dart(),
-            self.title.into_into_dart().into_dart(),
+            self.date_published.into_into_dart().into_dart(),
+            self.generation.into_into_dart().into_dart(),
+            self.link.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::Dlc
+    for crate::api::games_downloader::GogDbGameBuild
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::Dlc>
-    for crate::api::games_downloader::Dlc
+impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::GogDbGameBuild>
+    for crate::api::games_downloader::GogDbGameBuild
 {
-    fn into_into_dart(self) -> crate::api::games_downloader::Dlc {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::DownloadFile {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.manual_url.into_into_dart().into_dart(),
-            self.downloader_url.into_into_dart().into_dart(),
-            self.name.into_into_dart().into_dart(),
-            self.version.into_into_dart().into_dart(),
-            self.date.into_into_dart().into_dart(),
-            self.size.into_into_dart().into_dart(),
-            self.os.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::DownloadFile
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::DownloadFile>
-    for crate::api::games_downloader::DownloadFile
-{
-    fn into_into_dart(self) -> crate::api::games_downloader::DownloadFile {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::DownloadPlatform {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.manual_url.into_into_dart().into_dart(),
-            self.downloader_url.into_into_dart().into_dart(),
-            self.name.into_into_dart().into_dart(),
-            self.version.into_into_dart().into_dart(),
-            self.date.into_into_dart().into_dart(),
-            self.size.into_into_dart().into_dart(),
-            self.os.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::DownloadPlatform
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::DownloadPlatform>
-    for crate::api::games_downloader::DownloadPlatform
-{
-    fn into_into_dart(self) -> crate::api::games_downloader::DownloadPlatform {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::DownloadsByLanguage {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.windows.into_into_dart().into_dart(),
-            self.mac.into_into_dart().into_dart(),
-            self.linux.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::DownloadsByLanguage
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::DownloadsByLanguage>
-    for crate::api::games_downloader::DownloadsByLanguage
-{
-    fn into_into_dart(self) -> crate::api::games_downloader::DownloadsByLanguage {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::ExtraFile {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.manual_url.into_into_dart().into_dart(),
-            self.downloader_url.into_into_dart().into_dart(),
-            self.name.into_into_dart().into_dart(),
-            self.file_type.into_into_dart().into_dart(),
-            self.info.into_into_dart().into_dart(),
-            self.size.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::ExtraFile
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::ExtraFile>
-    for crate::api::games_downloader::ExtraFile
-{
-    fn into_into_dart(self) -> crate::api::games_downloader::ExtraFile {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::GameDetailsResponse {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.title.into_into_dart().into_dart(),
-            self.background_image.into_into_dart().into_dart(),
-            self.cd_key.into_into_dart().into_dart(),
-            self.text_information.into_into_dart().into_dart(),
-            self.downloads.into_into_dart().into_dart(),
-            self.galaxy_downloads.into_into_dart().into_dart(),
-            self.extras.into_into_dart().into_dart(),
-            self.dlcs.into_into_dart().into_dart(),
-            self.tags.into_into_dart().into_dart(),
-            self.is_preorder.into_into_dart().into_dart(),
-            self.release_timestamp.into_into_dart().into_dart(),
-            self.messages.into_into_dart().into_dart(),
-            self.changelog.into_into_dart().into_dart(),
-            self.forum_link.into_into_dart().into_dart(),
-            self.is_base_product_missing.into_into_dart().into_dart(),
-            self.missing_base_product.into_into_dart().into_dart(),
-            self.features.into_into_dart().into_dart(),
-            self.simple_galaxy_installers.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::GameDetailsResponse
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::GameDetailsResponse>
-    for crate::api::games_downloader::GameDetailsResponse
-{
-    fn into_into_dart(self) -> crate::api::games_downloader::GameDetailsResponse {
+    fn into_into_dart(self) -> crate::api::games_downloader::GogDbGameBuild {
         self
     }
 }
@@ -1889,6 +1203,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::GogDbGameDe
             self.title.into_into_dart().into_dart(),
             self.image_boxart.into_into_dart().into_dart(),
             self.product_type.into_into_dart().into_dart(),
+            self.builds.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -1901,27 +1216,6 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::GogDbGameDe
     for crate::api::games_downloader::GogDbGameDetails
 {
     fn into_into_dart(self) -> crate::api::games_downloader::GogDbGameDetails {
-        self
-    }
-}
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::SimpleGalaxyInstaller {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        [
-            self.path.into_into_dart().into_dart(),
-            self.os.into_into_dart().into_dart(),
-        ]
-        .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::games_downloader::SimpleGalaxyInstaller
-{
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::SimpleGalaxyInstaller>
-    for crate::api::games_downloader::SimpleGalaxyInstaller
-{
-    fn into_into_dart(self) -> crate::api::games_downloader::SimpleGalaxyInstaller {
         self
     }
 }
@@ -2050,98 +1344,12 @@ impl SseEncode for crate::api::error::AuthError {
     }
 }
 
-impl SseEncode for bool {
+impl SseEncode for crate::api::games_downloader::GogDbGameBuild {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u8(self as _).unwrap();
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::Dlc {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<u64>>::sse_encode(self.id, serializer);
-        <Option<String>>::sse_encode(self.title, serializer);
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::DownloadFile {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<String>>::sse_encode(self.manual_url, serializer);
-        <Option<String>>::sse_encode(self.downloader_url, serializer);
-        <Option<String>>::sse_encode(self.name, serializer);
-        <Option<String>>::sse_encode(self.version, serializer);
-        <Option<String>>::sse_encode(self.date, serializer);
-        <Option<String>>::sse_encode(self.size, serializer);
-        <Option<String>>::sse_encode(self.os, serializer);
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::DownloadPlatform {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<String>>::sse_encode(self.manual_url, serializer);
-        <Option<String>>::sse_encode(self.downloader_url, serializer);
-        <Option<String>>::sse_encode(self.name, serializer);
-        <Option<String>>::sse_encode(self.version, serializer);
-        <Option<String>>::sse_encode(self.date, serializer);
-        <Option<String>>::sse_encode(self.size, serializer);
-        <Option<String>>::sse_encode(self.os, serializer);
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::DownloadsByLanguage {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Vec<crate::api::games_downloader::DownloadFile>>::sse_encode(self.windows, serializer);
-        <Vec<crate::api::games_downloader::DownloadFile>>::sse_encode(self.mac, serializer);
-        <Vec<crate::api::games_downloader::DownloadFile>>::sse_encode(self.linux, serializer);
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::ExtraFile {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<String>>::sse_encode(self.manual_url, serializer);
-        <Option<String>>::sse_encode(self.downloader_url, serializer);
-        <Option<String>>::sse_encode(self.name, serializer);
-        <Option<String>>::sse_encode(self.file_type, serializer);
-        <Option<u32>>::sse_encode(self.info, serializer);
-        <Option<String>>::sse_encode(self.size, serializer);
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::GameDetailsResponse {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<String>>::sse_encode(self.title, serializer);
-        <Option<String>>::sse_encode(self.background_image, serializer);
-        <Option<String>>::sse_encode(self.cd_key, serializer);
-        <Option<String>>::sse_encode(self.text_information, serializer);
-        <Vec<(String, crate::api::games_downloader::DownloadsByLanguage)>>::sse_encode(
-            self.downloads,
-            serializer,
-        );
-        <Vec<crate::api::games_downloader::DownloadPlatform>>::sse_encode(
-            self.galaxy_downloads,
-            serializer,
-        );
-        <Vec<crate::api::games_downloader::ExtraFile>>::sse_encode(self.extras, serializer);
-        <Vec<crate::api::games_downloader::Dlc>>::sse_encode(self.dlcs, serializer);
-        <Vec<String>>::sse_encode(self.tags, serializer);
-        <Option<bool>>::sse_encode(self.is_preorder, serializer);
-        <Option<i64>>::sse_encode(self.release_timestamp, serializer);
-        <Vec<String>>::sse_encode(self.messages, serializer);
-        <Option<String>>::sse_encode(self.changelog, serializer);
-        <Option<String>>::sse_encode(self.forum_link, serializer);
-        <Option<bool>>::sse_encode(self.is_base_product_missing, serializer);
-        <Option<String>>::sse_encode(self.missing_base_product, serializer);
-        <Vec<String>>::sse_encode(self.features, serializer);
-        <Vec<crate::api::games_downloader::SimpleGalaxyInstaller>>::sse_encode(
-            self.simple_galaxy_installers,
-            serializer,
-        );
+        <Option<String>>::sse_encode(self.date_published, serializer);
+        <Option<i32>>::sse_encode(self.generation, serializer);
+        <Option<String>>::sse_encode(self.link, serializer);
     }
 }
 
@@ -2151,62 +1359,23 @@ impl SseEncode for crate::api::games_downloader::GogDbGameDetails {
         <Option<String>>::sse_encode(self.title, serializer);
         <Option<String>>::sse_encode(self.image_boxart, serializer);
         <Option<String>>::sse_encode(self.product_type, serializer);
+        <Vec<crate::api::games_downloader::GogDbGameBuild>>::sse_encode(self.builds, serializer);
     }
 }
 
-impl SseEncode for i64 {
+impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
+        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
     }
 }
 
-impl SseEncode for Vec<String> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <String>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<crate::api::games_downloader::Dlc> {
+impl SseEncode for Vec<crate::api::games_downloader::GogDbGameBuild> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
-            <crate::api::games_downloader::Dlc>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<crate::api::games_downloader::DownloadFile> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <crate::api::games_downloader::DownloadFile>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<crate::api::games_downloader::DownloadPlatform> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <crate::api::games_downloader::DownloadPlatform>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<crate::api::games_downloader::ExtraFile> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <crate::api::games_downloader::ExtraFile>::sse_encode(item, serializer);
+            <crate::api::games_downloader::GogDbGameBuild>::sse_encode(item, serializer);
         }
     }
 }
@@ -2231,28 +1400,6 @@ impl SseEncode for Vec<u8> {
     }
 }
 
-impl SseEncode for Vec<(String, crate::api::games_downloader::DownloadsByLanguage)> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <(String, crate::api::games_downloader::DownloadsByLanguage)>::sse_encode(
-                item, serializer,
-            );
-        }
-    }
-}
-
-impl SseEncode for Vec<crate::api::games_downloader::SimpleGalaxyInstaller> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <crate::api::games_downloader::SimpleGalaxyInstaller>::sse_encode(item, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -2263,66 +1410,13 @@ impl SseEncode for Option<String> {
     }
 }
 
-impl SseEncode for Option<bool> {
+impl SseEncode for Option<i32> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
-            <bool>::sse_encode(value, serializer);
+            <i32>::sse_encode(value, serializer);
         }
-    }
-}
-
-impl SseEncode for Option<i64> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <i64>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<u32> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <u32>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for Option<u64> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <u64>::sse_encode(value, serializer);
-        }
-    }
-}
-
-impl SseEncode for (String, crate::api::games_downloader::DownloadsByLanguage) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <String>::sse_encode(self.0, serializer);
-        <crate::api::games_downloader::DownloadsByLanguage>::sse_encode(self.1, serializer);
-    }
-}
-
-impl SseEncode for crate::api::games_downloader::SimpleGalaxyInstaller {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <Option<String>>::sse_encode(self.path, serializer);
-        <Option<String>>::sse_encode(self.os, serializer);
-    }
-}
-
-impl SseEncode for u32 {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_u32::<NativeEndian>(self).unwrap();
     }
 }
 
@@ -2355,10 +1449,10 @@ impl SseEncode for usize {
     }
 }
 
-impl SseEncode for i32 {
+impl SseEncode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer.cursor.write_i32::<NativeEndian>(self).unwrap();
+        serializer.cursor.write_u8(self as _).unwrap();
     }
 }
 
