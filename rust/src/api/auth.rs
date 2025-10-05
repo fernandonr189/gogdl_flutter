@@ -48,7 +48,7 @@ impl Session {
         let mut auth = self.auth.lock().await;
         auth.session_code = Some(session_code);
     }
-    //#[frb]
+    #[frb]
     pub async fn login(&self) -> Result<(), AuthError> {
         let code_opt = {
             let auth = self.auth.lock().await;
@@ -86,6 +86,7 @@ impl Session {
             }
             Err(err) => return Err(AuthError::Network(err.to_string())),
         };
+        println!("Logged in successfully!");
         {
             let mut auth = self.auth.lock().await;
             auth.gog_token = Some(json.clone());
