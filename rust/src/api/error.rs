@@ -38,6 +38,7 @@ impl Display for DownloaderError {
         match self {
             DownloaderError::GetLatestBuildError(str) => write!(f, "{}", str),
             DownloaderError::MissingManifestUrl => write!(f, "Missing manifest URL"),
+            DownloaderError::RequestError(str) => write!(f, "Request failed with error: {}", str),
         }
     }
 }
