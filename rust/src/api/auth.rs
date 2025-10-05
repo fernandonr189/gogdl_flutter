@@ -149,7 +149,6 @@ impl Session {
                 let mut d = ZlibDecoder::new(&bytes[..]);
                 let mut s = String::new();
                 d.read_to_string(&mut s).unwrap();
-                println!("Decompressed data: {}", s);
                 match serde_json::from_str::<T>(&s) {
                     Ok(data) => Ok(data),
                     Err(err) => Err(AuthError::Network(err.to_string())),

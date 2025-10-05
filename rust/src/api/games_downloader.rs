@@ -70,9 +70,9 @@ pub struct GogDbBuildManifest {
 #[derive(Deserialize, Debug)]
 pub struct Depot {
     #[serde(rename = "compressedSize")]
-    pub compressed_size: i32,
+    pub compressed_size: u64,
     pub manifest: String,
-    pub size: i32,
+    pub size: u64,
 }
 
 #[derive(Deserialize, Debug)]
