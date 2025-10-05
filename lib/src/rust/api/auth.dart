@@ -32,7 +32,5 @@ abstract class Session implements RustOpaqueInterface {
 
   factory Session() => RustLib.instance.api.crateApiAuthSessionNew();
 
-  void openBrowser();
-
   Future<void> setSessionCode({required String sessionCode});
 }

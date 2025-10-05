@@ -30,26 +30,6 @@ pub struct Session {
 
 impl Session {
     #[frb(sync)]
-    pub fn open_browser(&self) -> Result<(), AuthError> {
-        let mut url = match url::Url::parse(&format!("{}/auth", GOG_AUTH_URL)) {
-            Ok(url) => url,
-            Err(err) => return Err(AuthError::UrlError(err.to_string())),
-        };
-        url.query_pairs_mut()
-            .append_pair("client_id", GOG_CLIENT_ID);
-        url.query_pairs_mut()
-            .append_pair("client_secret", GOG_CLIENT_SECRET);
-        url.query_pairs_mut()
-            .append_pair("redirect_uri", GOG_REDIRECT_URI);
-        url.query_pairs_mut()
-            .append_pair("response_type", GOG_RESPONSE_TYPE);
-        url.query_pairs_mut().append_pair("layout", GOG_LAYOUT);
-        match open::that(url.as_str()) {
-            Ok(_) => Ok(()),
-            Err(err) => Err(AuthError::Io(err.to_string())),
-        }
-    }
-    #[frb(sync)]
     pub fn new() -> Self {
         let client = reqwest::Client::builder()
             .user_agent("GogDownloader/1.0")
