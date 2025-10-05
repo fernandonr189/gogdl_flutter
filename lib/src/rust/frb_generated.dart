@@ -90,7 +90,7 @@ abstract class RustLibApi extends BaseApi {
     required ArcSession session,
   });
 
-  Future<GameDetailsResponse>
+  Future<GogDbGameDetails>
   crateApiGamesDownloaderGamesDownloaderFetchGameDetails({
     required GamesDownloader that,
     required String gameId,
@@ -269,7 +269,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<GameDetailsResponse>
+  Future<GogDbGameDetails>
   crateApiGamesDownloaderGamesDownloaderFetchGameDetails({
     required GamesDownloader that,
     required String gameId,
@@ -291,7 +291,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_game_details_response,
+          decodeSuccessData: sse_decode_gog_db_game_details,
           decodeErrorData: sse_decode_auth_error,
         ),
         constMeta:
@@ -1212,6 +1212,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GogDbGameDetails dco_decode_gog_db_game_details(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return GogDbGameDetails(
+      title: dco_decode_opt_String(arr[0]),
+      imageBoxart: dco_decode_opt_String(arr[1]),
+      productType: dco_decode_opt_String(arr[2]),
+    );
+  }
+
+  @protected
   PlatformInt64 dco_decode_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64(raw);
@@ -1728,6 +1741,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       missingBaseProduct: var_missingBaseProduct,
       features: var_features,
       simpleGalaxyInstallers: var_simpleGalaxyInstallers,
+    );
+  }
+
+  @protected
+  GogDbGameDetails sse_decode_gog_db_game_details(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_title = sse_decode_opt_String(deserializer);
+    var var_imageBoxart = sse_decode_opt_String(deserializer);
+    var var_productType = sse_decode_opt_String(deserializer);
+    return GogDbGameDetails(
+      title: var_title,
+      imageBoxart: var_imageBoxart,
+      productType: var_productType,
     );
   }
 
@@ -2286,6 +2314,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_gog_db_game_details(
+    GogDbGameDetails self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_opt_String(self.title, serializer);
+    sse_encode_opt_String(self.imageBoxart, serializer);
+    sse_encode_opt_String(self.productType, serializer);
+  }
+
+  @protected
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putPlatformInt64(self);
@@ -2586,12 +2625,13 @@ class GamesDownloaderImpl extends RustOpaque implements GamesDownloader {
         session: session,
       );
 
-  Future<GameDetailsResponse> fetchGameDetails({required String gameId}) =>
-      RustLib.instance.api
-          .crateApiGamesDownloaderGamesDownloaderFetchGameDetails(
-            that: this,
-            gameId: gameId,
-          );
+  Future<GogDbGameDetails> fetchGameDetails({required String gameId}) => RustLib
+      .instance
+      .api
+      .crateApiGamesDownloaderGamesDownloaderFetchGameDetails(
+        that: this,
+        gameId: gameId,
+      );
 
   Future<Uint64List> fetchOwnedGameIds() => RustLib.instance.api
       .crateApiGamesDownloaderGamesDownloaderFetchOwnedGameIds(that: this);

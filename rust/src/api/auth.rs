@@ -117,6 +117,28 @@ impl Session {
         });
         Ok(())
     }
+    pub async fn get_request_unauthorized<T>(&self, query: String) -> Result<T, AuthError>
+    where
+        T: serde::de::DeserializeOwned,
+    {
+        let result = self.client.get(query).send().await;
+        match result {
+            Ok(res) => {
+                if res.status().as_u16() != 200 {
+                    Err(AuthError::Network(format!(
+                        "Request failed with status {}",
+                        res.status().as_str()
+                    )))
+                } else {
+                    match res.json::<T>().await {
+                        Ok(t) => Ok(t),
+                        Err(err) => Err(AuthError::InvalidResponse(err.to_string())),
+                    }
+                }
+            }
+            Err(err) => Err(AuthError::Network(err.to_string())),
+        }
+    }
     pub async fn get_request<T>(&self, query: String) -> Result<T, AuthError>
     where
         T: serde::de::DeserializeOwned,

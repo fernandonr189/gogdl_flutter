@@ -1289,6 +1289,20 @@ impl SseDecode for crate::api::games_downloader::GameDetailsResponse {
     }
 }
 
+impl SseDecode for crate::api::games_downloader::GogDbGameDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_title = <Option<String>>::sse_decode(deserializer);
+        let mut var_imageBoxart = <Option<String>>::sse_decode(deserializer);
+        let mut var_productType = <Option<String>>::sse_decode(deserializer);
+        return crate::api::games_downloader::GogDbGameDetails {
+            title: var_title,
+            image_boxart: var_imageBoxart,
+            product_type: var_productType,
+        };
+    }
+}
+
 impl SseDecode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1916,6 +1930,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::GameDetails
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::GogDbGameDetails {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.title.into_into_dart().into_dart(),
+            self.image_boxart.into_into_dart().into_dart(),
+            self.product_type.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::games_downloader::GogDbGameDetails
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::GogDbGameDetails>
+    for crate::api::games_downloader::GogDbGameDetails
+{
+    fn into_into_dart(self) -> crate::api::games_downloader::GogDbGameDetails {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::SimpleGalaxyInstaller {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -2153,6 +2189,15 @@ impl SseEncode for crate::api::games_downloader::GameDetailsResponse {
             self.simple_galaxy_installers,
             serializer,
         );
+    }
+}
+
+impl SseEncode for crate::api::games_downloader::GogDbGameDetails {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<String>>::sse_encode(self.title, serializer);
+        <Option<String>>::sse_encode(self.image_boxart, serializer);
+        <Option<String>>::sse_encode(self.product_type, serializer);
     }
 }
 

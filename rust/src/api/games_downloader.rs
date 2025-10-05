@@ -22,14 +22,22 @@ impl GamesDownloader {
         Ok(resp.owned)
     }
     #[frb]
-    pub async fn fetch_game_details(
-        &self,
-        game_id: String,
-    ) -> Result<GameDetailsResponse, AuthError> {
-        let url = format!("https://embed.gog.com/account/gameDetails/{}.json", game_id);
-        let resp: GameDetailsResponse = self.session.get_request(url).await?;
+    pub async fn fetch_game_details(&self, game_id: String) -> Result<GogDbGameDetails, AuthError> {
+        let url = format!(
+            "https://www.gogdb.org/data/products/{}/product.json",
+            game_id
+        );
+        let resp: GogDbGameDetails = self.session.get_request(url).await?;
         Ok(resp)
     }
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GogDbGameDetails {
+    pub title: Option<String>,
+    pub image_boxart: Option<String>,
+    #[serde(rename = "type")]
+    pub product_type: Option<String>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -41,6 +49,7 @@ pub struct OwnedGamesResponse {
 #[serde(default)]
 pub struct GameDetailsResponse {
     pub title: Option<String>,
+    #[serde(rename = "backgroundImage")]
     pub background_image: Option<String>,
     pub cd_key: Option<String>,
     pub text_information: Option<String>,

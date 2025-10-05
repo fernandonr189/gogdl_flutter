@@ -166,6 +166,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   GameDetailsResponse dco_decode_game_details_response(dynamic raw);
 
   @protected
+  GogDbGameDetails dco_decode_gog_db_game_details(dynamic raw);
+
+  @protected
   PlatformInt64 dco_decode_i_64(dynamic raw);
 
   @protected
@@ -362,6 +365,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   GameDetailsResponse sse_decode_game_details_response(
     SseDeserializer deserializer,
   );
+
+  @protected
+  GogDbGameDetails sse_decode_gog_db_game_details(SseDeserializer deserializer);
 
   @protected
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer);
@@ -591,6 +597,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_game_details_response(
     GameDetailsResponse self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_gog_db_game_details(
+    GogDbGameDetails self,
     SseSerializer serializer,
   );
 

@@ -10,7 +10,7 @@ import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `OwnedGamesResponse`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>>
 abstract class GamesDownloader implements RustOpaqueInterface {
@@ -18,7 +18,7 @@ abstract class GamesDownloader implements RustOpaqueInterface {
 
   set session(ArcSession session);
 
-  Future<GameDetailsResponse> fetchGameDetails({required String gameId});
+  Future<GogDbGameDetails> fetchGameDetails({required String gameId});
 
   Future<Uint64List> fetchOwnedGameIds();
 
@@ -296,6 +296,27 @@ class GameDetailsResponse {
           missingBaseProduct == other.missingBaseProduct &&
           features == other.features &&
           simpleGalaxyInstallers == other.simpleGalaxyInstallers;
+}
+
+class GogDbGameDetails {
+  final String? title;
+  final String? imageBoxart;
+  final String? productType;
+
+  const GogDbGameDetails({this.title, this.imageBoxart, this.productType});
+
+  @override
+  int get hashCode =>
+      title.hashCode ^ imageBoxart.hashCode ^ productType.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GogDbGameDetails &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          imageBoxart == other.imageBoxart &&
+          productType == other.productType;
 }
 
 class SimpleGalaxyInstaller {
