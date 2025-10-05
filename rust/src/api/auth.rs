@@ -90,7 +90,6 @@ impl Session {
             let mut auth = self.auth.lock().await;
             auth.gog_token = Some(json.clone());
         };
-        println!("Logged in successfully!: {:?}", json);
         let this = self.clone();
         tokio::spawn(async move {
             this.token_refresh_task(json.expires_in - 5).await;
