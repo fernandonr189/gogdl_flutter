@@ -52,7 +52,7 @@ impl GamesDownloader {
         }
         for chunk in download_chunks {
             println!("===================================================");
-            println!("{:?}\n\n\n\n", chunk.path);
+            println!("{:?}\n\n\n\n", chunk);
         }
         Ok(())
     }
