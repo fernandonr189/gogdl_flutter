@@ -6,7 +6,10 @@ use reqwest::StatusCode;
 use serde::Deserialize;
 use tokio::sync::Mutex;
 
-use crate::api::error::AuthError;
+use crate::api::{
+    error::{AuthError, DownloaderError},
+    games_downloader::{DepotChunk, FileDownload},
+};
 
 pub const GOG_AUTH_URL: &str = "https://auth.gog.com";
 pub const GOG_CLIENT_ID: &str = "46899977096215655";
@@ -199,6 +202,40 @@ impl Session {
             }
             Err(err) => Err(AuthError::Network(err.to_string())),
         }
+    }
+    pub async fn download_chunk(
+        &self,
+        file: &FileDownload,
+        chunk: &DepotChunk,
+    ) -> Result<(), AuthError> {
+        let url = format!(
+            "https://cdn.gog.com/content-system/v2/chunks/{}/{}",
+            &chunk.md5.as_ref().unwrap()[..2],
+            chunk.md5.as_ref().unwrap()
+        );
+        let token = {
+            let auth = self.auth.lock().await.gog_token.clone();
+            if let Some(token) = auth {
+                token.access_token
+            } else {
+                return Err(AuthError::Auth("No auth token".to_owned()));
+            }
+        };
+        let response = self
+            .client
+            .get(url)
+            .header("Authorization", format!("Bearer {}", token))
+            .send()
+            .await;
+        let _bytes = match response {
+            Ok(response) => match response.bytes().await {
+                Ok(bytes) => bytes,
+                Err(err) => return Err(AuthError::Network(err.to_string())),
+            },
+            Err(err) => return Err(AuthError::Network(err.to_string())),
+        };
+        // TODO: append to file
+        Ok(())
     }
     async fn token_refresh_task(&self, interval: i64) {
         loop {

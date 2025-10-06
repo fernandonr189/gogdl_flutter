@@ -9,9 +9,9 @@ import 'auth.dart';
 import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `get_build_manifest`, `get_depot_manifests`
+// These functions are ignored because they are not marked as `pub`: `generate_files_queue`, `get_build_manifest`, `get_depot_manifests`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Depot`, `GogDbBuildManifest`, `OwnedGamesResponse`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotData>>
 abstract class DepotData implements RustOpaqueInterface {
@@ -68,8 +68,8 @@ abstract class GamesDownloader implements RustOpaqueInterface {
 
   set session(ArcSession session);
 
-  Future<List<FileDownload>> createGameDownloadQueue({
-    required GogDbGameDetails gameDetails,
+  Stream<DownloadProgress> downloadAllFilesWithProgress({
+    required List<FileDownload> files,
   });
 
   Future<GogDbGameDetails> fetchGameDetails({required String gameId});
@@ -112,6 +112,31 @@ class DepotChunk {
           compressedSize == other.compressedSize &&
           md5 == other.md5 &&
           size == other.size;
+}
+
+class DownloadProgress {
+  final BigInt downloadedBytes;
+  final BigInt totalBytes;
+  final double percentage;
+
+  const DownloadProgress({
+    required this.downloadedBytes,
+    required this.totalBytes,
+    required this.percentage,
+  });
+
+  @override
+  int get hashCode =>
+      downloadedBytes.hashCode ^ totalBytes.hashCode ^ percentage.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DownloadProgress &&
+          runtimeType == other.runtimeType &&
+          downloadedBytes == other.downloadedBytes &&
+          totalBytes == other.totalBytes &&
+          percentage == other.percentage;
 }
 
 class FileDownload {

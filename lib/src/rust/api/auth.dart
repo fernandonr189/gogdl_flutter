@@ -5,6 +5,7 @@
 
 import '../frb_generated.dart';
 import 'error.dart';
+import 'games_downloader.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `token_refresh_task`
@@ -27,6 +28,11 @@ abstract class Session implements RustOpaqueInterface {
   set auth(ArcMutexAuth auth);
 
   set client(Client client);
+
+  Future<void> downloadChunk({
+    required FileDownload file,
+    required DepotChunk chunk,
+  });
 
   Future<void> login();
 

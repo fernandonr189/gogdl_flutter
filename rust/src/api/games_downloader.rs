@@ -1,6 +1,9 @@
-use crate::api::{
-    auth::Session,
-    error::{AuthError, DownloaderError},
+use crate::{
+    api::{
+        auth::Session,
+        error::{AuthError, DownloaderError},
+    },
+    frb_generated::StreamSink,
 };
 use chrono::{DateTime, FixedOffset};
 use flutter_rust_bridge::frb;
@@ -35,9 +38,9 @@ impl GamesDownloader {
         Ok(resp)
     }
     #[frb]
-    pub async fn create_game_download_queue(
+    async fn generate_files_queue(
         &self,
-        game_details: GogDbGameDetails,
+        game_details: &GogDbGameDetails,
     ) -> Result<Vec<FileDownload>, DownloaderError> {
         let latest_build = game_details.get_latest_build()?;
         let manifest = self.get_build_manifest(latest_build).await?;
@@ -45,21 +48,6 @@ impl GamesDownloader {
         let mut download_chunks: Vec<FileDownload> = Vec::new();
         for depot in depots {
             for item in depot.items {
-                println!(
-                    "File path: {}\nFile type: {}\nFile size: {} bytes\nCompressed size: {} bytes\n\n\n",
-                    item.path.clone().unwrap_or("None".to_string()),
-                    item.file_type.unwrap_or("None".to_string()),
-                    item.chunks.clone()
-                        .unwrap_or(vec![])
-                        .iter()
-                        .map(|f| f.size.unwrap_or(0))
-                        .sum::<u64>(),
-                    item.chunks.clone()
-                        .unwrap_or(vec![])
-                        .iter()
-                        .map(|f| f.compressed_size.unwrap_or(0))
-                        .sum::<u64>()
-                );
                 if !item.path.is_none() && !item.chunks.is_none() && !item.depot_manifest.is_none()
                 {
                     let download_file = FileDownload {
@@ -71,7 +59,6 @@ impl GamesDownloader {
                 }
             }
         }
-
         Ok(download_chunks)
     }
     async fn get_depot_manifests(
@@ -125,8 +112,71 @@ impl GamesDownloader {
         };
         Ok(manifest)
     }
-}
+    #[frb]
+    pub async fn download_all_files_with_progress(
+        &self,
+        files: Vec<FileDownload>,
+        sink: StreamSink<DownloadProgress>,
+    ) -> Result<(), DownloaderError> {
+        let session_clone = self.session.clone();
+        tokio::spawn(async move {
+            let semaphore = Arc::new(tokio::sync::Semaphore::new(10)); // 10 concurrent downloads
+            let total_bytes: u64 = files
+                .iter()
+                .flat_map(|f| f.chunks.iter().filter_map(|c| c.size))
+                .sum();
 
+            let completed_bytes = Arc::new(tokio::sync::Mutex::new(0u64));
+
+            let mut handles = Vec::new();
+
+            for file in files {
+                for chunk in file.clone().chunks {
+                    let permit = semaphore.clone().acquire_owned().await.unwrap();
+                    let completed_bytes = completed_bytes.clone();
+                    let sink_clone = sink.clone();
+                    let file_clone = file.clone();
+                    let session_clone = session_clone.clone();
+
+                    handles.push(tokio::spawn(async move {
+                        // 1️⃣ download the chunk
+                        if let Err(e) = session_clone.download_chunk(&file_clone, &chunk).await {
+                            eprintln!("Chunk failed: {}", e);
+                        }
+
+                        // 2️⃣ update total progress
+                        if let Some(size) = chunk.size {
+                            let mut completed = completed_bytes.lock().await;
+                            *completed += size;
+                            let progress = (*completed as f64 / total_bytes as f64) * 100.0;
+                            match sink_clone.add(DownloadProgress {
+                                downloaded_bytes: *completed,
+                                total_bytes: total_bytes,
+                                percentage: progress,
+                            }) {
+                                Ok(_) => (),
+                                Err(e) => eprintln!("Failed to send progress: {}", e),
+                            }
+                        }
+
+                        drop(permit);
+                    }));
+                }
+            }
+            for h in handles {
+                let _ = h.await;
+            }
+        });
+        Ok(())
+    }
+}
+#[frb]
+#[derive(Debug, Clone)]
+pub struct DownloadProgress {
+    pub downloaded_bytes: u64,
+    pub total_bytes: u64,
+    pub percentage: f64,
+}
 #[derive(Debug, Clone)]
 pub struct FileDownload {
     pub path: String,

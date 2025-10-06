@@ -55,6 +55,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionPtr;
 
   @protected
+  AnyhowException dco_decode_AnyhowException(dynamic raw);
+
+  @protected
   ArcMutexAuth
   dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexAuth(
     dynamic raw,
@@ -211,6 +214,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<DownloadProgress> dco_decode_StreamSink_download_progress_Sse(
+    dynamic raw,
+  );
+
+  @protected
   String dco_decode_String(dynamic raw);
 
   @protected
@@ -223,6 +231,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DepotChunk dco_decode_box_autoadd_depot_chunk(dynamic raw);
 
   @protected
+  FileDownload dco_decode_box_autoadd_file_download(dynamic raw);
+
+  @protected
   GogDbGameDetails dco_decode_box_autoadd_gog_db_game_details(dynamic raw);
 
   @protected
@@ -232,7 +243,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DepotChunk dco_decode_depot_chunk(dynamic raw);
 
   @protected
+  DownloadProgress dco_decode_download_progress(dynamic raw);
+
+  @protected
   DownloaderError dco_decode_downloader_error(dynamic raw);
+
+  @protected
+  double dco_decode_f_64(dynamic raw);
 
   @protected
   FileDownload dco_decode_file_download(dynamic raw);
@@ -284,6 +301,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt dco_decode_usize(dynamic raw);
+
+  @protected
+  AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
 
   @protected
   ArcMutexAuth
@@ -442,6 +462,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<DownloadProgress> sse_decode_StreamSink_download_progress_Sse(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
@@ -452,6 +477,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   DepotChunk sse_decode_box_autoadd_depot_chunk(SseDeserializer deserializer);
+
+  @protected
+  FileDownload sse_decode_box_autoadd_file_download(
+    SseDeserializer deserializer,
+  );
 
   @protected
   GogDbGameDetails sse_decode_box_autoadd_gog_db_game_details(
@@ -465,7 +495,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DepotChunk sse_decode_depot_chunk(SseDeserializer deserializer);
 
   @protected
+  DownloadProgress sse_decode_download_progress(SseDeserializer deserializer);
+
+  @protected
   DownloaderError sse_decode_downloader_error(SseDeserializer deserializer);
+
+  @protected
+  double sse_decode_f_64(SseDeserializer deserializer);
 
   @protected
   FileDownload sse_decode_file_download(SseDeserializer deserializer);
@@ -526,6 +562,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
+
+  @protected
+  void sse_encode_AnyhowException(
+    AnyhowException self,
+    SseSerializer serializer,
+  );
 
   @protected
   void
@@ -710,6 +752,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_StreamSink_download_progress_Sse(
+    RustStreamSink<DownloadProgress> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
@@ -721,6 +769,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_depot_chunk(
     DepotChunk self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_box_autoadd_file_download(
+    FileDownload self,
     SseSerializer serializer,
   );
 
@@ -737,10 +791,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_depot_chunk(DepotChunk self, SseSerializer serializer);
 
   @protected
+  void sse_encode_download_progress(
+    DownloadProgress self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_downloader_error(
     DownloaderError self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_f_64(double self, SseSerializer serializer);
 
   @protected
   void sse_encode_file_download(FileDownload self, SseSerializer serializer);
