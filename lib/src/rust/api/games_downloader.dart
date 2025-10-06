@@ -11,23 +11,55 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `get_build_manifest`, `get_depot_manifests`
 // These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Depot`, `DownloadChunk`, `GogDbBuildManifest`, `OwnedGamesResponse`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotManifest>>
-abstract class DepotManifest implements RustOpaqueInterface {
-  DepotItem get depot;
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotData>>
+abstract class DepotData implements RustOpaqueInterface {
+  List<DepotItem> get items;
 
   String? get manifestId;
 
-  BigInt get version;
-
-  set depot(DepotItem depot);
+  set items(List<DepotItem> items);
 
   set manifestId(String? manifestId);
 
-  set version(BigInt version);
-
   Future<void> setId({required String id});
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotItem>>
+abstract class DepotItem implements RustOpaqueInterface {
+  List<DepotChunk> get chunks;
+
+  String? get depotManifest;
+
+  String? get fileType;
+
+  String? get md5;
+
+  String? get path;
+
+  set chunks(List<DepotChunk> chunks);
+
+  set depotManifest(String? depotManifest);
+
+  set fileType(String? fileType);
+
+  set md5(String? md5);
+
+  set path(String? path);
+
+  Future<void> setDepotManifest({required String depotManifest});
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotManifest>>
+abstract class DepotManifest implements RustOpaqueInterface {
+  DepotData get depot;
+
+  BigInt get version;
+
+  set depot(DepotData depot);
+
+  set version(BigInt version);
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>>
@@ -59,6 +91,9 @@ class DepotChunk {
     this.size,
   });
 
+  Future<bool> isValid() =>
+      RustLib.instance.api.crateApiGamesDownloaderDepotChunkIsValid(that: this);
+
   @override
   int get hashCode =>
       compressedMd5.hashCode ^
@@ -75,29 +110,6 @@ class DepotChunk {
           compressedSize == other.compressedSize &&
           md5 == other.md5 &&
           size == other.size;
-}
-
-class DepotItem {
-  final List<DepotChunk> chunks;
-  final String? md5;
-  final String? path;
-  final String? fileType;
-
-  const DepotItem({required this.chunks, this.md5, this.path, this.fileType});
-
-  @override
-  int get hashCode =>
-      chunks.hashCode ^ md5.hashCode ^ path.hashCode ^ fileType.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DepotItem &&
-          runtimeType == other.runtimeType &&
-          chunks == other.chunks &&
-          md5 == other.md5 &&
-          path == other.path &&
-          fileType == other.fileType;
 }
 
 class GogDbGameBuild {

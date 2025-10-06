@@ -70,7 +70,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => -85518468;
+  int get rustContentHash => -681156840;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -81,11 +81,80 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  DepotItem crateApiGamesDownloaderDepotManifestAutoAccessorGetDepot({
-    required DepotManifest that,
+  List<DepotItem> crateApiGamesDownloaderDepotDataAutoAccessorGetItems({
+    required DepotData that,
   });
 
-  String? crateApiGamesDownloaderDepotManifestAutoAccessorGetManifestId({
+  String? crateApiGamesDownloaderDepotDataAutoAccessorGetManifestId({
+    required DepotData that,
+  });
+
+  void crateApiGamesDownloaderDepotDataAutoAccessorSetItems({
+    required DepotData that,
+    required List<DepotItem> items,
+  });
+
+  void crateApiGamesDownloaderDepotDataAutoAccessorSetManifestId({
+    required DepotData that,
+    String? manifestId,
+  });
+
+  Future<void> crateApiGamesDownloaderDepotDataSetId({
+    required DepotData that,
+    required String id,
+  });
+
+  List<DepotChunk> crateApiGamesDownloaderDepotItemAutoAccessorGetChunks({
+    required DepotItem that,
+  });
+
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetDepotManifest({
+    required DepotItem that,
+  });
+
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetFileType({
+    required DepotItem that,
+  });
+
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetMd5({
+    required DepotItem that,
+  });
+
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetPath({
+    required DepotItem that,
+  });
+
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetChunks({
+    required DepotItem that,
+    required List<DepotChunk> chunks,
+  });
+
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetDepotManifest({
+    required DepotItem that,
+    String? depotManifest,
+  });
+
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetFileType({
+    required DepotItem that,
+    String? fileType,
+  });
+
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetMd5({
+    required DepotItem that,
+    String? md5,
+  });
+
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetPath({
+    required DepotItem that,
+    String? path,
+  });
+
+  Future<void> crateApiGamesDownloaderDepotItemSetDepotManifest({
+    required DepotItem that,
+    required String depotManifest,
+  });
+
+  DepotData crateApiGamesDownloaderDepotManifestAutoAccessorGetDepot({
     required DepotManifest that,
   });
 
@@ -95,22 +164,12 @@ abstract class RustLibApi extends BaseApi {
 
   void crateApiGamesDownloaderDepotManifestAutoAccessorSetDepot({
     required DepotManifest that,
-    required DepotItem depot,
-  });
-
-  void crateApiGamesDownloaderDepotManifestAutoAccessorSetManifestId({
-    required DepotManifest that,
-    String? manifestId,
+    required DepotData depot,
   });
 
   void crateApiGamesDownloaderDepotManifestAutoAccessorSetVersion({
     required DepotManifest that,
     required BigInt version,
-  });
-
-  Future<void> crateApiGamesDownloaderDepotManifestSetId({
-    required DepotManifest that,
-    required String id,
   });
 
   ArcSession crateApiGamesDownloaderGamesDownloaderAutoAccessorGetSession({
@@ -164,6 +223,10 @@ abstract class RustLibApi extends BaseApi {
     required String sessionCode,
   });
 
+  Future<bool> crateApiGamesDownloaderDepotChunkIsValid({
+    required DepotChunk that,
+  });
+
   Future<GogDbGameBuild> crateApiGamesDownloaderGogDbGameDetailsGetLatestBuild({
     required GogDbGameDetails that,
   });
@@ -193,6 +256,22 @@ abstract class RustLibApi extends BaseApi {
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Client;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ClientPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_DepotData;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_DepotData;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_DepotDataPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_DepotItem;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_DepotItem;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_DepotItemPtr;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_DepotManifest;
@@ -228,7 +307,562 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  DepotItem crateApiGamesDownloaderDepotManifestAutoAccessorGetDepot({
+  List<DepotItem> crateApiGamesDownloaderDepotDataAutoAccessorGetItems({
+    required DepotData that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData:
+              sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotDataAutoAccessorGetItemsConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotDataAutoAccessorGetItemsConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotData_auto_accessor_get_items",
+        argNames: ["that"],
+      );
+
+  @override
+  String? crateApiGamesDownloaderDepotDataAutoAccessorGetManifestId({
+    required DepotData that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_String,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotDataAutoAccessorGetManifestIdConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotDataAutoAccessorGetManifestIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotData_auto_accessor_get_manifest_id",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotDataAutoAccessorSetItems({
+    required DepotData that,
+    required List<DepotItem> items,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+            that,
+            serializer,
+          );
+          sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            items,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotDataAutoAccessorSetItemsConstMeta,
+        argValues: [that, items],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotDataAutoAccessorSetItemsConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotData_auto_accessor_set_items",
+        argNames: ["that", "items"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotDataAutoAccessorSetManifestId({
+    required DepotData that,
+    String? manifestId,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+            that,
+            serializer,
+          );
+          sse_encode_opt_String(manifestId, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotDataAutoAccessorSetManifestIdConstMeta,
+        argValues: [that, manifestId],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotDataAutoAccessorSetManifestIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotData_auto_accessor_set_manifest_id",
+        argNames: ["that", "manifestId"],
+      );
+
+  @override
+  Future<void> crateApiGamesDownloaderDepotDataSetId({
+    required DepotData that,
+    required String id,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+            that,
+            serializer,
+          );
+          sse_encode_String(id, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 5,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDepotDataSetIdConstMeta,
+        argValues: [that, id],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderDepotDataSetIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotData_set_id",
+        argNames: ["that", "id"],
+      );
+
+  @override
+  List<DepotChunk> crateApiGamesDownloaderDepotItemAutoAccessorGetChunks({
+    required DepotItem that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_depot_chunk,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorGetChunksConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorGetChunksConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_get_chunks",
+        argNames: ["that"],
+      );
+
+  @override
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetDepotManifest({
+    required DepotItem that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_String,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorGetDepotManifestConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorGetDepotManifestConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_get_depot_manifest",
+        argNames: ["that"],
+      );
+
+  @override
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetFileType({
+    required DepotItem that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_String,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorGetFileTypeConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorGetFileTypeConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_get_file_type",
+        argNames: ["that"],
+      );
+
+  @override
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetMd5({
+    required DepotItem that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_String,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDepotItemAutoAccessorGetMd5ConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorGetMd5ConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_get_md5",
+        argNames: ["that"],
+      );
+
+  @override
+  String? crateApiGamesDownloaderDepotItemAutoAccessorGetPath({
+    required DepotItem that,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_String,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorGetPathConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorGetPathConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_get_path",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetChunks({
+    required DepotItem that,
+    required List<DepotChunk> chunks,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          sse_encode_list_depot_chunk(chunks, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorSetChunksConstMeta,
+        argValues: [that, chunks],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorSetChunksConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_set_chunks",
+        argNames: ["that", "chunks"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetDepotManifest({
+    required DepotItem that,
+    String? depotManifest,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          sse_encode_opt_String(depotManifest, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorSetDepotManifestConstMeta,
+        argValues: [that, depotManifest],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorSetDepotManifestConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_set_depot_manifest",
+        argNames: ["that", "depotManifest"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetFileType({
+    required DepotItem that,
+    String? fileType,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          sse_encode_opt_String(fileType, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorSetFileTypeConstMeta,
+        argValues: [that, fileType],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorSetFileTypeConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_set_file_type",
+        argNames: ["that", "fileType"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetMd5({
+    required DepotItem that,
+    String? md5,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          sse_encode_opt_String(md5, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDepotItemAutoAccessorSetMd5ConstMeta,
+        argValues: [that, md5],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorSetMd5ConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_set_md5",
+        argNames: ["that", "md5"],
+      );
+
+  @override
+  void crateApiGamesDownloaderDepotItemAutoAccessorSetPath({
+    required DepotItem that,
+    String? path,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          sse_encode_opt_String(path, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta:
+            kCrateApiGamesDownloaderDepotItemAutoAccessorSetPathConstMeta,
+        argValues: [that, path],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemAutoAccessorSetPathConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_auto_accessor_set_path",
+        argNames: ["that", "path"],
+      );
+
+  @override
+  Future<void> crateApiGamesDownloaderDepotItemSetDepotManifest({
+    required DepotItem that,
+    required String depotManifest,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+            that,
+            serializer,
+          );
+          sse_encode_String(depotManifest, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 16,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDepotItemSetDepotManifestConstMeta,
+        argValues: [that, depotManifest],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta
+  get kCrateApiGamesDownloaderDepotItemSetDepotManifestConstMeta =>
+      const TaskConstMeta(
+        debugName: "DepotItem_set_depot_manifest",
+        argNames: ["that", "depotManifest"],
+      );
+
+  @override
+  DepotData crateApiGamesDownloaderDepotManifestAutoAccessorGetDepot({
     required DepotManifest that,
   }) {
     return handler.executeSync(
@@ -239,10 +873,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_depot_item,
+          decodeSuccessData:
+              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData,
           decodeErrorData: null,
         ),
         constMeta:
@@ -261,39 +896,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  String? crateApiGamesDownloaderDepotManifestAutoAccessorGetManifestId({
-    required DepotManifest that,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
-            that,
-            serializer,
-          );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_opt_String,
-          decodeErrorData: null,
-        ),
-        constMeta:
-            kCrateApiGamesDownloaderDepotManifestAutoAccessorGetManifestIdConstMeta,
-        argValues: [that],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta
-  get kCrateApiGamesDownloaderDepotManifestAutoAccessorGetManifestIdConstMeta =>
-      const TaskConstMeta(
-        debugName: "DepotManifest_auto_accessor_get_manifest_id",
-        argNames: ["that"],
-      );
-
-  @override
   BigInt crateApiGamesDownloaderDepotManifestAutoAccessorGetVersion({
     required DepotManifest that,
   }) {
@@ -305,7 +907,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 3)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_u_64,
@@ -329,7 +931,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   void crateApiGamesDownloaderDepotManifestAutoAccessorSetDepot({
     required DepotManifest that,
-    required DepotItem depot,
+    required DepotData depot,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -339,8 +941,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_depot_item(depot, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+            depot,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -362,41 +967,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiGamesDownloaderDepotManifestAutoAccessorSetManifestId({
-    required DepotManifest that,
-    String? manifestId,
-  }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
-            that,
-            serializer,
-          );
-          sse_encode_opt_String(manifestId, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
-        constMeta:
-            kCrateApiGamesDownloaderDepotManifestAutoAccessorSetManifestIdConstMeta,
-        argValues: [that, manifestId],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta
-  get kCrateApiGamesDownloaderDepotManifestAutoAccessorSetManifestIdConstMeta =>
-      const TaskConstMeta(
-        debugName: "DepotManifest_auto_accessor_set_manifest_id",
-        argNames: ["that", "manifestId"],
-      );
-
-  @override
   void crateApiGamesDownloaderDepotManifestAutoAccessorSetVersion({
     required DepotManifest that,
     required BigInt version,
@@ -410,7 +980,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             serializer,
           );
           sse_encode_u_64(version, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -432,44 +1002,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<void> crateApiGamesDownloaderDepotManifestSetId({
-    required DepotManifest that,
-    required String id,
-  }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
-            that,
-            serializer,
-          );
-          sse_encode_String(id, serializer);
-          pdeCallFfi(
-            generalizedFrbRustBinding,
-            serializer,
-            funcId: 7,
-            port: port_,
-          );
-        },
-        codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateApiGamesDownloaderDepotManifestSetIdConstMeta,
-        argValues: [that, id],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateApiGamesDownloaderDepotManifestSetIdConstMeta =>
-      const TaskConstMeta(
-        debugName: "DepotManifest_set_id",
-        argNames: ["that", "id"],
-      );
-
-  @override
   ArcSession crateApiGamesDownloaderGamesDownloaderAutoAccessorGetSession({
     required GamesDownloader that,
   }) {
@@ -481,7 +1013,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -520,7 +1052,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             session,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -558,7 +1090,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 10,
+            funcId: 23,
             port: port_,
           );
         },
@@ -599,7 +1131,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 11,
+            funcId: 24,
             port: port_,
           );
         },
@@ -637,7 +1169,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 12,
+            funcId: 25,
             port: port_,
           );
         },
@@ -672,7 +1204,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             session,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -702,7 +1234,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -732,7 +1264,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -769,7 +1301,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             auth,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -805,7 +1337,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             client,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -837,7 +1369,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 18,
+            funcId: 31,
             port: port_,
           );
         },
@@ -861,7 +1393,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -895,7 +1427,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 20,
+            funcId: 33,
             port: port_,
           );
         },
@@ -917,6 +1449,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<bool> crateApiGamesDownloaderDepotChunkIsValid({
+    required DepotChunk that,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_depot_chunk(that, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 34,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGamesDownloaderDepotChunkIsValidConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGamesDownloaderDepotChunkIsValidConstMeta =>
+      const TaskConstMeta(
+        debugName: "depot_chunk_is_valid",
+        argNames: ["that"],
+      );
+
+  @override
   Future<GogDbGameBuild> crateApiGamesDownloaderGogDbGameDetailsGetLatestBuild({
     required GogDbGameDetails that,
   }) {
@@ -928,7 +1493,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 21,
+            funcId: 35,
             port: port_,
           );
         },
@@ -958,7 +1523,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -983,7 +1548,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 23,
+            funcId: 37,
             port: port_,
           );
         },
@@ -1024,6 +1589,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustArcDecrementStrongCountFnType
   get rust_arc_decrement_strong_count_Client => wire
       .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerClient;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_DepotData => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_DepotData => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_DepotItem => wire
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_DepotItem => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_DepotManifest => wire
@@ -1077,6 +1658,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DepotData
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotDataImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DepotItem
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotItemImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   DepotManifest
   dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     dynamic raw,
@@ -1104,6 +1703,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DepotData
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotDataImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DepotItem
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotItemImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   DepotManifest
   dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     dynamic raw,
@@ -1128,6 +1745,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return SessionImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DepotData
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotDataImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DepotItem
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotItemImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -1185,6 +1820,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DepotData
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotDataImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  DepotItem
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return DepotItemImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   DepotManifest
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     dynamic raw,
@@ -1237,6 +1890,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool dco_decode_bool(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as bool;
+  }
+
+  @protected
+  DepotChunk dco_decode_box_autoadd_depot_chunk(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_depot_chunk(raw);
+  }
+
+  @protected
   GogDbGameDetails dco_decode_box_autoadd_gog_db_game_details(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_gog_db_game_details(raw);
@@ -1259,20 +1924,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       compressedSize: dco_decode_opt_box_autoadd_u_64(arr[1]),
       md5: dco_decode_opt_String(arr[2]),
       size: dco_decode_opt_box_autoadd_u_64(arr[3]),
-    );
-  }
-
-  @protected
-  DepotItem dco_decode_depot_item(dynamic raw) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
-    return DepotItem(
-      chunks: dco_decode_list_depot_chunk(arr[0]),
-      md5: dco_decode_opt_String(arr[1]),
-      path: dco_decode_opt_String(arr[2]),
-      fileType: dco_decode_opt_String(arr[3]),
     );
   }
 
@@ -1315,6 +1966,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       productType: dco_decode_opt_String(arr[2]),
       builds: dco_decode_list_gog_db_game_build(arr[3]),
     );
+  }
+
+  @protected
+  List<DepotItem>
+  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem,
+        )
+        .toList();
   }
 
   @protected
@@ -1414,6 +2078,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DepotData
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotDataImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  DepotItem
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotItemImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   DepotManifest
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     SseDeserializer deserializer,
@@ -1450,6 +2138,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DepotData
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotDataImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  DepotItem
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotItemImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   DepotManifest
   sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     SseDeserializer deserializer,
@@ -1480,6 +2192,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return SessionImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  DepotData
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotDataImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  DepotItem
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotItemImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1558,6 +2294,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  DepotData
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotDataImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  DepotItem
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return DepotItemImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
   DepotManifest
   sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     SseDeserializer deserializer,
@@ -1627,6 +2387,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  bool sse_decode_bool(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  DepotChunk sse_decode_box_autoadd_depot_chunk(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_depot_chunk(deserializer));
+  }
+
+  @protected
   GogDbGameDetails sse_decode_box_autoadd_gog_db_game_details(
     SseDeserializer deserializer,
   ) {
@@ -1652,21 +2424,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       compressedSize: var_compressedSize,
       md5: var_md5,
       size: var_size,
-    );
-  }
-
-  @protected
-  DepotItem sse_decode_depot_item(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    var var_chunks = sse_decode_list_depot_chunk(deserializer);
-    var var_md5 = sse_decode_opt_String(deserializer);
-    var var_path = sse_decode_opt_String(deserializer);
-    var var_fileType = sse_decode_opt_String(deserializer);
-    return DepotItem(
-      chunks: var_chunks,
-      md5: var_md5,
-      path: var_path,
-      fileType: var_fileType,
     );
   }
 
@@ -1712,6 +2469,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       productType: var_productType,
       builds: var_builds,
     );
+  }
+
+  @protected
+  List<DepotItem>
+  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <DepotItem>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+          deserializer,
+        ),
+      );
+    }
+    return ans_;
   }
 
   @protected
@@ -1806,12 +2582,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  bool sse_decode_bool(SseDeserializer deserializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return deserializer.buffer.getUint8() != 0;
-  }
-
-  @protected
   void
   sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcMutexAuth(
     ArcMutexAuth self,
@@ -1846,6 +2616,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ClientImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    DepotData self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotDataImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    DepotItem self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotItemImpl).frbInternalSseEncode(move: true),
       serializer,
     );
   }
@@ -1891,6 +2687,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    DepotData self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotDataImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    DepotItem self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotItemImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     DepotManifest self,
     SseSerializer serializer,
@@ -1924,6 +2746,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as SessionImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    DepotData self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotDataImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    DepotItem self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotItemImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -2008,6 +2856,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotData(
+    DepotData self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotDataImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    DepotItem self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as DepotItemImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotManifest(
     DepotManifest self,
     SseSerializer serializer,
@@ -2074,6 +2948,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_bool(bool self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putUint8(self ? 1 : 0);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_depot_chunk(
+    DepotChunk self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_depot_chunk(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_gog_db_game_details(
     GogDbGameDetails self,
     SseSerializer serializer,
@@ -2095,15 +2984,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_opt_box_autoadd_u_64(self.compressedSize, serializer);
     sse_encode_opt_String(self.md5, serializer);
     sse_encode_opt_box_autoadd_u_64(self.size, serializer);
-  }
-
-  @protected
-  void sse_encode_depot_item(DepotItem self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_list_depot_chunk(self.chunks, serializer);
-    sse_encode_opt_String(self.md5, serializer);
-    sse_encode_opt_String(self.path, serializer);
-    sse_encode_opt_String(self.fileType, serializer);
   }
 
   @protected
@@ -2144,6 +3024,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_opt_String(self.imageBoxart, serializer);
     sse_encode_opt_String(self.productType, serializer);
     sse_encode_list_gog_db_game_build(self.builds, serializer);
+  }
+
+  @protected
+  void
+  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+    List<DepotItem> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDepotItem(
+        item,
+        serializer,
+      );
+    }
   }
 
   @protected
@@ -2238,12 +3134,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
   }
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    serializer.buffer.putUint8(self ? 1 : 0);
-  }
 }
 
 @sealed
@@ -2307,6 +3197,115 @@ class ClientImpl extends RustOpaque implements Client {
 }
 
 @sealed
+class DepotDataImpl extends RustOpaque implements DepotData {
+  // Not to be used by end users
+  DepotDataImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  DepotDataImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_DepotData,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_DepotData,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_DepotDataPtr,
+  );
+
+  List<DepotItem> get items => RustLib.instance.api
+      .crateApiGamesDownloaderDepotDataAutoAccessorGetItems(that: this);
+
+  String? get manifestId => RustLib.instance.api
+      .crateApiGamesDownloaderDepotDataAutoAccessorGetManifestId(that: this);
+
+  set items(List<DepotItem> items) =>
+      RustLib.instance.api.crateApiGamesDownloaderDepotDataAutoAccessorSetItems(
+        that: this,
+        items: items,
+      );
+
+  set manifestId(String? manifestId) => RustLib.instance.api
+      .crateApiGamesDownloaderDepotDataAutoAccessorSetManifestId(
+        that: this,
+        manifestId: manifestId,
+      );
+
+  Future<void> setId({required String id}) => RustLib.instance.api
+      .crateApiGamesDownloaderDepotDataSetId(that: this, id: id);
+}
+
+@sealed
+class DepotItemImpl extends RustOpaque implements DepotItem {
+  // Not to be used by end users
+  DepotItemImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  DepotItemImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_DepotItem,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_DepotItem,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_DepotItemPtr,
+  );
+
+  List<DepotChunk> get chunks => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorGetChunks(that: this);
+
+  String? get depotManifest => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorGetDepotManifest(that: this);
+
+  String? get fileType => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorGetFileType(that: this);
+
+  String? get md5 => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorGetMd5(that: this);
+
+  String? get path => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorGetPath(that: this);
+
+  set chunks(List<DepotChunk> chunks) => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorSetChunks(
+        that: this,
+        chunks: chunks,
+      );
+
+  set depotManifest(String? depotManifest) => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorSetDepotManifest(
+        that: this,
+        depotManifest: depotManifest,
+      );
+
+  set fileType(String? fileType) => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorSetFileType(
+        that: this,
+        fileType: fileType,
+      );
+
+  set md5(String? md5) => RustLib.instance.api
+      .crateApiGamesDownloaderDepotItemAutoAccessorSetMd5(that: this, md5: md5);
+
+  set path(String? path) =>
+      RustLib.instance.api.crateApiGamesDownloaderDepotItemAutoAccessorSetPath(
+        that: this,
+        path: path,
+      );
+
+  Future<void> setDepotManifest({required String depotManifest}) =>
+      RustLib.instance.api.crateApiGamesDownloaderDepotItemSetDepotManifest(
+        that: this,
+        depotManifest: depotManifest,
+      );
+}
+
+@sealed
 class DepotManifestImpl extends RustOpaque implements DepotManifest {
   // Not to be used by end users
   DepotManifestImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -2325,27 +3324,16 @@ class DepotManifestImpl extends RustOpaque implements DepotManifest {
         RustLib.instance.api.rust_arc_decrement_strong_count_DepotManifestPtr,
   );
 
-  DepotItem get depot => RustLib.instance.api
+  DepotData get depot => RustLib.instance.api
       .crateApiGamesDownloaderDepotManifestAutoAccessorGetDepot(that: this);
-
-  String? get manifestId => RustLib.instance.api
-      .crateApiGamesDownloaderDepotManifestAutoAccessorGetManifestId(
-        that: this,
-      );
 
   BigInt get version => RustLib.instance.api
       .crateApiGamesDownloaderDepotManifestAutoAccessorGetVersion(that: this);
 
-  set depot(DepotItem depot) => RustLib.instance.api
+  set depot(DepotData depot) => RustLib.instance.api
       .crateApiGamesDownloaderDepotManifestAutoAccessorSetDepot(
         that: this,
         depot: depot,
-      );
-
-  set manifestId(String? manifestId) => RustLib.instance.api
-      .crateApiGamesDownloaderDepotManifestAutoAccessorSetManifestId(
-        that: this,
-        manifestId: manifestId,
       );
 
   set version(BigInt version) => RustLib.instance.api
@@ -2353,9 +3341,6 @@ class DepotManifestImpl extends RustOpaque implements DepotManifest {
         that: this,
         version: version,
       );
-
-  Future<void> setId({required String id}) => RustLib.instance.api
-      .crateApiGamesDownloaderDepotManifestSetId(that: this, id: id);
 }
 
 @sealed

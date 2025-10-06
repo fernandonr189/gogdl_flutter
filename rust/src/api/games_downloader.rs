@@ -40,26 +40,23 @@ impl GamesDownloader {
     ) -> Result<(), DownloaderError> {
         let latest_build = game_details.get_latest_build()?;
         let manifest = self.get_build_manifest(latest_build).await?;
-        let depot_manifests = self.get_depot_manifests(&manifest).await?;
-        let mut download_chunks = Vec::new();
-        for depot_manifest in depot_manifests {
-            let download_chunk = DownloadChunk {
-                path: depot_manifest.depot.path.unwrap_or_default().clone(),
-                chunks: depot_manifest.depot.chunks,
-                depot_manifest: depot_manifest.manifest_id.unwrap(),
-            };
-            download_chunks.push(download_chunk);
+        let depots = self.get_depot_manifests(&manifest).await?;
+        for depot in depots {
+            for item in depot.items {
+                println!(
+                    "File path: {}\n\nFile type: {}",
+                    item.path.unwrap_or("None".to_string()),
+                    item.file_type.unwrap_or("None".to_string())
+                )
+            }
         }
-        for chunk in download_chunks {
-            println!("===================================================");
-            println!("{:?}\n\n\n\n", chunk);
-        }
+
         Ok(())
     }
     async fn get_depot_manifests(
         &self,
         manifest: &GogDbBuildManifest,
-    ) -> Result<Vec<DepotManifest>, DownloaderError> {
+    ) -> Result<Vec<DepotData>, DownloaderError> {
         let depot_manifest_hashes: Vec<String> =
             manifest.depots.iter().map(|s| s.manifest.clone()).collect();
 
@@ -83,8 +80,8 @@ impl GamesDownloader {
                     Ok(resp) => resp,
                     Err(e) => return Err(DownloaderError::RequestError(e.to_string())),
                 };
-            resp.set_id(hash.clone());
-            depot_manifests.push(resp);
+            resp.depot.set_id(hash.clone());
+            depot_manifests.push(resp.depot);
         }
 
         Ok(depot_manifests)
@@ -125,25 +122,42 @@ pub struct DepotChunk {
     pub md5: Option<String>,
     pub size: Option<u64>,
 }
+
+impl DepotChunk {
+    pub fn is_valid(&self) -> bool {
+        self.md5.is_some() || self.compressed_md5.is_some()
+    }
+}
+
+#[frb(opaque)]
 #[derive(Deserialize, Debug, Clone)]
 pub struct DepotItem {
-    #[serde(rename = "items")]
     pub chunks: Vec<DepotChunk>,
     pub md5: Option<String>,
     pub path: Option<String>,
     #[serde(rename = "type")]
     pub file_type: Option<String>,
+    pub depot_manifest: Option<String>,
+}
+impl DepotItem {
+    pub fn set_depot_manifest(&mut self, depot_manifest: String) {
+        self.depot_manifest = Some(depot_manifest);
+    }
+}
+
+#[derive(Deserialize, Debug)]
+pub struct DepotManifest {
+    pub depot: DepotData,
+    pub version: u64,
 }
 
 #[frb(opaque)]
-#[derive(Deserialize, Debug)]
-pub struct DepotManifest {
-    pub depot: DepotItem,
-    pub version: u64,
+#[derive(Deserialize, Debug, Clone)]
+pub struct DepotData {
+    pub items: Vec<DepotItem>,
     pub manifest_id: Option<String>,
 }
-
-impl DepotManifest {
+impl DepotData {
     pub fn set_id(&mut self, id: String) {
         self.manifest_id = Some(id);
     }
