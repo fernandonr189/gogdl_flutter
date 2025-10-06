@@ -56,8 +56,8 @@ impl GamesDownloader {
             .map(|m| {
                 let url = format!(
                     "https://cdn.gog.com/content-system/v2/meta/{}/{}/{}",
-                    &m[0..1],
-                    &m[2..3],
+                    &m[0..2],
+                    &m[2..4],
                     m
                 );
                 url
