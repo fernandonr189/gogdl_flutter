@@ -40,10 +40,46 @@ impl GamesDownloader {
         game_details: GogDbGameDetails,
     ) -> Result<(), DownloaderError> {
         let latest_build = game_details.get_latest_build()?;
-        self.get_build_manifest(latest_build).await?;
+        let manifest = self.get_build_manifest(latest_build).await?;
+        let _depot_manifests = self.get_depot_manifests(&manifest).await?;
         Ok(())
     }
-    async fn get_build_manifest(&self, build: GogDbGameBuild) -> Result<(), DownloaderError> {
+    async fn get_depot_manifests(
+        &self,
+        manifest: &GogDbBuildManifest,
+    ) -> Result<Vec<DepotManifest>, DownloaderError> {
+        let depot_manifest_hashes: Vec<String> =
+            manifest.depots.iter().map(|s| s.manifest.clone()).collect();
+
+        let depot_manifest_urls: Vec<String> = depot_manifest_hashes
+            .iter()
+            .map(|m| {
+                let url = format!(
+                    "https://cdn.gog.com/content-system/v2/meta/{}/{}/{}",
+                    &m[0..1],
+                    &m[2..3],
+                    m
+                );
+                url
+            })
+            .collect();
+
+        let mut depot_manifests = Vec::new();
+        for url in depot_manifest_urls {
+            let resp: DepotManifest = match self.session.get_request_compressed(url).await {
+                Ok(resp) => resp,
+                Err(e) => return Err(DownloaderError::RequestError(e.to_string())),
+            };
+            println!("Depot manifest downloaded: \n\n{:?}", resp);
+            depot_manifests.push(resp);
+        }
+
+        Ok(depot_manifests)
+    }
+    async fn get_build_manifest(
+        &self,
+        build: GogDbGameBuild,
+    ) -> Result<GogDbBuildManifest, DownloaderError> {
         let link = {
             if let Some(link) = build.link {
                 link
@@ -57,8 +93,28 @@ impl GamesDownloader {
             Err(err) => return Err(DownloaderError::RequestError(err.to_string())),
         };
         println!("Obtained build manifest: {:?}", manifest);
-        Ok(())
+        Ok(manifest)
     }
+}
+
+#[derive(Deserialize, Debug)]
+pub struct DepotChunk {
+    #[serde(rename = "compressedMd5")]
+    pub compressed_md5: String,
+}
+#[derive(Deserialize, Debug)]
+pub struct DepotItem {
+    #[serde(rename = "items")]
+    pub chunks: Vec<DepotChunk>,
+    pub md5: String,
+    pub path: String,
+    #[serde(rename = "type")]
+    pub file_type: String,
+}
+#[derive(Deserialize, Debug)]
+pub struct DepotManifest {
+    pub depot: DepotItem,
+    pub version: u64,
 }
 
 #[derive(Deserialize, Debug)]
