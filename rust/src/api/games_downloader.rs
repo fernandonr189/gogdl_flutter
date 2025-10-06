@@ -44,7 +44,7 @@ impl GamesDownloader {
         let mut download_chunks = Vec::new();
         for depot_manifest in depot_manifests {
             let download_chunk = DownloadChunk {
-                path: depot_manifest.depot.path.unwrap().clone(),
+                path: depot_manifest.depot.path.unwrap_or_default().clone(),
                 chunks: depot_manifest.depot.chunks,
                 depot_manifest: depot_manifest.manifest_id.unwrap(),
             };
