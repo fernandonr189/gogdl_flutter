@@ -43,16 +43,12 @@ impl GamesDownloader {
         let depot_manifests = self.get_depot_manifests(&manifest).await?;
         let mut download_chunks = Vec::new();
         for depot_manifest in depot_manifests {
-            if let Some(file_type) = depot_manifest.depot.file_type {
-                if file_type == "DepotFile" {
-                    let download_chunk = DownloadChunk {
-                        path: depot_manifest.depot.path.unwrap().clone(),
-                        chunks: depot_manifest.depot.chunks,
-                        depot_manifest: depot_manifest.manifest_id.unwrap(),
-                    };
-                    download_chunks.push(download_chunk);
-                }
+            let download_chunk = DownloadChunk {
+                path: depot_manifest.depot.path.unwrap().clone(),
+                chunks: depot_manifest.depot.chunks,
+                depot_manifest: depot_manifest.manifest_id.unwrap(),
             };
+            download_chunks.push(download_chunk);
         }
         for chunk in download_chunks {
             println!("===================================================");
