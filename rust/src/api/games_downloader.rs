@@ -117,7 +117,7 @@ pub struct DepotManifest {
 
 #[derive(Deserialize, Debug)]
 pub struct GogDbBuildManifest {
-    pub dependencies: Vec<String>,
+    pub dependencies: Option<Vec<String>>,
     pub depots: Vec<Depot>,
 }
 
