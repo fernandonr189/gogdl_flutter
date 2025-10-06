@@ -107,7 +107,7 @@ pub struct DepotItem {
     pub md5: Option<String>,
     pub path: Option<String>,
     #[serde(rename = "type")]
-    pub file_type: String,
+    pub file_type: Option<String>,
 }
 #[derive(Deserialize, Debug)]
 pub struct DepotManifest {
