@@ -136,14 +136,18 @@ impl Session {
         };
         let result = self
             .client
-            .get(query)
+            .get(query.clone())
             .header("Authorization", format!("Bearer {}", token))
             .send()
             .await;
         match result {
             Ok(res) => {
                 if res.status() != StatusCode::OK {
-                    return Err(AuthError::Network(format!("HTTP error: {}", res.status())));
+                    return Err(AuthError::Network(format!(
+                        "HTTP error: {}\n\nRequest url: {}",
+                        res.status(),
+                        query
+                    )));
                 }
                 let bytes = if let Ok(bytes) = res.bytes().await {
                     bytes
