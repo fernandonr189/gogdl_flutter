@@ -2,6 +2,7 @@ use std::{io::Read, sync::Arc, time::Duration};
 
 use flate2::read::ZlibDecoder;
 use flutter_rust_bridge::frb;
+use reqwest::StatusCode;
 use serde::Deserialize;
 use tokio::sync::Mutex;
 
@@ -141,6 +142,9 @@ impl Session {
             .await;
         match result {
             Ok(res) => {
+                if res.status() != StatusCode::OK {
+                    return Err(AuthError::Network(format!("HTTP error: {}", res.status())));
+                }
                 let bytes = if let Ok(bytes) = res.bytes().await {
                     bytes
                 } else {
