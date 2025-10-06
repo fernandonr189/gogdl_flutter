@@ -70,7 +70,6 @@ impl GamesDownloader {
                 Ok(resp) => resp,
                 Err(e) => return Err(DownloaderError::RequestError(e.to_string())),
             };
-            println!("Depot manifest downloaded: \n\n{:?}", resp);
             depot_manifests.push(resp);
         }
 
@@ -92,7 +91,6 @@ impl GamesDownloader {
             Ok(manifest) => manifest,
             Err(err) => return Err(DownloaderError::RequestError(err.to_string())),
         };
-        println!("Obtained build manifest: {:?}", manifest);
         Ok(manifest)
     }
 }
@@ -100,7 +98,7 @@ impl GamesDownloader {
 #[derive(Deserialize, Debug)]
 pub struct DepotChunk {
     #[serde(rename = "compressedMd5")]
-    pub compressed_md5: String,
+    pub compressed_md5: Option<String>,
 }
 #[derive(Deserialize, Debug)]
 pub struct DepotItem {
