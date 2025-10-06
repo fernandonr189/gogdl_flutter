@@ -237,6 +237,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DownloaderError dco_decode_downloader_error(dynamic raw);
 
   @protected
+  FileDownload dco_decode_file_download(dynamic raw);
+
+  @protected
   GogDbGameBuild dco_decode_gog_db_game_build(dynamic raw);
 
   @protected
@@ -252,6 +255,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DepotChunk> dco_decode_list_depot_chunk(dynamic raw);
 
   @protected
+  List<FileDownload> dco_decode_list_file_download(dynamic raw);
+
+  @protected
   List<GogDbGameBuild> dco_decode_list_gog_db_game_build(dynamic raw);
 
   @protected
@@ -265,6 +271,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
+
+  @protected
+  List<DepotChunk>? dco_decode_opt_list_depot_chunk(dynamic raw);
 
   @protected
   BigInt dco_decode_u_64(dynamic raw);
@@ -461,6 +470,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DownloaderError sse_decode_downloader_error(SseDeserializer deserializer);
 
   @protected
+  FileDownload sse_decode_file_download(SseDeserializer deserializer);
+
+  @protected
   GogDbGameBuild sse_decode_gog_db_game_build(SseDeserializer deserializer);
 
   @protected
@@ -474,6 +486,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<DepotChunk> sse_decode_list_depot_chunk(SseDeserializer deserializer);
+
+  @protected
+  List<FileDownload> sse_decode_list_file_download(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<GogDbGameBuild> sse_decode_list_gog_db_game_build(
@@ -491,6 +508,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
+
+  @protected
+  List<DepotChunk>? sse_decode_opt_list_depot_chunk(
+    SseDeserializer deserializer,
+  );
 
   @protected
   BigInt sse_decode_u_64(SseDeserializer deserializer);
@@ -723,6 +745,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_file_download(FileDownload self, SseSerializer serializer);
+
+  @protected
   void sse_encode_gog_db_game_build(
     GogDbGameBuild self,
     SseSerializer serializer,
@@ -744,6 +769,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_depot_chunk(
     List<DepotChunk> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_file_download(
+    List<FileDownload> self,
     SseSerializer serializer,
   );
 
@@ -770,6 +801,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_list_depot_chunk(
+    List<DepotChunk>? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_u_64(BigInt self, SseSerializer serializer);

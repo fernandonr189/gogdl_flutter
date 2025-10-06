@@ -551,8 +551,9 @@ fn wire__crate__api__games_downloader__DepotItem_auto_accessor_set_chunks_impl(
             let api_that = <RustOpaqueMoi<
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotItem>,
             >>::sse_decode(&mut deserializer);
-            let api_chunks =
-                <Vec<crate::api::games_downloader::DepotChunk>>::sse_decode(&mut deserializer);
+            let api_chunks = <Option<Vec<crate::api::games_downloader::DepotChunk>>>::sse_decode(
+                &mut deserializer,
+            );
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let mut api_that_guard = None;
@@ -2055,6 +2056,21 @@ impl SseDecode for crate::api::error::DownloaderError {
     }
 }
 
+impl SseDecode for crate::api::games_downloader::FileDownload {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_path = <String>::sse_decode(deserializer);
+        let mut var_chunks =
+            <Vec<crate::api::games_downloader::DepotChunk>>::sse_decode(deserializer);
+        let mut var_depotManifest = <String>::sse_decode(deserializer);
+        return crate::api::games_downloader::FileDownload {
+            path: var_path,
+            chunks: var_chunks,
+            depot_manifest: var_depotManifest,
+        };
+    }
+}
+
 impl SseDecode for crate::api::games_downloader::GogDbGameBuild {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2103,6 +2119,20 @@ impl SseDecode for Vec<crate::api::games_downloader::DepotChunk> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<crate::api::games_downloader::DepotChunk>::sse_decode(
+                deserializer,
+            ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::games_downloader::FileDownload> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::games_downloader::FileDownload>::sse_decode(
                 deserializer,
             ));
         }
@@ -2164,6 +2194,19 @@ impl SseDecode for Option<u64> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<u64>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<Vec<crate::api::games_downloader::DepotChunk>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<Vec<crate::api::games_downloader::DepotChunk>>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
@@ -2605,6 +2648,28 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::error::DownloaderError>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::FileDownload {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.path.into_into_dart().into_dart(),
+            self.chunks.into_into_dart().into_dart(),
+            self.depot_manifest.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::games_downloader::FileDownload
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::games_downloader::FileDownload>
+    for crate::api::games_downloader::FileDownload
+{
+    fn into_into_dart(self) -> crate::api::games_downloader::FileDownload {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::games_downloader::GogDbGameBuild {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -2866,6 +2931,15 @@ impl SseEncode for crate::api::error::DownloaderError {
     }
 }
 
+impl SseEncode for crate::api::games_downloader::FileDownload {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.path, serializer);
+        <Vec<crate::api::games_downloader::DepotChunk>>::sse_encode(self.chunks, serializer);
+        <String>::sse_encode(self.depot_manifest, serializer);
+    }
+}
+
 impl SseEncode for crate::api::games_downloader::GogDbGameBuild {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -2900,6 +2974,16 @@ impl SseEncode for Vec<crate::api::games_downloader::DepotChunk> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::games_downloader::DepotChunk>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::games_downloader::FileDownload> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::games_downloader::FileDownload>::sse_encode(item, serializer);
         }
     }
 }
@@ -2950,6 +3034,16 @@ impl SseEncode for Option<u64> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <u64>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<Vec<crate::api::games_downloader::DepotChunk>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <Vec<crate::api::games_downloader::DepotChunk>>::sse_encode(value, serializer);
         }
     }
 }

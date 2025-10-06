@@ -10,7 +10,7 @@ import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `get_build_manifest`, `get_depot_manifests`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Depot`, `DownloadChunk`, `GogDbBuildManifest`, `OwnedGamesResponse`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Depot`, `GogDbBuildManifest`, `OwnedGamesResponse`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotData>>
@@ -28,7 +28,7 @@ abstract class DepotData implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotItem>>
 abstract class DepotItem implements RustOpaqueInterface {
-  List<DepotChunk> get chunks;
+  List<DepotChunk>? get chunks;
 
   String? get depotManifest;
 
@@ -38,7 +38,7 @@ abstract class DepotItem implements RustOpaqueInterface {
 
   String? get path;
 
-  set chunks(List<DepotChunk> chunks);
+  set chunks(List<DepotChunk>? chunks);
 
   set depotManifest(String? depotManifest);
 
@@ -68,7 +68,9 @@ abstract class GamesDownloader implements RustOpaqueInterface {
 
   set session(ArcSession session);
 
-  Future<void> createGameDownloadQueue({required GogDbGameDetails gameDetails});
+  Future<List<FileDownload>> createGameDownloadQueue({
+    required GogDbGameDetails gameDetails,
+  });
 
   Future<GogDbGameDetails> fetchGameDetails({required String gameId});
 
@@ -110,6 +112,30 @@ class DepotChunk {
           compressedSize == other.compressedSize &&
           md5 == other.md5 &&
           size == other.size;
+}
+
+class FileDownload {
+  final String path;
+  final List<DepotChunk> chunks;
+  final String depotManifest;
+
+  const FileDownload({
+    required this.path,
+    required this.chunks,
+    required this.depotManifest,
+  });
+
+  @override
+  int get hashCode => path.hashCode ^ chunks.hashCode ^ depotManifest.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FileDownload &&
+          runtimeType == other.runtimeType &&
+          path == other.path &&
+          chunks == other.chunks &&
+          depotManifest == other.depotManifest;
 }
 
 class GogDbGameBuild {

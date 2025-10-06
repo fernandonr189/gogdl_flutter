@@ -104,7 +104,7 @@ abstract class RustLibApi extends BaseApi {
     required String id,
   });
 
-  List<DepotChunk> crateApiGamesDownloaderDepotItemAutoAccessorGetChunks({
+  List<DepotChunk>? crateApiGamesDownloaderDepotItemAutoAccessorGetChunks({
     required DepotItem that,
   });
 
@@ -126,7 +126,7 @@ abstract class RustLibApi extends BaseApi {
 
   void crateApiGamesDownloaderDepotItemAutoAccessorSetChunks({
     required DepotItem that,
-    required List<DepotChunk> chunks,
+    List<DepotChunk>? chunks,
   });
 
   void crateApiGamesDownloaderDepotItemAutoAccessorSetDepotManifest({
@@ -181,7 +181,8 @@ abstract class RustLibApi extends BaseApi {
     required ArcSession session,
   });
 
-  Future<void> crateApiGamesDownloaderGamesDownloaderCreateGameDownloadQueue({
+  Future<List<FileDownload>>
+  crateApiGamesDownloaderGamesDownloaderCreateGameDownloadQueue({
     required GamesDownloader that,
     required GogDbGameDetails gameDetails,
   });
@@ -485,7 +486,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  List<DepotChunk> crateApiGamesDownloaderDepotItemAutoAccessorGetChunks({
+  List<DepotChunk>? crateApiGamesDownloaderDepotItemAutoAccessorGetChunks({
     required DepotItem that,
   }) {
     return handler.executeSync(
@@ -499,7 +500,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_depot_chunk,
+          decodeSuccessData: sse_decode_opt_list_depot_chunk,
           decodeErrorData: null,
         ),
         constMeta:
@@ -651,7 +652,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   void crateApiGamesDownloaderDepotItemAutoAccessorSetChunks({
     required DepotItem that,
-    required List<DepotChunk> chunks,
+    List<DepotChunk>? chunks,
   }) {
     return handler.executeSync(
       SyncTask(
@@ -661,7 +662,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             that,
             serializer,
           );
-          sse_encode_list_depot_chunk(chunks, serializer);
+          sse_encode_opt_list_depot_chunk(chunks, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
         },
         codec: SseCodec(
@@ -1074,7 +1075,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<void> crateApiGamesDownloaderGamesDownloaderCreateGameDownloadQueue({
+  Future<List<FileDownload>>
+  crateApiGamesDownloaderGamesDownloaderCreateGameDownloadQueue({
     required GamesDownloader that,
     required GogDbGameDetails gameDetails,
   }) {
@@ -1095,7 +1097,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_unit,
+          decodeSuccessData: sse_decode_list_file_download,
           decodeErrorData: sse_decode_downloader_error,
         ),
         constMeta:
@@ -1943,6 +1945,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  FileDownload dco_decode_file_download(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return FileDownload(
+      path: dco_decode_String(arr[0]),
+      chunks: dco_decode_list_depot_chunk(arr[1]),
+      depotManifest: dco_decode_String(arr[2]),
+    );
+  }
+
+  @protected
   GogDbGameBuild dco_decode_gog_db_game_build(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -1988,6 +2003,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<FileDownload> dco_decode_list_file_download(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_file_download).toList();
+  }
+
+  @protected
   List<GogDbGameBuild> dco_decode_list_gog_db_game_build(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_gog_db_game_build).toList();
@@ -2015,6 +2036,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
+  }
+
+  @protected
+  List<DepotChunk>? dco_decode_opt_list_depot_chunk(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_list_depot_chunk(raw);
   }
 
   @protected
@@ -2447,6 +2474,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  FileDownload sse_decode_file_download(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_path = sse_decode_String(deserializer);
+    var var_chunks = sse_decode_list_depot_chunk(deserializer);
+    var var_depotManifest = sse_decode_String(deserializer);
+    return FileDownload(
+      path: var_path,
+      chunks: var_chunks,
+      depotManifest: var_depotManifest,
+    );
+  }
+
+  @protected
   GogDbGameBuild sse_decode_gog_db_game_build(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_datePublished = sse_decode_opt_String(deserializer);
@@ -2503,6 +2543,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<FileDownload> sse_decode_list_file_download(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <FileDownload>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_file_download(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   List<GogDbGameBuild> sse_decode_list_gog_db_game_build(
     SseDeserializer deserializer,
   ) {
@@ -2547,6 +2601,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_u_64(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  List<DepotChunk>? sse_decode_opt_list_depot_chunk(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_list_depot_chunk(deserializer));
     } else {
       return null;
     }
@@ -3005,6 +3072,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_file_download(FileDownload self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.path, serializer);
+    sse_encode_list_depot_chunk(self.chunks, serializer);
+    sse_encode_String(self.depotManifest, serializer);
+  }
+
+  @protected
   void sse_encode_gog_db_game_build(
     GogDbGameBuild self,
     SseSerializer serializer,
@@ -3051,6 +3126,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_depot_chunk(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_file_download(
+    List<FileDownload> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_file_download(item, serializer);
     }
   }
 
@@ -3103,6 +3190,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_u_64(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_list_depot_chunk(
+    List<DepotChunk>? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_list_depot_chunk(self, serializer);
     }
   }
 
@@ -3256,7 +3356,7 @@ class DepotItemImpl extends RustOpaque implements DepotItem {
         RustLib.instance.api.rust_arc_decrement_strong_count_DepotItemPtr,
   );
 
-  List<DepotChunk> get chunks => RustLib.instance.api
+  List<DepotChunk>? get chunks => RustLib.instance.api
       .crateApiGamesDownloaderDepotItemAutoAccessorGetChunks(that: this);
 
   String? get depotManifest => RustLib.instance.api
@@ -3271,7 +3371,7 @@ class DepotItemImpl extends RustOpaque implements DepotItem {
   String? get path => RustLib.instance.api
       .crateApiGamesDownloaderDepotItemAutoAccessorGetPath(that: this);
 
-  set chunks(List<DepotChunk> chunks) => RustLib.instance.api
+  set chunks(List<DepotChunk>? chunks) => RustLib.instance.api
       .crateApiGamesDownloaderDepotItemAutoAccessorSetChunks(
         that: this,
         chunks: chunks,
@@ -3371,7 +3471,7 @@ class GamesDownloaderImpl extends RustOpaque implements GamesDownloader {
         session: session,
       );
 
-  Future<void> createGameDownloadQueue({
+  Future<List<FileDownload>> createGameDownloadQueue({
     required GogDbGameDetails gameDetails,
   }) => RustLib.instance.api
       .crateApiGamesDownloaderGamesDownloaderCreateGameDownloadQueue(

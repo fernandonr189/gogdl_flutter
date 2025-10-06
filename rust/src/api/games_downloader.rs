@@ -34,24 +34,45 @@ impl GamesDownloader {
         let resp: GogDbGameDetails = self.session.get_request_unauthorized(url).await?;
         Ok(resp)
     }
+    #[frb]
     pub async fn create_game_download_queue(
         &self,
         game_details: GogDbGameDetails,
-    ) -> Result<(), DownloaderError> {
+    ) -> Result<Vec<FileDownload>, DownloaderError> {
         let latest_build = game_details.get_latest_build()?;
         let manifest = self.get_build_manifest(latest_build).await?;
         let depots = self.get_depot_manifests(&manifest).await?;
+        let mut download_chunks: Vec<FileDownload> = Vec::new();
         for depot in depots {
             for item in depot.items {
                 println!(
-                    "File path: {}\n\nFile type: {}",
-                    item.path.unwrap_or("None".to_string()),
-                    item.file_type.unwrap_or("None".to_string())
-                )
+                    "File path: {}\nFile type: {}\nFile size: {} bytes\nCompressed size: {} bytes\n\n\n",
+                    item.path.clone().unwrap_or("None".to_string()),
+                    item.file_type.unwrap_or("None".to_string()),
+                    item.chunks.clone()
+                        .unwrap_or(vec![])
+                        .iter()
+                        .map(|f| f.size.unwrap_or(0))
+                        .sum::<u64>(),
+                    item.chunks.clone()
+                        .unwrap_or(vec![])
+                        .iter()
+                        .map(|f| f.compressed_size.unwrap_or(0))
+                        .sum::<u64>()
+                );
+                if !item.path.is_none() && !item.chunks.is_none() && !item.depot_manifest.is_none()
+                {
+                    let download_file = FileDownload {
+                        path: item.path.unwrap(),
+                        chunks: item.chunks.unwrap(),
+                        depot_manifest: item.depot_manifest.unwrap(),
+                    };
+                    download_chunks.push(download_file);
+                }
             }
         }
 
-        Ok(())
+        Ok(download_chunks)
     }
     async fn get_depot_manifests(
         &self,
@@ -107,7 +128,7 @@ impl GamesDownloader {
 }
 
 #[derive(Debug, Clone)]
-pub struct DownloadChunk {
+pub struct FileDownload {
     pub path: String,
     pub chunks: Vec<DepotChunk>,
     pub depot_manifest: String,
@@ -132,7 +153,7 @@ impl DepotChunk {
 #[frb(opaque)]
 #[derive(Deserialize, Debug, Clone)]
 pub struct DepotItem {
-    pub chunks: Vec<DepotChunk>,
+    pub chunks: Option<Vec<DepotChunk>>,
     pub md5: Option<String>,
     pub path: Option<String>,
     #[serde(rename = "type")]
