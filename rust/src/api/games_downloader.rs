@@ -34,14 +34,30 @@ impl GamesDownloader {
         let resp: GogDbGameDetails = self.session.get_request_unauthorized(url).await?;
         Ok(resp)
     }
-    #[frb]
-    pub async fn download_game(
+    pub async fn create_game_download_queue(
         &self,
         game_details: GogDbGameDetails,
     ) -> Result<(), DownloaderError> {
         let latest_build = game_details.get_latest_build()?;
         let manifest = self.get_build_manifest(latest_build).await?;
-        let _depot_manifests = self.get_depot_manifests(&manifest).await?;
+        let depot_manifests = self.get_depot_manifests(&manifest).await?;
+        let mut download_chunks = Vec::new();
+        for depot_manifest in depot_manifests {
+            if let Some(file_type) = depot_manifest.depot.file_type {
+                if file_type == "DepotFile" {
+                    let download_chunk = DownloadChunk {
+                        path: depot_manifest.depot.path.unwrap().clone(),
+                        chunks: depot_manifest.depot.chunks,
+                        depot_manifest: depot_manifest.manifest_id.unwrap(),
+                    };
+                    download_chunks.push(download_chunk);
+                }
+            };
+        }
+        for chunk in download_chunks {
+            println!("===================================================");
+            println!("{:?}\n\n\n\n", chunk.path);
+        }
         Ok(())
     }
     async fn get_depot_manifests(
@@ -65,11 +81,13 @@ impl GamesDownloader {
             .collect();
 
         let mut depot_manifests = Vec::new();
-        for url in depot_manifest_urls {
-            let resp: DepotManifest = match self.session.get_request_compressed(url).await {
-                Ok(resp) => resp,
-                Err(e) => return Err(DownloaderError::RequestError(e.to_string())),
-            };
+        for (url, hash) in depot_manifest_urls.iter().zip(depot_manifest_hashes.iter()) {
+            let mut resp: DepotManifest =
+                match self.session.get_request_compressed(url.clone()).await {
+                    Ok(resp) => resp,
+                    Err(e) => return Err(DownloaderError::RequestError(e.to_string())),
+                };
+            resp.set_id(hash.clone());
             depot_manifests.push(resp);
         }
 
@@ -95,12 +113,23 @@ impl GamesDownloader {
     }
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Clone)]
+pub struct DownloadChunk {
+    pub path: String,
+    pub chunks: Vec<DepotChunk>,
+    pub depot_manifest: String,
+}
+
+#[derive(Deserialize, Debug, Clone)]
 pub struct DepotChunk {
     #[serde(rename = "compressedMd5")]
     pub compressed_md5: Option<String>,
+    #[serde(rename = "compressedSize")]
+    pub compressed_size: Option<u64>,
+    pub md5: Option<String>,
+    pub size: Option<u64>,
 }
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct DepotItem {
     #[serde(rename = "items")]
     pub chunks: Vec<DepotChunk>,
@@ -109,10 +138,19 @@ pub struct DepotItem {
     #[serde(rename = "type")]
     pub file_type: Option<String>,
 }
+
+#[frb(opaque)]
 #[derive(Deserialize, Debug)]
 pub struct DepotManifest {
     pub depot: DepotItem,
     pub version: u64,
+    pub manifest_id: Option<String>,
+}
+
+impl DepotManifest {
+    pub fn set_id(&mut self, id: String) {
+        self.manifest_id = Some(id);
+    }
 }
 
 #[derive(Deserialize, Debug)]

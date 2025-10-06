@@ -10,8 +10,25 @@ import 'error.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `get_build_manifest`, `get_depot_manifests`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `DepotChunk`, `DepotItem`, `DepotManifest`, `Depot`, `GogDbBuildManifest`, `OwnedGamesResponse`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `Depot`, `DownloadChunk`, `GogDbBuildManifest`, `OwnedGamesResponse`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<DepotManifest>>
+abstract class DepotManifest implements RustOpaqueInterface {
+  DepotItem get depot;
+
+  String? get manifestId;
+
+  BigInt get version;
+
+  set depot(DepotItem depot);
+
+  set manifestId(String? manifestId);
+
+  set version(BigInt version);
+
+  Future<void> setId({required String id});
+}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>>
 abstract class GamesDownloader implements RustOpaqueInterface {
@@ -19,7 +36,7 @@ abstract class GamesDownloader implements RustOpaqueInterface {
 
   set session(ArcSession session);
 
-  Future<void> downloadGame({required GogDbGameDetails gameDetails});
+  Future<void> createGameDownloadQueue({required GogDbGameDetails gameDetails});
 
   Future<GogDbGameDetails> fetchGameDetails({required String gameId});
 
@@ -27,6 +44,60 @@ abstract class GamesDownloader implements RustOpaqueInterface {
 
   factory GamesDownloader({required Session session}) => RustLib.instance.api
       .crateApiGamesDownloaderGamesDownloaderNew(session: session);
+}
+
+class DepotChunk {
+  final String? compressedMd5;
+  final BigInt? compressedSize;
+  final String? md5;
+  final BigInt? size;
+
+  const DepotChunk({
+    this.compressedMd5,
+    this.compressedSize,
+    this.md5,
+    this.size,
+  });
+
+  @override
+  int get hashCode =>
+      compressedMd5.hashCode ^
+      compressedSize.hashCode ^
+      md5.hashCode ^
+      size.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DepotChunk &&
+          runtimeType == other.runtimeType &&
+          compressedMd5 == other.compressedMd5 &&
+          compressedSize == other.compressedSize &&
+          md5 == other.md5 &&
+          size == other.size;
+}
+
+class DepotItem {
+  final List<DepotChunk> chunks;
+  final String? md5;
+  final String? path;
+  final String? fileType;
+
+  const DepotItem({required this.chunks, this.md5, this.path, this.fileType});
+
+  @override
+  int get hashCode =>
+      chunks.hashCode ^ md5.hashCode ^ path.hashCode ^ fileType.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DepotItem &&
+          runtimeType == other.runtimeType &&
+          chunks == other.chunks &&
+          md5 == other.md5 &&
+          path == other.path &&
+          fileType == other.fileType;
 }
 
 class GogDbGameBuild {
