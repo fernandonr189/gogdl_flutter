@@ -104,7 +104,7 @@ pub struct DepotChunk {
 pub struct DepotItem {
     #[serde(rename = "items")]
     pub chunks: Vec<DepotChunk>,
-    pub md5: String,
+    pub md5: Option<String>,
     pub path: String,
     #[serde(rename = "type")]
     pub file_type: String,
