@@ -28,12 +28,17 @@ Future<void> gogLogin({required Auth auth, required String sessionCode}) =>
       sessionCode: sessionCode,
     );
 
-Future<Uint64List> gogGetOwnedGames({required User user}) =>
-    RustLib.instance.api.crateApiGogdlGogGetOwnedGames(user: user);
+Future<List<GogDbGameDetails>> gogGetOwnedGames({
+  required User user,
+  required GamesDownloader downloader,
+}) => RustLib.instance.api.crateApiGogdlGogGetOwnedGames(
+  user: user,
+  downloader: downloader,
+);
 
 Future<GogDbGameDetails> gogGetGameDetails({
   required GamesDownloader downloader,
-  required String gameId,
+  required BigInt gameId,
 }) => RustLib.instance.api.crateApiGogdlGogGetGameDetails(
   downloader: downloader,
   gameId: gameId,
@@ -43,6 +48,12 @@ String gogGetImageBoxart({required GogDbGameDetails gameDetails}) => RustLib
     .instance
     .api
     .crateApiGogdlGogGetImageBoxart(gameDetails: gameDetails);
+
+String gogGetGameTitle({required GogDbGameDetails gameDetails}) =>
+    RustLib.instance.api.crateApiGogdlGogGetGameTitle(gameDetails: gameDetails);
+
+String gogGetGameType({required GogDbGameDetails gameDetails}) =>
+    RustLib.instance.api.crateApiGogdlGogGetGameType(gameDetails: gameDetails);
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Auth>>
 abstract class Auth implements RustOpaqueInterface {}

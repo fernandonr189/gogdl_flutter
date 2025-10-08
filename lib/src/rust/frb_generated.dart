@@ -67,7 +67,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 1279991166;
+  int get rustContentHash => 187375731;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -87,14 +87,21 @@ abstract class RustLibApi extends BaseApi {
 
   Future<GogDbGameDetails> crateApiGogdlGogGetGameDetails({
     required GamesDownloader downloader,
-    required String gameId,
+    required BigInt gameId,
   });
+
+  String crateApiGogdlGogGetGameTitle({required GogDbGameDetails gameDetails});
+
+  String crateApiGogdlGogGetGameType({required GogDbGameDetails gameDetails});
 
   String crateApiGogdlGogGetImageBoxart({
     required GogDbGameDetails gameDetails,
   });
 
-  Future<Uint64List> crateApiGogdlGogGetOwnedGames({required User user});
+  Future<List<GogDbGameDetails>> crateApiGogdlGogGetOwnedGames({
+    required User user,
+    required GamesDownloader downloader,
+  });
 
   Future<User> crateApiGogdlGogGetUser({
     required Session session,
@@ -246,7 +253,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   Future<GogDbGameDetails> crateApiGogdlGogGetGameDetails({
     required GamesDownloader downloader,
-    required String gameId,
+    required BigInt gameId,
   }) {
     return handler.executeNormal(
       NormalTask(
@@ -256,7 +263,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             downloader,
             serializer,
           );
-          sse_encode_String(gameId, serializer);
+          sse_encode_u_64(gameId, serializer);
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
@@ -284,6 +291,64 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  String crateApiGogdlGogGetGameTitle({required GogDbGameDetails gameDetails}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+            gameDetails,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGogdlGogGetGameTitleConstMeta,
+        argValues: [gameDetails],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGogdlGogGetGameTitleConstMeta =>
+      const TaskConstMeta(
+        debugName: "gog_get_game_title",
+        argNames: ["gameDetails"],
+      );
+
+  @override
+  String crateApiGogdlGogGetGameType({required GogDbGameDetails gameDetails}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+            gameDetails,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiGogdlGogGetGameTypeConstMeta,
+        argValues: [gameDetails],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiGogdlGogGetGameTypeConstMeta =>
+      const TaskConstMeta(
+        debugName: "gog_get_game_type",
+        argNames: ["gameDetails"],
+      );
+
+  @override
   String crateApiGogdlGogGetImageBoxart({
     required GogDbGameDetails gameDetails,
   }) {
@@ -295,7 +360,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             gameDetails,
             serializer,
           );
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -315,7 +380,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<Uint64List> crateApiGogdlGogGetOwnedGames({required User user}) {
+  Future<List<GogDbGameDetails>> crateApiGogdlGogGetOwnedGames({
+    required User user,
+    required GamesDownloader downloader,
+  }) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
@@ -324,27 +392,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             user,
             serializer,
           );
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGamesDownloader(
+            downloader,
+            serializer,
+          );
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 5,
+            funcId: 7,
             port: port_,
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_list_prim_u_64_strict,
+          decodeSuccessData:
+              sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails,
           decodeErrorData:
               sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionError,
         ),
         constMeta: kCrateApiGogdlGogGetOwnedGamesConstMeta,
-        argValues: [user],
+        argValues: [user, downloader],
         apiImpl: this,
       ),
     );
   }
 
   TaskConstMeta get kCrateApiGogdlGogGetOwnedGamesConstMeta =>
-      const TaskConstMeta(debugName: "gog_get_owned_games", argNames: ["user"]);
+      const TaskConstMeta(
+        debugName: "gog_get_owned_games",
+        argNames: ["user", "downloader"],
+      );
 
   @override
   Future<User> crateApiGogdlGogGetUser({
@@ -366,7 +442,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 6,
+            funcId: 8,
             port: port_,
           );
         },
@@ -394,7 +470,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -428,7 +504,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 10,
             port: port_,
           );
         },
@@ -456,7 +532,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(name, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -481,7 +557,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 10,
+            funcId: 12,
             port: port_,
           );
         },
@@ -742,9 +818,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Uint64List dco_decode_list_prim_u_64_strict(dynamic raw) {
+  List<GogDbGameDetails>
+  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    dynamic raw,
+  ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return dcoDecodeUint64List(raw);
+    return (raw as List<dynamic>)
+        .map(
+          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails,
+        )
+        .toList();
   }
 
   @protected
@@ -1025,10 +1108,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Uint64List sse_decode_list_prim_u_64_strict(SseDeserializer deserializer) {
+  List<GogDbGameDetails>
+  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    SseDeserializer deserializer,
+  ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+
     var len_ = sse_decode_i_32(deserializer);
-    return deserializer.buffer.getUint64List(len_);
+    var ans_ = <GogDbGameDetails>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+          deserializer,
+        ),
+      );
+    }
+    return ans_;
   }
 
   @protected
@@ -1340,13 +1435,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_list_prim_u_64_strict(
-    Uint64List self,
+  void
+  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    List<GogDbGameDetails> self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
-    serializer.buffer.putUint64List(self);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+        item,
+        serializer,
+      );
+    }
   }
 
   @protected
