@@ -1,11 +1,8 @@
 use flutter_rust_bridge::frb;
 use gogdl_rs::{
     auth::auth::AuthError, session::session::SessionError, user::user::User, Auth, GamesDownloader,
-    Session,
+    GogDbGameDetails, Session,
 };
-
-#[frb]
-pub use gogdl_rs::GogDbGameDetails;
 
 #[frb(sync)]
 pub fn gog_initialize() -> Session {
@@ -56,6 +53,9 @@ pub async fn gog_get_game_details(
 }
 
 #[frb(sync)]
-pub fn gog_get_image_boxart(game_details: &GogDbGameDetails) -> String {
-    game_details.image_boxart.clone()
+pub fn gog_get_image_boxart(game_details: &GogDbGameDetails) -> Result<String, String> {
+    game_details
+        .image_boxart
+        .clone()
+        .ok_or("Image boxart not found".to_owned())
 }

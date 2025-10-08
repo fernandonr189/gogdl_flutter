@@ -257,7 +257,7 @@ fn wire__crate__api__gogdl__gog_get_image_boxart_impl(
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
-            transform_result_sse::<_, ()>((move || {
+            transform_result_sse::<_, String>((move || {
                 let mut api_game_details_guard = None;
                 let decode_indices_ =
                     flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
@@ -277,9 +277,7 @@ fn wire__crate__api__gogdl__gog_get_image_boxart_impl(
                     }
                 }
                 let api_game_details_guard = api_game_details_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_image_boxart(
-                    &*api_game_details_guard,
-                ))?;
+                let output_ok = crate::api::gogdl::gog_get_image_boxart(&*api_game_details_guard)?;
                 Ok(output_ok)
             })())
         },
@@ -1253,6 +1251,10 @@ mod io {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<User>>::decrement_strong_count(ptr as _);
     }
 }
+use gogdl_rs::auth::auth::AuthError;
+use gogdl_rs::session::session::SessionError;
+use gogdl_rs::user::user::User;
+use gogdl_rs::{Auth, GamesDownloader, GogDbGameDetails, Session};
 #[cfg(not(target_family = "wasm"))]
 pub use io::*;
 
