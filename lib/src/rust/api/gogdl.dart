@@ -28,7 +28,7 @@ Future<void> gogLogin({required Auth auth, required String sessionCode}) =>
       sessionCode: sessionCode,
     );
 
-Future<List<GogDbGameDetails>> gogGetOwnedGames({
+Stream<List<GogDbGameDetails>> gogGetOwnedGames({
   required User user,
   required GamesDownloader downloader,
 }) => RustLib.instance.api.crateApiGogdlGogGetOwnedGames(

@@ -4,6 +4,8 @@ use gogdl_rs::{
     GogDbGameDetails, Session,
 };
 
+use crate::frb_generated::StreamSink;
+
 #[frb(sync)]
 pub fn gog_initialize() -> Session {
     let session = Session::new();
@@ -36,11 +38,11 @@ pub async fn gog_get_user(session: &Session, auth: &Auth) -> Result<User, AuthEr
 pub async fn gog_login(auth: &mut Auth, session_code: &str) -> Result<(), SessionError> {
     auth.login(session_code).await
 }
-#[frb]
 pub async fn gog_get_owned_games(
     user: &mut User,
     downloader: &GamesDownloader,
-) -> Result<Vec<GogDbGameDetails>, SessionError> {
+    sink: StreamSink<Vec<GogDbGameDetails>>,
+) -> anyhow::Result<()> {
     let games = user.get_owned_games().await?;
 
     let mut game_details = Vec::new();
@@ -49,10 +51,15 @@ pub async fn gog_get_owned_games(
             Ok(details) => details,
             Err(_) => continue,
         };
-        game_details.push(details);
+        if (details.product_type == Some("game".to_owned())) {
+            game_details.push(details);
+            match sink.add(game_details.clone()) {
+                Ok(_) => (),
+                Err(_e) => continue,
+            }
+        }
     }
-
-    Ok(game_details)
+    Ok(())
 }
 
 #[frb]
