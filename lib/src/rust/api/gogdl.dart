@@ -36,6 +36,9 @@ Stream<List<GogDbGameDetails>> gogGetOwnedGames({
   downloader: downloader,
 );
 
+BigInt gogGetGameId({required GogDbGameDetails gameDetails}) =>
+    RustLib.instance.api.crateApiGogdlGogGetGameId(gameDetails: gameDetails);
+
 Future<GogDbGameDetails> gogGetGameDetails({
   required GamesDownloader downloader,
   required BigInt gameId,
@@ -43,6 +46,20 @@ Future<GogDbGameDetails> gogGetGameDetails({
   downloader: downloader,
   gameId: gameId,
 );
+
+Future<List<GameBuild>> gogGetGameBuilds({
+  required GamesDownloader downloader,
+  required BigInt gameId,
+}) => RustLib.instance.api.crateApiGogdlGogGetGameBuilds(
+  downloader: downloader,
+  gameId: gameId,
+);
+
+String gogGetBuildName({required GameBuild build}) =>
+    RustLib.instance.api.crateApiGogdlGogGetBuildName(build: build);
+
+String gogGetBuildDate({required GameBuild build}) =>
+    RustLib.instance.api.crateApiGogdlGogGetBuildDate(build: build);
 
 String gogGetImageBoxart({required GogDbGameDetails gameDetails}) => RustLib
     .instance
@@ -60,6 +77,9 @@ abstract class Auth implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AuthError>>
 abstract class AuthError implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GameBuild>>
+abstract class GameBuild implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>>
 abstract class GamesDownloader implements RustOpaqueInterface {}
