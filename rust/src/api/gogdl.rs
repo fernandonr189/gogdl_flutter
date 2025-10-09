@@ -76,6 +76,83 @@ pub async fn gog_get_game_details(
     Ok(game_details)
 }
 #[frb]
+pub async fn download_build(
+    downloader: &GamesDownloader,
+    game_details: &GogDbGameDetails,
+    build_link: &str,
+    sink: StreamSink<DownloadProgress>,
+) -> Result<(), SessionError> {
+    let mut secure_links_response = downloader
+        .get_secure_links(game_details.game_id.unwrap_or_default())
+        .await?;
+    secure_links_response.urls.sort_by_key(|cdn| cdn.priority);
+    secure_links_response.urls.reverse();
+
+    let build_metadata = downloader.get_build_metadata(build_link).await?;
+    let depots = {
+        let mut depots = Vec::new();
+        for depot in build_metadata.depots {
+            depots.push(downloader.get_depot_information(&depot.manifest).await?);
+        }
+        depots
+    };
+
+    let mut files = {
+        let mut files = Vec::new();
+        for depot in depots {
+            files.extend(depot.depot.items);
+        }
+        files
+    };
+    for file in &mut files {
+        if file.chunks.len() > 1 {
+            file.chunks
+                .iter_mut()
+                .enumerate()
+                .for_each(|(index, chunk)| {
+                    chunk.set_order(index as i32);
+                });
+        }
+    }
+
+    let size = files.iter().map(|file| file.get_size()).sum::<u64>();
+    println!("Total size: {} bytes", size);
+
+    let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel();
+
+    for file in &files {
+        for chunk in file.chunks.clone() {
+            let current_chunk = chunk.clone();
+            let secure_links_clone = secure_links_response.clone();
+            let downloader_clone = downloader.clone();
+            let tx_clone = tx.clone();
+            tokio::spawn(async move {
+                downloader_clone
+                    .download_chunk(
+                        &secure_links_clone.urls,
+                        &current_chunk.compressed_md5,
+                        tx_clone,
+                    )
+                    .await
+                    .unwrap();
+            });
+        }
+    }
+
+    let mut progress = 0;
+    while let Some(new_progress) = rx.recv().await {
+        progress += new_progress;
+        sink.add(DownloadProgress {
+            total_bytes: size,
+            download_progress: progress as u64,
+            is_complete: progress as u64 == size,
+        })
+        .unwrap();
+    }
+    Ok(())
+}
+
+#[frb]
 pub async fn gog_get_game_builds(
     downloader: &GamesDownloader,
     game_id: u64,
@@ -92,6 +169,10 @@ pub fn gog_get_build_name(build: &GameBuild) -> String {
 pub fn gog_get_build_date(build: &GameBuild) -> String {
     let date = build.get_date().unwrap();
     date.format("%Y-%m-%d").to_string()
+}
+#[frb(sync)]
+pub fn gog_get_build_link(build: &GameBuild) -> String {
+    build.link.clone()
 }
 
 #[frb(sync)]
@@ -111,4 +192,10 @@ pub fn gog_get_game_title(game_details: &GogDbGameDetails) -> String {
 #[frb(sync)]
 pub fn gog_get_game_type(game_details: &GogDbGameDetails) -> String {
     game_details.product_type.clone().unwrap()
+}
+
+pub struct DownloadProgress {
+    pub total_bytes: u64,
+    pub download_progress: u64,
+    pub is_complete: bool,
 }

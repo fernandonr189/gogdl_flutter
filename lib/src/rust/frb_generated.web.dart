@@ -193,6 +193,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<DownloadProgress> dco_decode_StreamSink_download_progress_Sse(
+    dynamic raw,
+  );
+
+  @protected
   RustStreamSink<List<GogDbGameDetails>>
   dco_decode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
     dynamic raw,
@@ -200,6 +205,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String dco_decode_String(dynamic raw);
+
+  @protected
+  bool dco_decode_bool(dynamic raw);
+
+  @protected
+  DownloadProgress dco_decode_download_progress(dynamic raw);
 
   @protected
   List<GameBuild>
@@ -370,6 +381,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<DownloadProgress> sse_decode_StreamSink_download_progress_Sse(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   RustStreamSink<List<GogDbGameDetails>>
   sse_decode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
     SseDeserializer deserializer,
@@ -377,6 +393,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
+
+  @protected
+  bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
+  DownloadProgress sse_decode_download_progress(SseDeserializer deserializer);
 
   @protected
   List<GameBuild>
@@ -407,9 +429,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
-
-  @protected
-  bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
   void sse_encode_AnyhowException(
@@ -579,6 +598,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_StreamSink_download_progress_Sse(
+    RustStreamSink<DownloadProgress> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void
   sse_encode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
     RustStreamSink<List<GogDbGameDetails>> self,
@@ -587,6 +612,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_bool(bool self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_download_progress(
+    DownloadProgress self,
+    SseSerializer serializer,
+  );
 
   @protected
   void
@@ -622,9 +656,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_bool(bool self, SseSerializer serializer);
 }
 
 // Section: wire_class

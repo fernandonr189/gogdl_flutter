@@ -47,6 +47,16 @@ Future<GogDbGameDetails> gogGetGameDetails({
   gameId: gameId,
 );
 
+Stream<DownloadProgress> downloadBuild({
+  required GamesDownloader downloader,
+  required GogDbGameDetails gameDetails,
+  required String buildLink,
+}) => RustLib.instance.api.crateApiGogdlDownloadBuild(
+  downloader: downloader,
+  gameDetails: gameDetails,
+  buildLink: buildLink,
+);
+
 Future<List<GameBuild>> gogGetGameBuilds({
   required GamesDownloader downloader,
   required BigInt gameId,
@@ -60,6 +70,9 @@ String gogGetBuildName({required GameBuild build}) =>
 
 String gogGetBuildDate({required GameBuild build}) =>
     RustLib.instance.api.crateApiGogdlGogGetBuildDate(build: build);
+
+String gogGetBuildLink({required GameBuild build}) =>
+    RustLib.instance.api.crateApiGogdlGogGetBuildLink(build: build);
 
 String gogGetImageBoxart({required GogDbGameDetails gameDetails}) => RustLib
     .instance
@@ -95,3 +108,28 @@ abstract class SessionError implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<User>>
 abstract class User implements RustOpaqueInterface {}
+
+class DownloadProgress {
+  final BigInt totalBytes;
+  final BigInt downloadProgress;
+  final bool isComplete;
+
+  const DownloadProgress({
+    required this.totalBytes,
+    required this.downloadProgress,
+    required this.isComplete,
+  });
+
+  @override
+  int get hashCode =>
+      totalBytes.hashCode ^ downloadProgress.hashCode ^ isComplete.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DownloadProgress &&
+          runtimeType == other.runtimeType &&
+          totalBytes == other.totalBytes &&
+          downloadProgress == other.downloadProgress &&
+          isComplete == other.isComplete;
+}
