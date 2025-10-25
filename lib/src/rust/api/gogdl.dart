@@ -110,11 +110,13 @@ abstract class SessionError implements RustOpaqueInterface {}
 abstract class User implements RustOpaqueInterface {}
 
 class DownloadProgress {
+  final String gameName;
   final BigInt totalBytes;
   final BigInt downloadProgress;
   final bool isComplete;
 
   const DownloadProgress({
+    required this.gameName,
     required this.totalBytes,
     required this.downloadProgress,
     required this.isComplete,
@@ -122,13 +124,17 @@ class DownloadProgress {
 
   @override
   int get hashCode =>
-      totalBytes.hashCode ^ downloadProgress.hashCode ^ isComplete.hashCode;
+      gameName.hashCode ^
+      totalBytes.hashCode ^
+      downloadProgress.hashCode ^
+      isComplete.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is DownloadProgress &&
           runtimeType == other.runtimeType &&
+          gameName == other.gameName &&
           totalBytes == other.totalBytes &&
           downloadProgress == other.downloadProgress &&
           isComplete == other.isComplete;

@@ -167,6 +167,7 @@ pub async fn download_build(
     while let Some(new_progress) = rx.recv().await {
         progress += new_progress;
         sink.add(DownloadProgress {
+            game_name: game_details.title.clone().unwrap_or("Unknown".to_owned()),
             total_bytes: size,
             download_progress: progress as u64,
             is_complete: progress as u64 == size,
@@ -219,6 +220,7 @@ pub fn gog_get_game_type(game_details: &GogDbGameDetails) -> String {
 }
 
 pub struct DownloadProgress {
+    pub game_name: String,
     pub total_bytes: u64,
     pub download_progress: u64,
     pub is_complete: bool,

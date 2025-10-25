@@ -1112,12 +1112,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DownloadProgress dco_decode_download_progress(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return DownloadProgress(
-      totalBytes: dco_decode_u_64(arr[0]),
-      downloadProgress: dco_decode_u_64(arr[1]),
-      isComplete: dco_decode_bool(arr[2]),
+      gameName: dco_decode_String(arr[0]),
+      totalBytes: dco_decode_u_64(arr[1]),
+      downloadProgress: dco_decode_u_64(arr[2]),
+      isComplete: dco_decode_bool(arr[3]),
     );
   }
 
@@ -1493,10 +1494,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   DownloadProgress sse_decode_download_progress(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_gameName = sse_decode_String(deserializer);
     var var_totalBytes = sse_decode_u_64(deserializer);
     var var_downloadProgress = sse_decode_u_64(deserializer);
     var var_isComplete = sse_decode_bool(deserializer);
     return DownloadProgress(
+      gameName: var_gameName,
       totalBytes: var_totalBytes,
       downloadProgress: var_downloadProgress,
       isComplete: var_isComplete,
@@ -1939,6 +1942,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.gameName, serializer);
     sse_encode_u_64(self.totalBytes, serializer);
     sse_encode_u_64(self.downloadProgress, serializer);
     sse_encode_bool(self.isComplete, serializer);

@@ -1264,10 +1264,12 @@ impl SseDecode for bool {
 impl SseDecode for crate::api::gogdl::DownloadProgress {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_gameName = <String>::sse_decode(deserializer);
         let mut var_totalBytes = <u64>::sse_decode(deserializer);
         let mut var_downloadProgress = <u64>::sse_decode(deserializer);
         let mut var_isComplete = <bool>::sse_decode(deserializer);
         return crate::api::gogdl::DownloadProgress {
+            game_name: var_gameName,
             total_bytes: var_totalBytes,
             download_progress: var_downloadProgress,
             is_complete: var_isComplete,
@@ -1513,6 +1515,7 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<User>> for User {
 impl flutter_rust_bridge::IntoDart for crate::api::gogdl::DownloadProgress {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
+            self.game_name.into_into_dart().into_dart(),
             self.total_bytes.into_into_dart().into_dart(),
             self.download_progress.into_into_dart().into_dart(),
             self.is_complete.into_into_dart().into_dart(),
@@ -1719,6 +1722,7 @@ impl SseEncode for bool {
 impl SseEncode for crate::api::gogdl::DownloadProgress {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.game_name, serializer);
         <u64>::sse_encode(self.total_bytes, serializer);
         <u64>::sse_encode(self.download_progress, serializer);
         <bool>::sse_encode(self.is_complete, serializer);
