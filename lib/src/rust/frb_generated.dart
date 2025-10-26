@@ -82,6 +82,7 @@ abstract class RustLibApi extends BaseApi {
     required GamesDownloader downloader,
     required GogDbGameDetails gameDetails,
     required String buildLink,
+    required String downloadPath,
   });
 
   Auth crateApiGogdlGogGetAuth({required Session session});
@@ -212,6 +213,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required GamesDownloader downloader,
     required GogDbGameDetails gameDetails,
     required String buildLink,
+    required String downloadPath,
   }) {
     final sink = RustStreamSink<DownloadProgress>();
     unawaited(
@@ -228,6 +230,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
               serializer,
             );
             sse_encode_String(buildLink, serializer);
+            sse_encode_String(downloadPath, serializer);
             sse_encode_StreamSink_download_progress_Sse(sink, serializer);
             pdeCallFfi(
               generalizedFrbRustBinding,
@@ -242,7 +245,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
                 sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSessionError,
           ),
           constMeta: kCrateApiGogdlDownloadBuildConstMeta,
-          argValues: [downloader, gameDetails, buildLink, sink],
+          argValues: [downloader, gameDetails, buildLink, downloadPath, sink],
           apiImpl: this,
         ),
       ),
@@ -252,7 +255,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiGogdlDownloadBuildConstMeta => const TaskConstMeta(
     debugName: "download_build",
-    argNames: ["downloader", "gameDetails", "buildLink", "sink"],
+    argNames: [
+      "downloader",
+      "gameDetails",
+      "buildLink",
+      "downloadPath",
+      "sink",
+    ],
   );
 
   @override

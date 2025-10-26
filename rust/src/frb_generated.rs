@@ -75,6 +75,7 @@ fn wire__crate__api__gogdl__download_build_impl(
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
             >>::sse_decode(&mut deserializer);
             let api_build_link = <String>::sse_decode(&mut deserializer);
+            let api_download_path = <String>::sse_decode(&mut deserializer);
             let api_sink = <StreamSink<
                 crate::api::gogdl::DownloadProgress,
                 flutter_rust_bridge::for_generated::SseCodec,
@@ -119,6 +120,7 @@ fn wire__crate__api__gogdl__download_build_impl(
                             &*api_downloader_guard,
                             &*api_game_details_guard,
                             &api_build_link,
+                            &api_download_path,
                             api_sink,
                         )
                         .await?;

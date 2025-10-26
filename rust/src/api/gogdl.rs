@@ -1,11 +1,11 @@
-use std::sync::Arc;
+use std::{path::Path, sync::Arc};
 
 use flutter_rust_bridge::frb;
 use gogdl_rs::{
     auth::auth::AuthError, games::games_downloader::GameBuild, session::session::SessionError,
     user::user::User, Auth, GamesDownloader, GogDbGameDetails, Session,
 };
-use tokio::sync::Semaphore;
+use tokio::{io::AsyncWriteExt, sync::Semaphore};
 
 use crate::frb_generated::StreamSink;
 
@@ -82,6 +82,7 @@ pub async fn download_build(
     downloader: &GamesDownloader,
     game_details: &GogDbGameDetails,
     build_link: &str,
+    download_path: &str,
     sink: StreamSink<DownloadProgress>,
 ) -> Result<(), SessionError> {
     let mut secure_links_response = downloader
@@ -130,37 +131,54 @@ pub async fn download_build(
 
     let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel();
 
-    let max_concurrent_downloads = 6; // adjust as needed
+    let max_concurrent_downloads = 6;
     let semaphore = Arc::new(Semaphore::new(max_concurrent_downloads));
 
     for file in &files {
-        for chunk in file.chunks.clone().unwrap_or_default().clone() {
-            let current_chunk = chunk.clone();
-            let secure_links_clone = secure_links_response.clone();
-            let downloader_clone = downloader.clone();
-            let tx_clone = tx.clone();
-            let sem_clone = semaphore.clone();
-            let is_gog_depot = file.is_gog_depot.unwrap_or(false);
-
-            tokio::spawn(async move {
-                // Acquire a permit before starting the download
-                let _permit = sem_clone.acquire_owned().await.unwrap();
-
-                if let Err(e) = downloader_clone
+        let semaphore_clone = semaphore.clone();
+        let downloader_clone = downloader.clone();
+        let cdns_clone = secure_links_response.clone();
+        let file_clone = file.clone();
+        let tx_clone = tx.clone();
+        let is_gog_depot = file_clone.is_gog_depot.unwrap_or(false);
+        let download_path_clone = download_path.to_owned();
+        tokio::spawn(async move {
+            let mut file_buffer: Vec<u8> = Vec::new();
+            for chunk in file_clone.chunks.unwrap_or_default() {
+                let _permit = semaphore_clone.clone().acquire_owned().await.unwrap();
+                match downloader_clone
                     .download_chunk(
-                        &secure_links_clone.urls,
-                        &current_chunk.compressed_md5,
-                        tx_clone,
+                        &cdns_clone.urls,
+                        &chunk.compressed_md5,
+                        tx_clone.clone(),
                         is_gog_depot,
                     )
                     .await
                 {
-                    eprintln!("Chunk download failed: {:?}", e);
+                    Ok(buffer) => {
+                        file_buffer.extend(buffer);
+                    }
+                    Err(e) => println!("Error downloading chunk: {:?}", e),
                 }
+            }
 
-                // Permit is automatically released when `_permit` goes out of scope
-            });
-        }
+            let base_path = Path::new(&download_path_clone);
+            let normalized = file_clone
+                .path
+                .replace("\\\\", "//")
+                .replace("\\ ", " ")
+                .replace("\\", "/");
+
+            let full_path = base_path.join(normalized);
+
+            if let Some(parent) = full_path.parent() {
+                tokio::fs::create_dir_all(parent).await.unwrap();
+            }
+
+            let mut file = tokio::fs::File::create(full_path).await.unwrap();
+            file.write_all(&file_buffer).await.unwrap();
+            file.flush().await.unwrap();
+        });
     }
 
     let mut progress = 0;

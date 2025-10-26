@@ -51,10 +51,12 @@ Stream<DownloadProgress> downloadBuild({
   required GamesDownloader downloader,
   required GogDbGameDetails gameDetails,
   required String buildLink,
+  required String downloadPath,
 }) => RustLib.instance.api.crateApiGogdlDownloadBuild(
   downloader: downloader,
   gameDetails: gameDetails,
   buildLink: buildLink,
+  downloadPath: downloadPath,
 );
 
 Future<List<GameBuild>> gogGetGameBuilds({
