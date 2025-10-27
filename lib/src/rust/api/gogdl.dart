@@ -116,12 +116,14 @@ class DownloadProgress {
   final BigInt totalBytes;
   final BigInt downloadProgress;
   final bool isComplete;
+  final PlatformInt64 downloadSpeed;
 
   const DownloadProgress({
     required this.gameName,
     required this.totalBytes,
     required this.downloadProgress,
     required this.isComplete,
+    required this.downloadSpeed,
   });
 
   @override
@@ -129,7 +131,8 @@ class DownloadProgress {
       gameName.hashCode ^
       totalBytes.hashCode ^
       downloadProgress.hashCode ^
-      isComplete.hashCode;
+      isComplete.hashCode ^
+      downloadSpeed.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -139,5 +142,6 @@ class DownloadProgress {
           gameName == other.gameName &&
           totalBytes == other.totalBytes &&
           downloadProgress == other.downloadProgress &&
-          isComplete == other.isComplete;
+          isComplete == other.isComplete &&
+          downloadSpeed == other.downloadSpeed;
 }

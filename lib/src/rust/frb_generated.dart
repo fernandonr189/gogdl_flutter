@@ -1121,14 +1121,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   DownloadProgress dco_decode_download_progress(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return DownloadProgress(
       gameName: dco_decode_String(arr[0]),
       totalBytes: dco_decode_u_64(arr[1]),
       downloadProgress: dco_decode_u_64(arr[2]),
       isComplete: dco_decode_bool(arr[3]),
+      downloadSpeed: dco_decode_i_64(arr[4]),
     );
+  }
+
+  @protected
+  PlatformInt64 dco_decode_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64(raw);
   }
 
   @protected
@@ -1507,12 +1514,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_totalBytes = sse_decode_u_64(deserializer);
     var var_downloadProgress = sse_decode_u_64(deserializer);
     var var_isComplete = sse_decode_bool(deserializer);
+    var var_downloadSpeed = sse_decode_i_64(deserializer);
     return DownloadProgress(
       gameName: var_gameName,
       totalBytes: var_totalBytes,
       downloadProgress: var_downloadProgress,
       isComplete: var_isComplete,
+      downloadSpeed: var_downloadSpeed,
     );
+  }
+
+  @protected
+  PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getPlatformInt64();
   }
 
   @protected
@@ -1955,6 +1970,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_u_64(self.totalBytes, serializer);
     sse_encode_u_64(self.downloadProgress, serializer);
     sse_encode_bool(self.isComplete, serializer);
+    sse_encode_i_64(self.downloadSpeed, serializer);
+  }
+
+  @protected
+  void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putPlatformInt64(self);
   }
 
   @protected

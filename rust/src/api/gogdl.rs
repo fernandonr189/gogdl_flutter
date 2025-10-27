@@ -1,11 +1,11 @@
-use std::{path::Path, sync::Arc};
+use std::{path::Path, sync::Arc, time::Duration};
 
 use flutter_rust_bridge::frb;
 use gogdl_rs::{
     auth::auth::AuthError, games::games_downloader::GameBuild, session::session::SessionError,
     user::user::User, Auth, GamesDownloader, GogDbGameDetails, Session,
 };
-use tokio::{io::AsyncWriteExt, sync::Semaphore};
+use tokio::{io::AsyncWriteExt, sync::Semaphore, time::Instant};
 
 use crate::frb_generated::StreamSink;
 
@@ -182,13 +182,24 @@ pub async fn download_build(
     }
 
     let mut progress = 0;
+    let mut previous_time = Instant::now();
+    let mut download_speed = 0;
+    let mut timeframe_progress = 0;
     while let Some(new_progress) = rx.recv().await {
         progress += new_progress;
+        if previous_time - Instant::now() > Duration::from_millis(200) {
+            previous_time = Instant::now();
+            download_speed = timeframe_progress / 200;
+            timeframe_progress = 0;
+        } else {
+            timeframe_progress += new_progress;
+        }
         sink.add(DownloadProgress {
             game_name: game_details.title.clone().unwrap_or("Unknown".to_owned()),
             total_bytes: size,
             download_progress: progress as u64,
             is_complete: progress as u64 == size,
+            download_speed,
         })
         .unwrap();
     }
@@ -242,4 +253,5 @@ pub struct DownloadProgress {
     pub total_bytes: u64,
     pub download_progress: u64,
     pub is_complete: bool,
+    pub download_speed: i64,
 }
