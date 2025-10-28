@@ -187,9 +187,9 @@ pub async fn download_build(
     let mut timeframe_progress = 0;
     while let Some(new_progress) = rx.recv().await {
         progress += new_progress;
-        if previous_time - Instant::now() > Duration::from_millis(200) {
+        if Instant::now() - previous_time > Duration::from_millis(500) {
             previous_time = Instant::now();
-            download_speed = timeframe_progress / 200;
+            download_speed = timeframe_progress / 500 * 1000;
             timeframe_progress = 0;
         } else {
             timeframe_progress += new_progress;
