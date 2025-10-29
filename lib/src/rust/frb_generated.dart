@@ -80,7 +80,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 abstract class RustLibApi extends BaseApi {
   Stream<DownloadProgress> crateApiGogdlDownloadBuild({
     required GamesDownloader downloader,
-    required ArcGogDbGameDetails gameDetails,
+    required GogDbGameDetails gameDetails,
     required String buildLink,
     required String downloadPath,
   });
@@ -108,21 +108,17 @@ abstract class RustLibApi extends BaseApi {
     required BigInt gameId,
   });
 
-  BigInt crateApiGogdlGogGetGameId({required ArcGogDbGameDetails gameDetails});
+  BigInt crateApiGogdlGogGetGameId({required GogDbGameDetails gameDetails});
 
-  String crateApiGogdlGogGetGameTitle({
-    required ArcGogDbGameDetails gameDetails,
-  });
+  String crateApiGogdlGogGetGameTitle({required GogDbGameDetails gameDetails});
 
-  String crateApiGogdlGogGetGameType({
-    required ArcGogDbGameDetails gameDetails,
-  });
+  String crateApiGogdlGogGetGameType({required GogDbGameDetails gameDetails});
 
   String crateApiGogdlGogGetImageBoxart({
-    required ArcGogDbGameDetails gameDetails,
+    required GogDbGameDetails gameDetails,
   });
 
-  Stream<List<ArcGogDbGameDetails>> crateApiGogdlGogGetOwnedGames({
+  Stream<List<GogDbGameDetails>> crateApiGogdlGogGetOwnedGames({
     required User user,
     required GamesDownloader downloader,
   });
@@ -142,15 +138,6 @@ abstract class RustLibApi extends BaseApi {
   String crateApiSimpleGreet({required String name});
 
   Future<void> crateApiSimpleInitApp();
-
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcGogDbGameDetails;
-
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcGogDbGameDetails;
-
-  CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcGogDbGameDetailsPtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Auth;
 
@@ -224,7 +211,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @override
   Stream<DownloadProgress> crateApiGogdlDownloadBuild({
     required GamesDownloader downloader,
-    required ArcGogDbGameDetails gameDetails,
+    required GogDbGameDetails gameDetails,
     required String buildLink,
     required String downloadPath,
   }) {
@@ -238,7 +225,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
               downloader,
               serializer,
             );
-            sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
+            sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
               gameDetails,
               serializer,
             );
@@ -506,12 +493,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  BigInt crateApiGogdlGogGetGameId({required ArcGogDbGameDetails gameDetails}) {
+  BigInt crateApiGogdlGogGetGameId({required GogDbGameDetails gameDetails}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
             gameDetails,
             serializer,
           );
@@ -534,14 +521,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   );
 
   @override
-  String crateApiGogdlGogGetGameTitle({
-    required ArcGogDbGameDetails gameDetails,
-  }) {
+  String crateApiGogdlGogGetGameTitle({required GogDbGameDetails gameDetails}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
             gameDetails,
             serializer,
           );
@@ -565,14 +550,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  String crateApiGogdlGogGetGameType({
-    required ArcGogDbGameDetails gameDetails,
-  }) {
+  String crateApiGogdlGogGetGameType({required GogDbGameDetails gameDetails}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
             gameDetails,
             serializer,
           );
@@ -597,13 +580,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   String crateApiGogdlGogGetImageBoxart({
-    required ArcGogDbGameDetails gameDetails,
+    required GogDbGameDetails gameDetails,
   }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
             gameDetails,
             serializer,
           );
@@ -627,11 +610,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Stream<List<ArcGogDbGameDetails>> crateApiGogdlGogGetOwnedGames({
+  Stream<List<GogDbGameDetails>> crateApiGogdlGogGetOwnedGames({
     required User user,
     required GamesDownloader downloader,
   }) {
-    final sink = RustStreamSink<List<ArcGogDbGameDetails>>();
+    final sink = RustStreamSink<List<GogDbGameDetails>>();
     unawaited(
       handler.executeNormal(
         NormalTask(
@@ -645,7 +628,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
               downloader,
               serializer,
             );
-            sse_encode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails_Sse(
+            sse_encode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
               sink,
               serializer,
             );
@@ -829,14 +812,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "init_app", argNames: []);
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcGogDbGameDetails => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails;
-
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcGogDbGameDetails => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails;
-
-  RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_Auth => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAuth;
 
@@ -904,15 +879,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AnyhowException dco_decode_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return AnyhowException(raw as String);
-  }
-
-  @protected
-  ArcGogDbGameDetails
-  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcGogDbGameDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -1033,21 +999,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  GogDbGameDetails
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return GogDbGameDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   Session
   dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return SessionImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  ArcGogDbGameDetails
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcGogDbGameDetailsImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -1131,8 +1097,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  RustStreamSink<List<ArcGogDbGameDetails>>
-  dco_decode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails_Sse(
+  RustStreamSink<List<GogDbGameDetails>>
+  dco_decode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -1173,19 +1139,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<ArcGogDbGameDetails>
-  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return (raw as List<dynamic>)
-        .map(
-          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails,
-        )
-        .toList();
-  }
-
-  @protected
   List<GameBuild>
   dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGameBuild(
     dynamic raw,
@@ -1194,6 +1147,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return (raw as List<dynamic>)
         .map(
           dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGameBuild,
+        )
+        .toList();
+  }
+
+  @protected
+  List<GogDbGameDetails>
+  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>)
+        .map(
+          dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails,
         )
         .toList();
   }
@@ -1233,18 +1199,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_String(deserializer);
     return AnyhowException(inner);
-  }
-
-  @protected
-  ArcGogDbGameDetails
-  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcGogDbGameDetailsImpl.frbInternalSseDecode(
-      sse_decode_usize(deserializer),
-      sse_decode_i_32(deserializer),
-    );
   }
 
   @protected
@@ -1404,24 +1358,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  Session
-  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
+  GogDbGameDetails
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return SessionImpl.frbInternalSseDecode(
+    return GogDbGameDetailsImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
   }
 
   @protected
-  ArcGogDbGameDetails
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
+  Session
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcGogDbGameDetailsImpl.frbInternalSseDecode(
+    return SessionImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -1532,8 +1486,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  RustStreamSink<List<ArcGogDbGameDetails>>
-  sse_decode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails_Sse(
+  RustStreamSink<List<GogDbGameDetails>>
+  sse_decode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1577,25 +1531,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  List<ArcGogDbGameDetails>
-  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-
-    var len_ = sse_decode_i_32(deserializer);
-    var ans_ = <ArcGogDbGameDetails>[];
-    for (var idx_ = 0; idx_ < len_; ++idx_) {
-      ans_.add(
-        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-          deserializer,
-        ),
-      );
-    }
-    return ans_;
-  }
-
-  @protected
   List<GameBuild>
   sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGameBuild(
     SseDeserializer deserializer,
@@ -1607,6 +1542,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(
         sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGameBuild(
+          deserializer,
+        ),
+      );
+    }
+    return ans_;
+  }
+
+  @protected
+  List<GogDbGameDetails>
+  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <GogDbGameDetails>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(
+        sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
           deserializer,
         ),
       );
@@ -1657,19 +1611,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.message, serializer);
-  }
-
-  @protected
-  void
-  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    ArcGogDbGameDetails self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-      (self as ArcGogDbGameDetailsImpl).frbInternalSseEncode(move: true),
-      serializer,
-    );
   }
 
   @protected
@@ -1843,6 +1784,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    GogDbGameDetails self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as GogDbGameDetailsImpl).frbInternalSseEncode(move: false),
+      serializer,
+    );
+  }
+
+  @protected
+  void
   sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSession(
     Session self,
     SseSerializer serializer,
@@ -1850,19 +1804,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as SessionImpl).frbInternalSseEncode(move: false),
-      serializer,
-    );
-  }
-
-  @protected
-  void
-  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    ArcGogDbGameDetails self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-      (self as ArcGogDbGameDetailsImpl).frbInternalSseEncode(move: null),
       serializer,
     );
   }
@@ -1990,8 +1931,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-  sse_encode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails_Sse(
-    RustStreamSink<List<ArcGogDbGameDetails>> self,
+  sse_encode_StreamSink_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails_Sse(
+    RustStreamSink<List<GogDbGameDetails>> self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1999,7 +1940,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       self.setupAndSerialize(
         codec: SseCodec(
           decodeSuccessData:
-              sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails,
+              sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails,
           decodeErrorData: sse_decode_AnyhowException,
         ),
       ),
@@ -2040,22 +1981,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
-  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-    List<ArcGogDbGameDetails> self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_i_32(self.length, serializer);
-    for (final item in self) {
-      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-        item,
-        serializer,
-      );
-    }
-  }
-
-  @protected
-  void
   sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGameBuild(
     List<GameBuild> self,
     SseSerializer serializer,
@@ -2064,6 +1989,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGameBuild(
+        item,
+        serializer,
+      );
+    }
+  }
+
+  @protected
+  void
+  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
+    List<GogDbGameDetails> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerGogDbGameDetails(
         item,
         serializer,
       );
@@ -2108,35 +2049,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putInt32(self);
   }
-}
-
-@sealed
-class ArcGogDbGameDetailsImpl extends RustOpaque
-    implements ArcGogDbGameDetails {
-  // Not to be used by end users
-  ArcGogDbGameDetailsImpl.frbInternalDcoDecode(List<dynamic> wire)
-    : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  ArcGogDbGameDetailsImpl.frbInternalSseDecode(
-    BigInt ptr,
-    int externalSizeOnNative,
-  ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount: RustLib
-        .instance
-        .api
-        .rust_arc_increment_strong_count_ArcGogDbGameDetails,
-    rustArcDecrementStrongCount: RustLib
-        .instance
-        .api
-        .rust_arc_decrement_strong_count_ArcGogDbGameDetails,
-    rustArcDecrementStrongCountPtr: RustLib
-        .instance
-        .api
-        .rust_arc_decrement_strong_count_ArcGogDbGameDetailsPtr,
-  );
 }
 
 @sealed

@@ -71,7 +71,9 @@ fn wire__crate__api__gogdl__download_build_impl(
             let api_downloader = <RustOpaqueMoi<
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>,
             >>::sse_decode(&mut deserializer);
-            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
+            let api_game_details = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
+            >>::sse_decode(&mut deserializer);
             let api_build_link = <String>::sse_decode(&mut deserializer);
             let api_download_path = <String>::sse_decode(&mut deserializer);
             let api_sink = <StreamSink<
@@ -83,13 +85,21 @@ fn wire__crate__api__gogdl__download_build_impl(
                 transform_result_sse::<_, SessionError>(
                     (move || async move {
                         let mut api_downloader_guard = None;
+                        let mut api_game_details_guard = None;
                         let decode_indices_ =
                             flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                    &api_downloader,
-                                    0,
-                                    false,
-                                )],
+                                vec![
+                                    flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                        &api_downloader,
+                                        0,
+                                        false,
+                                    ),
+                                    flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                        &api_game_details,
+                                        1,
+                                        false,
+                                    ),
+                                ],
                             );
                         for i in decode_indices_ {
                             match i {
@@ -97,13 +107,18 @@ fn wire__crate__api__gogdl__download_build_impl(
                                     api_downloader_guard =
                                         Some(api_downloader.lockable_decode_async_ref().await)
                                 }
+                                1 => {
+                                    api_game_details_guard =
+                                        Some(api_game_details.lockable_decode_async_ref().await)
+                                }
                                 _ => unreachable!(),
                             }
                         }
                         let api_downloader_guard = api_downloader_guard.unwrap();
+                        let api_game_details_guard = api_game_details_guard.unwrap();
                         let output_ok = crate::api::gogdl::download_build(
                             &*api_downloader_guard,
-                            api_game_details,
+                            &*api_game_details_guard,
                             &api_build_link,
                             &api_download_path,
                             api_sink,
@@ -527,11 +542,33 @@ fn wire__crate__api__gogdl__gog_get_game_id_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
+            let api_game_details = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
+            >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let output_ok =
-                    Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_id(api_game_details))?;
+                let mut api_game_details_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_game_details,
+                            0,
+                            false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => {
+                            api_game_details_guard =
+                                Some(api_game_details.lockable_decode_sync_ref())
+                        }
+                        _ => unreachable!(),
+                    }
+                }
+                let api_game_details_guard = api_game_details_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_id(
+                    &*api_game_details_guard,
+                ))?;
                 Ok(output_ok)
             })())
         },
@@ -558,11 +595,33 @@ fn wire__crate__api__gogdl__gog_get_game_title_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
+            let api_game_details = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
+            >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let output_ok =
-                    Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_title(api_game_details))?;
+                let mut api_game_details_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_game_details,
+                            0,
+                            false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => {
+                            api_game_details_guard =
+                                Some(api_game_details.lockable_decode_sync_ref())
+                        }
+                        _ => unreachable!(),
+                    }
+                }
+                let api_game_details_guard = api_game_details_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_title(
+                    &*api_game_details_guard,
+                ))?;
                 Ok(output_ok)
             })())
         },
@@ -589,11 +648,33 @@ fn wire__crate__api__gogdl__gog_get_game_type_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
+            let api_game_details = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
+            >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let output_ok =
-                    Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_type(api_game_details))?;
+                let mut api_game_details_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_game_details,
+                            0,
+                            false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => {
+                            api_game_details_guard =
+                                Some(api_game_details.lockable_decode_sync_ref())
+                        }
+                        _ => unreachable!(),
+                    }
+                }
+                let api_game_details_guard = api_game_details_guard.unwrap();
+                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_type(
+                    &*api_game_details_guard,
+                ))?;
                 Ok(output_ok)
             })())
         },
@@ -620,10 +701,31 @@ fn wire__crate__api__gogdl__gog_get_image_boxart_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
+            let api_game_details = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
+            >>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, String>((move || {
-                let output_ok = crate::api::gogdl::gog_get_image_boxart(api_game_details)?;
+                let mut api_game_details_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_game_details,
+                            0,
+                            false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => {
+                            api_game_details_guard =
+                                Some(api_game_details.lockable_decode_sync_ref())
+                        }
+                        _ => unreachable!(),
+                    }
+                }
+                let api_game_details_guard = api_game_details_guard.unwrap();
+                let output_ok = crate::api::gogdl::gog_get_image_boxart(&*api_game_details_guard)?;
                 Ok(output_ok)
             })())
         },
@@ -658,7 +760,7 @@ fn wire__crate__api__gogdl__gog_get_owned_games_impl(
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>,
             >>::sse_decode(&mut deserializer);
             let api_sink = <StreamSink<
-                Vec<Arc<GogDbGameDetails>>,
+                Vec<GogDbGameDetails>,
                 flutter_rust_bridge::for_generated::SseCodec,
             >>::sse_decode(&mut deserializer);
             deserializer.end();
@@ -937,9 +1039,6 @@ fn wire__crate__api__simple__init_app_impl(
 // Section: related_funcs
 
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
-    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<GogDbGameDetails>>
-);
-flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Auth>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
@@ -971,16 +1070,6 @@ impl SseDecode for flutter_rust_bridge::for_generated::anyhow::Error {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <String>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::anyhow::anyhow!("{}", inner);
-    }
-}
-
-impl SseDecode for Arc<GogDbGameDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueMoi<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<GogDbGameDetails>>,
-        >>::sse_decode(deserializer);
-        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
 }
 
@@ -1061,18 +1150,6 @@ impl SseDecode for User {
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<User>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
-    }
-}
-
-impl SseDecode
-    for RustOpaqueMoi<
-        flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<GogDbGameDetails>>,
-    >
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return decode_rust_opaque_moi(inner);
     }
 }
 
@@ -1163,9 +1240,7 @@ impl SseDecode
     }
 }
 
-impl SseDecode
-    for StreamSink<Vec<Arc<GogDbGameDetails>>, flutter_rust_bridge::for_generated::SseCodec>
-{
+impl SseDecode for StreamSink<Vec<GogDbGameDetails>, flutter_rust_bridge::for_generated::SseCodec> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <String>::sse_decode(deserializer);
@@ -1213,18 +1288,6 @@ impl SseDecode for i64 {
     }
 }
 
-impl SseDecode for Vec<Arc<GogDbGameDetails>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = vec![];
-        for idx_ in 0..len_ {
-            ans_.push(<Arc<GogDbGameDetails>>::sse_decode(deserializer));
-        }
-        return ans_;
-    }
-}
-
 impl SseDecode for Vec<GameBuild> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1232,6 +1295,18 @@ impl SseDecode for Vec<GameBuild> {
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
             ans_.push(<GameBuild>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<GogDbGameDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<GogDbGameDetails>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -1326,26 +1401,6 @@ fn pde_ffi_dispatcher_sync_impl(
 }
 
 // Section: rust2dart
-
-// Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for FrbWrapper<Arc<GogDbGameDetails>> {
-    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
-            .into_dart()
-    }
-}
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for FrbWrapper<Arc<GogDbGameDetails>>
-{
-}
-
-impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Arc<GogDbGameDetails>>>
-    for Arc<GogDbGameDetails>
-{
-    fn into_into_dart(self) -> FrbWrapper<Arc<GogDbGameDetails>> {
-        self.into()
-    }
-}
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<Auth> {
@@ -1499,18 +1554,6 @@ impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     }
 }
 
-impl SseEncode for Arc<GogDbGameDetails> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueMoi<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<GogDbGameDetails>>,
-        >>::sse_encode(
-            flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self),
-            serializer,
-        );
-    }
-}
-
 impl SseEncode for Auth {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1570,19 +1613,6 @@ impl SseEncode for User {
             flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self),
             serializer,
         );
-    }
-}
-
-impl SseEncode
-    for RustOpaqueMoi<
-        flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc<GogDbGameDetails>>,
-    >
-{
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
     }
 }
 
@@ -1680,9 +1710,7 @@ impl SseEncode
     }
 }
 
-impl SseEncode
-    for StreamSink<Vec<Arc<GogDbGameDetails>>, flutter_rust_bridge::for_generated::SseCodec>
-{
+impl SseEncode for StreamSink<Vec<GogDbGameDetails>, flutter_rust_bridge::for_generated::SseCodec> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         unimplemented!("")
@@ -1721,22 +1749,22 @@ impl SseEncode for i64 {
     }
 }
 
-impl SseEncode for Vec<Arc<GogDbGameDetails>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <Arc<GogDbGameDetails>>::sse_encode(item, serializer);
-        }
-    }
-}
-
 impl SseEncode for Vec<GameBuild> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <GameBuild>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<GogDbGameDetails> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <GogDbGameDetails>::sse_encode(item, serializer);
         }
     }
 }
@@ -1805,20 +1833,6 @@ mod io {
     // Section: boilerplate
 
     flutter_rust_bridge::frb_generated_boilerplate_io!();
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_gogdl_flutter_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>::increment_strong_count(ptr as _);
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_gogdl_flutter_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>::decrement_strong_count(ptr as _);
-    }
 
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_gogdl_flutter_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAuth(
@@ -1961,20 +1975,6 @@ mod web {
     // Section: boilerplate
 
     flutter_rust_bridge::frb_generated_boilerplate_web!();
-
-    #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>::increment_strong_count(ptr as _);
-    }
-
-    #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcGogDbGameDetails(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>::decrement_strong_count(ptr as _);
-    }
 
     #[wasm_bindgen]
     pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAuth(

@@ -45,11 +45,11 @@ pub async fn gog_login(auth: &mut Auth, session_code: &str) -> Result<(), Sessio
 pub async fn gog_get_owned_games(
     user: &mut User,
     downloader: &GamesDownloader,
-    sink: StreamSink<Vec<Arc<GogDbGameDetails>>>,
+    sink: StreamSink<Vec<GogDbGameDetails>>,
 ) -> anyhow::Result<()> {
     let games = user.get_owned_games().await?;
 
-    let mut game_details = Vec::new();
+    let mut owned_games = Vec::new();
     for &game_id in &games {
         let mut details = match gog_get_game_details(downloader, game_id).await {
             Ok(details) => details,
@@ -57,8 +57,8 @@ pub async fn gog_get_owned_games(
         };
         if details.product_type == Some("game".to_owned()) {
             details.set_id(game_id);
-            game_details.push(Arc::new(details));
-            if let Err(_e) = sink.add(game_details.clone()) {
+            owned_games.push(details);
+            if let Err(_e) = sink.add(owned_games.clone()) {
                 continue;
             }
         }
@@ -66,7 +66,7 @@ pub async fn gog_get_owned_games(
     Ok(())
 }
 #[frb(sync)]
-pub fn gog_get_game_id(game_details: Arc<GogDbGameDetails>) -> u64 {
+pub fn gog_get_game_id(game_details: &GogDbGameDetails) -> u64 {
     game_details.game_id.unwrap_or_default()
 }
 
@@ -81,7 +81,7 @@ pub async fn gog_get_game_details(
 #[frb]
 pub async fn download_build(
     downloader: &GamesDownloader,
-    game_details: Arc<GogDbGameDetails>,
+    game_details: &GogDbGameDetails,
     build_link: &str,
     download_path: &str,
     sink: StreamSink<DownloadProgress>,
@@ -246,7 +246,7 @@ pub fn gog_get_build_link(build: &GameBuild) -> String {
 }
 
 #[frb(sync)]
-pub fn gog_get_image_boxart(game_details: Arc<GogDbGameDetails>) -> Result<String, String> {
+pub fn gog_get_image_boxart(game_details: &GogDbGameDetails) -> Result<String, String> {
     let image_url = match game_details.image_boxart.clone() {
         Some(url) => url,
         None => return Err("Image boxart not found".to_owned()),
@@ -255,12 +255,12 @@ pub fn gog_get_image_boxart(game_details: Arc<GogDbGameDetails>) -> Result<Strin
 }
 
 #[frb(sync)]
-pub fn gog_get_game_title(game_details: Arc<GogDbGameDetails>) -> String {
+pub fn gog_get_game_title(game_details: &GogDbGameDetails) -> String {
     game_details.title.clone().unwrap()
 }
 
 #[frb(sync)]
-pub fn gog_get_game_type(game_details: Arc<GogDbGameDetails>) -> String {
+pub fn gog_get_game_type(game_details: &GogDbGameDetails) -> String {
     game_details.product_type.clone().unwrap()
 }
 

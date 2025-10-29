@@ -9,7 +9,7 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 anyhow = "1.0.100"
 flutter_rust_bridge = "=2.11.1"
-gogdl_rs = { git = "https://github.com/fernandonr189/gogdl_rs.git", branch = "main" }
+gogdl_rs = { path = "../../gogdl_rs" }
 tokio = "1.47.1"
 
 [lints.rust]

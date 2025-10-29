@@ -28,7 +28,7 @@ Future<void> gogLogin({required Auth auth, required String sessionCode}) =>
       sessionCode: sessionCode,
     );
 
-Stream<List<ArcGogDbGameDetails>> gogGetOwnedGames({
+Stream<List<GogDbGameDetails>> gogGetOwnedGames({
   required User user,
   required GamesDownloader downloader,
 }) => RustLib.instance.api.crateApiGogdlGogGetOwnedGames(
@@ -36,7 +36,7 @@ Stream<List<ArcGogDbGameDetails>> gogGetOwnedGames({
   downloader: downloader,
 );
 
-BigInt gogGetGameId({required ArcGogDbGameDetails gameDetails}) =>
+BigInt gogGetGameId({required GogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameId(gameDetails: gameDetails);
 
 Future<GogDbGameDetails> gogGetGameDetails({
@@ -49,7 +49,7 @@ Future<GogDbGameDetails> gogGetGameDetails({
 
 Stream<DownloadProgress> downloadBuild({
   required GamesDownloader downloader,
-  required ArcGogDbGameDetails gameDetails,
+  required GogDbGameDetails gameDetails,
   required String buildLink,
   required String downloadPath,
 }) => RustLib.instance.api.crateApiGogdlDownloadBuild(
@@ -76,19 +76,16 @@ String gogGetBuildDate({required GameBuild build}) =>
 String gogGetBuildLink({required GameBuild build}) =>
     RustLib.instance.api.crateApiGogdlGogGetBuildLink(build: build);
 
-String gogGetImageBoxart({required ArcGogDbGameDetails gameDetails}) => RustLib
+String gogGetImageBoxart({required GogDbGameDetails gameDetails}) => RustLib
     .instance
     .api
     .crateApiGogdlGogGetImageBoxart(gameDetails: gameDetails);
 
-String gogGetGameTitle({required ArcGogDbGameDetails gameDetails}) =>
+String gogGetGameTitle({required GogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameTitle(gameDetails: gameDetails);
 
-String gogGetGameType({required ArcGogDbGameDetails gameDetails}) =>
+String gogGetGameType({required GogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameType(gameDetails: gameDetails);
-
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>
-abstract class ArcGogDbGameDetails implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Auth>>
 abstract class Auth implements RustOpaqueInterface {}

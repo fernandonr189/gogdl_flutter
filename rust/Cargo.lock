@@ -505,7 +505,6 @@ dependencies = [
 [[package]]
 name = "gogdl_rs"
 version = "0.1.0"
-source = "git+https://github.com/fernandonr189/gogdl_rs.git?branch=main#ec42fccd07a73f3d69fc1af405a2e744dc1806dd"
 dependencies = [
  "chrono",
  "flate2",
