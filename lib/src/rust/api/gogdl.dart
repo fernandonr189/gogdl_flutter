@@ -36,7 +36,7 @@ Stream<List<ArcGogDbGameDetails>> gogGetOwnedGames({
   downloader: downloader,
 );
 
-BigInt gogGetGameId({required GogDbGameDetails gameDetails}) =>
+BigInt gogGetGameId({required ArcGogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameId(gameDetails: gameDetails);
 
 Future<GogDbGameDetails> gogGetGameDetails({
@@ -49,7 +49,7 @@ Future<GogDbGameDetails> gogGetGameDetails({
 
 Stream<DownloadProgress> downloadBuild({
   required GamesDownloader downloader,
-  required GogDbGameDetails gameDetails,
+  required ArcGogDbGameDetails gameDetails,
   required String buildLink,
   required String downloadPath,
 }) => RustLib.instance.api.crateApiGogdlDownloadBuild(
@@ -76,15 +76,15 @@ String gogGetBuildDate({required GameBuild build}) =>
 String gogGetBuildLink({required GameBuild build}) =>
     RustLib.instance.api.crateApiGogdlGogGetBuildLink(build: build);
 
-String gogGetImageBoxart({required GogDbGameDetails gameDetails}) => RustLib
+String gogGetImageBoxart({required ArcGogDbGameDetails gameDetails}) => RustLib
     .instance
     .api
     .crateApiGogdlGogGetImageBoxart(gameDetails: gameDetails);
 
-String gogGetGameTitle({required GogDbGameDetails gameDetails}) =>
+String gogGetGameTitle({required ArcGogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameTitle(gameDetails: gameDetails);
 
-String gogGetGameType({required GogDbGameDetails gameDetails}) =>
+String gogGetGameType({required ArcGogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameType(gameDetails: gameDetails);
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>

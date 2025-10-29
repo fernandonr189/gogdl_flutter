@@ -71,9 +71,7 @@ fn wire__crate__api__gogdl__download_build_impl(
             let api_downloader = <RustOpaqueMoi<
                 flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>,
             >>::sse_decode(&mut deserializer);
-            let api_game_details = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
-            >>::sse_decode(&mut deserializer);
+            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
             let api_build_link = <String>::sse_decode(&mut deserializer);
             let api_download_path = <String>::sse_decode(&mut deserializer);
             let api_sink = <StreamSink<
@@ -85,21 +83,13 @@ fn wire__crate__api__gogdl__download_build_impl(
                 transform_result_sse::<_, SessionError>(
                     (move || async move {
                         let mut api_downloader_guard = None;
-                        let mut api_game_details_guard = None;
                         let decode_indices_ =
                             flutter_rust_bridge::for_generated::lockable_compute_decode_order(
-                                vec![
-                                    flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                        &api_downloader,
-                                        0,
-                                        false,
-                                    ),
-                                    flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                                        &api_game_details,
-                                        1,
-                                        false,
-                                    ),
-                                ],
+                                vec![flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                    &api_downloader,
+                                    0,
+                                    false,
+                                )],
                             );
                         for i in decode_indices_ {
                             match i {
@@ -107,18 +97,13 @@ fn wire__crate__api__gogdl__download_build_impl(
                                     api_downloader_guard =
                                         Some(api_downloader.lockable_decode_async_ref().await)
                                 }
-                                1 => {
-                                    api_game_details_guard =
-                                        Some(api_game_details.lockable_decode_async_ref().await)
-                                }
                                 _ => unreachable!(),
                             }
                         }
                         let api_downloader_guard = api_downloader_guard.unwrap();
-                        let api_game_details_guard = api_game_details_guard.unwrap();
                         let output_ok = crate::api::gogdl::download_build(
                             &*api_downloader_guard,
-                            &*api_game_details_guard,
+                            api_game_details,
                             &api_build_link,
                             &api_download_path,
                             api_sink,
@@ -542,33 +527,11 @@ fn wire__crate__api__gogdl__gog_get_game_id_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
-            >>::sse_decode(&mut deserializer);
+            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let mut api_game_details_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_game_details,
-                            0,
-                            false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => {
-                            api_game_details_guard =
-                                Some(api_game_details.lockable_decode_sync_ref())
-                        }
-                        _ => unreachable!(),
-                    }
-                }
-                let api_game_details_guard = api_game_details_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_id(
-                    &*api_game_details_guard,
-                ))?;
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_id(api_game_details))?;
                 Ok(output_ok)
             })())
         },
@@ -595,33 +558,11 @@ fn wire__crate__api__gogdl__gog_get_game_title_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
-            >>::sse_decode(&mut deserializer);
+            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let mut api_game_details_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_game_details,
-                            0,
-                            false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => {
-                            api_game_details_guard =
-                                Some(api_game_details.lockable_decode_sync_ref())
-                        }
-                        _ => unreachable!(),
-                    }
-                }
-                let api_game_details_guard = api_game_details_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_title(
-                    &*api_game_details_guard,
-                ))?;
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_title(api_game_details))?;
                 Ok(output_ok)
             })())
         },
@@ -648,33 +589,11 @@ fn wire__crate__api__gogdl__gog_get_game_type_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
-            >>::sse_decode(&mut deserializer);
+            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let mut api_game_details_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_game_details,
-                            0,
-                            false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => {
-                            api_game_details_guard =
-                                Some(api_game_details.lockable_decode_sync_ref())
-                        }
-                        _ => unreachable!(),
-                    }
-                }
-                let api_game_details_guard = api_game_details_guard.unwrap();
-                let output_ok = Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_type(
-                    &*api_game_details_guard,
-                ))?;
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::gogdl::gog_get_game_type(api_game_details))?;
                 Ok(output_ok)
             })())
         },
@@ -701,31 +620,10 @@ fn wire__crate__api__gogdl__gog_get_image_boxart_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_game_details = <RustOpaqueMoi<
-                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>,
-            >>::sse_decode(&mut deserializer);
+            let api_game_details = <Arc<GogDbGameDetails>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, String>((move || {
-                let mut api_game_details_guard = None;
-                let decode_indices_ =
-                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
-                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
-                            &api_game_details,
-                            0,
-                            false,
-                        ),
-                    ]);
-                for i in decode_indices_ {
-                    match i {
-                        0 => {
-                            api_game_details_guard =
-                                Some(api_game_details.lockable_decode_sync_ref())
-                        }
-                        _ => unreachable!(),
-                    }
-                }
-                let api_game_details_guard = api_game_details_guard.unwrap();
-                let output_ok = crate::api::gogdl::gog_get_image_boxart(&*api_game_details_guard)?;
+                let output_ok = crate::api::gogdl::gog_get_image_boxart(api_game_details)?;
                 Ok(output_ok)
             })())
         },
@@ -1053,14 +951,9 @@ flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GamesDownloader>
 );
-impl MoiArcValue for flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails> {
-    fn get_pool() -> &'static MoiArcPool<Self> {
-        flutter_rust_bridge::for_generated::lazy_static! {
-            static ref POOL:MoiArcPool<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails> >  = MoiArcPool::new(Default::default());
-        }
-        &POOL
-    }
-}
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<GogDbGameDetails>
+);
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Session>
 );
