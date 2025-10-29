@@ -28,7 +28,7 @@ Future<void> gogLogin({required Auth auth, required String sessionCode}) =>
       sessionCode: sessionCode,
     );
 
-Stream<List<GogDbGameDetails>> gogGetOwnedGames({
+Stream<List<ArcGogDbGameDetails>> gogGetOwnedGames({
   required User user,
   required GamesDownloader downloader,
 }) => RustLib.instance.api.crateApiGogdlGogGetOwnedGames(
@@ -86,6 +86,9 @@ String gogGetGameTitle({required GogDbGameDetails gameDetails}) =>
 
 String gogGetGameType({required GogDbGameDetails gameDetails}) =>
     RustLib.instance.api.crateApiGogdlGogGetGameType(gameDetails: gameDetails);
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < GogDbGameDetails >>>
+abstract class ArcGogDbGameDetails implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Auth>>
 abstract class Auth implements RustOpaqueInterface {}

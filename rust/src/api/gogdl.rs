@@ -41,10 +41,11 @@ pub async fn gog_get_user(session: &Session, auth: &Auth) -> Result<User, AuthEr
 pub async fn gog_login(auth: &mut Auth, session_code: &str) -> Result<(), SessionError> {
     auth.login(session_code).await
 }
+#[frb]
 pub async fn gog_get_owned_games(
     user: &mut User,
     downloader: &GamesDownloader,
-    sink: StreamSink<Vec<GogDbGameDetails>>,
+    sink: StreamSink<Vec<Arc<GogDbGameDetails>>>,
 ) -> anyhow::Result<()> {
     let games = user.get_owned_games().await?;
 
@@ -56,10 +57,9 @@ pub async fn gog_get_owned_games(
         };
         if details.product_type == Some("game".to_owned()) {
             details.set_id(game_id);
-            game_details.push(details);
-            match sink.add(game_details.clone()) {
-                Ok(_) => (),
-                Err(_e) => continue,
+            game_details.push(Arc::new(details));
+            if let Err(_e) = sink.add(game_details.clone()) {
+                continue;
             }
         }
     }
@@ -78,6 +78,7 @@ pub async fn gog_get_game_details(
     let game_details = downloader.get_game_details(game_id).await?;
     Ok(game_details)
 }
+#[frb]
 pub async fn download_build(
     downloader: &GamesDownloader,
     game_details: &GogDbGameDetails,
@@ -106,7 +107,7 @@ pub async fn download_build(
             for mut file in depot.depot.items {
                 if file.file_type == "DepotFile".to_owned() {
                     file.set_is_gog_depot(depot.is_gog_depot.unwrap_or(false));
-                    files.push(file);
+                    files.push(Arc::new(file));
                 }
             }
         }
@@ -114,15 +115,13 @@ pub async fn download_build(
     };
 
     for file in &mut files {
-        if file.chunks.clone().unwrap_or_default().len() > 1 {
-            file.chunks
-                .clone()
-                .unwrap_or_default()
-                .iter_mut()
-                .enumerate()
-                .for_each(|(index, chunk)| {
+        let mut_file = Arc::get_mut(file).unwrap();
+        if let Some(chunks) = mut_file.chunks.as_mut() {
+            if chunks.len() > 1 {
+                for (index, chunk) in chunks.iter_mut().enumerate() {
                     chunk.set_order(index as i32);
-                });
+                }
+            }
         }
     }
 
@@ -137,24 +136,25 @@ pub async fn download_build(
     let max_concurrent_files = 10;
     let file_semaphore = Arc::new(Semaphore::new(max_concurrent_files));
 
-    let downloader_clone = downloader.clone();
-    let download_path_owned = download_path.to_owned();
-    let files_owned = files.clone();
+    let downloader_arc = Arc::new(downloader.clone());
+    let download_path_arc = Arc::new(download_path.to_owned());
+    let files_arc: Vec<Arc<_>> = files.into_iter().map(Arc::new).collect();
+    let cdns_arc = Arc::new(secure_links_response);
 
     tokio::spawn(async move {
-        for file in &files_owned {
+        for file_arc in files_arc {
             let file_permit = file_semaphore.clone().acquire_owned().await.unwrap();
             let semaphore_clone = semaphore.clone();
-            let downloader_inner = downloader_clone.clone();
-            let cdns_clone = secure_links_response.clone();
-            let file_clone = file.clone();
+            let downloader_inner = downloader_arc.clone();
+            let cdns_clone = cdns_arc.clone();
+            let file_ref = file_arc.clone();
             let tx_clone = tx.clone();
-            let is_gog_depot = file_clone.is_gog_depot.unwrap_or(false);
-            let download_path_clone = download_path_owned.clone();
+            let is_gog_depot = file_ref.is_gog_depot.unwrap_or(false);
+            let download_path_clone = download_path_arc.clone();
             tokio::spawn(async move {
                 let _file_permit = file_permit;
-                let base_path = Path::new(&download_path_clone);
-                let normalized = file_clone
+                let base_path = Path::new(download_path_clone.as_str());
+                let normalized = file_ref
                     .path
                     .replace("\\\\", "//")
                     .replace("\\ ", " ")
@@ -168,21 +168,23 @@ pub async fn download_build(
 
                 let mut file = tokio::fs::File::create(full_path).await.unwrap();
 
-                for chunk in file_clone.chunks.unwrap_or_default() {
-                    let _permit = semaphore_clone.clone().acquire_owned().await.unwrap();
-                    match downloader_inner
-                        .download_chunk(
-                            &cdns_clone.urls,
-                            &chunk.compressed_md5,
-                            tx_clone.clone(),
-                            is_gog_depot,
-                        )
-                        .await
-                    {
-                        Ok(buffer) => {
-                            file.write_all(&buffer).await.unwrap();
+                if let Some(chunks) = &file_ref.chunks {
+                    for chunk in chunks {
+                        let _permit = semaphore_clone.clone().acquire_owned().await.unwrap();
+                        match downloader_inner
+                            .download_chunk(
+                                &cdns_clone.as_ref().urls,
+                                &chunk.compressed_md5,
+                                tx_clone.clone(),
+                                is_gog_depot,
+                            )
+                            .await
+                        {
+                            Ok(buffer) => {
+                                file.write_all(&buffer).await.unwrap();
+                            }
+                            Err(e) => println!("Error downloading chunk: {:?}", e),
                         }
-                        Err(e) => println!("Error downloading chunk: {:?}", e),
                     }
                 }
 
@@ -216,6 +218,7 @@ pub async fn download_build(
             .unwrap();
         }
     });
+    println!("Download started successfully");
     Ok(())
 }
 
