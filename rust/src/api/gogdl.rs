@@ -134,75 +134,88 @@ pub async fn download_build(
     let max_concurrent_downloads = 6;
     let semaphore = Arc::new(Semaphore::new(max_concurrent_downloads));
 
-    for file in &files {
-        let semaphore_clone = semaphore.clone();
-        let downloader_clone = downloader.clone();
-        let cdns_clone = secure_links_response.clone();
-        let file_clone = file.clone();
-        let tx_clone = tx.clone();
-        let is_gog_depot = file_clone.is_gog_depot.unwrap_or(false);
-        let download_path_clone = download_path.to_owned();
-        tokio::spawn(async move {
-            let mut file_buffer: Vec<u8> = Vec::new();
-            for chunk in file_clone.chunks.unwrap_or_default() {
-                let _permit = semaphore_clone.clone().acquire_owned().await.unwrap();
-                match downloader_clone
-                    .download_chunk(
-                        &cdns_clone.urls,
-                        &chunk.compressed_md5,
-                        tx_clone.clone(),
-                        is_gog_depot,
-                    )
-                    .await
-                {
-                    Ok(buffer) => {
-                        file_buffer.extend(buffer);
-                    }
-                    Err(e) => println!("Error downloading chunk: {:?}", e),
+    let max_concurrent_files = 10;
+    let file_semaphore = Arc::new(Semaphore::new(max_concurrent_files));
+
+    let downloader_clone = downloader.clone();
+    let download_path_owned = download_path.to_owned();
+    let files_owned = files.clone();
+
+    tokio::spawn(async move {
+        for file in &files_owned {
+            let file_permit = file_semaphore.clone().acquire_owned().await.unwrap();
+            let semaphore_clone = semaphore.clone();
+            let downloader_inner = downloader_clone.clone();
+            let cdns_clone = secure_links_response.clone();
+            let file_clone = file.clone();
+            let tx_clone = tx.clone();
+            let is_gog_depot = file_clone.is_gog_depot.unwrap_or(false);
+            let download_path_clone = download_path_owned.clone();
+            tokio::spawn(async move {
+                let _file_permit = file_permit;
+                let base_path = Path::new(&download_path_clone);
+                let normalized = file_clone
+                    .path
+                    .replace("\\\\", "//")
+                    .replace("\\ ", " ")
+                    .replace("\\", "/");
+
+                let full_path = base_path.join(normalized);
+
+                if let Some(parent) = full_path.parent() {
+                    tokio::fs::create_dir_all(parent).await.unwrap();
                 }
-            }
 
-            let base_path = Path::new(&download_path_clone);
-            let normalized = file_clone
-                .path
-                .replace("\\\\", "//")
-                .replace("\\ ", " ")
-                .replace("\\", "/");
+                let mut file = tokio::fs::File::create(full_path).await.unwrap();
 
-            let full_path = base_path.join(normalized);
+                for chunk in file_clone.chunks.unwrap_or_default() {
+                    let _permit = semaphore_clone.clone().acquire_owned().await.unwrap();
+                    match downloader_inner
+                        .download_chunk(
+                            &cdns_clone.urls,
+                            &chunk.compressed_md5,
+                            tx_clone.clone(),
+                            is_gog_depot,
+                        )
+                        .await
+                    {
+                        Ok(buffer) => {
+                            file.write_all(&buffer).await.unwrap();
+                        }
+                        Err(e) => println!("Error downloading chunk: {:?}", e),
+                    }
+                }
 
-            if let Some(parent) = full_path.parent() {
-                tokio::fs::create_dir_all(parent).await.unwrap();
-            }
-
-            let mut file = tokio::fs::File::create(full_path).await.unwrap();
-            file.write_all(&file_buffer).await.unwrap();
-            file.flush().await.unwrap();
-        });
-    }
-
-    let mut progress = 0;
-    let mut previous_time = Instant::now();
-    let mut download_speed = 0;
-    let mut timeframe_progress = 0;
-    while let Some(new_progress) = rx.recv().await {
-        progress += new_progress;
-        if Instant::now() - previous_time > Duration::from_millis(500) {
-            previous_time = Instant::now();
-            download_speed = timeframe_progress / 500 * 1000;
-            timeframe_progress = 0;
-        } else {
-            timeframe_progress += new_progress;
+                file.flush().await.unwrap();
+            });
         }
-        sink.add(DownloadProgress {
-            game_name: game_details.title.clone().unwrap_or("Unknown".to_owned()),
-            total_bytes: size,
-            download_progress: progress as u64,
-            is_complete: progress as u64 == size,
-            download_speed,
-        })
-        .unwrap();
-    }
+        drop(tx);
+    });
+    let game_title = game_details.title.clone().unwrap_or("Unknown".to_owned());
+    tokio::spawn(async move {
+        let mut progress = 0;
+        let mut previous_time = Instant::now();
+        let mut download_speed = 0;
+        let mut timeframe_progress = 0;
+        while let Some(new_progress) = rx.recv().await {
+            progress += new_progress;
+            if Instant::now() - previous_time > Duration::from_millis(500) {
+                previous_time = Instant::now();
+                download_speed = timeframe_progress / 500 * 1000;
+                timeframe_progress = 0;
+            } else {
+                timeframe_progress += new_progress;
+            }
+            sink.add(DownloadProgress {
+                game_name: game_title.clone(),
+                total_bytes: size,
+                download_progress: progress as u64,
+                is_complete: progress as u64 == size,
+                download_speed,
+            })
+            .unwrap();
+        }
+    });
     Ok(())
 }
 
